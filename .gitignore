@@ -9,3 +9,6 @@ tools/source-human/
 
 # Render intermediates
 audio/**/*.wav
+
+# Local Netlify folder
+.netlify

@@ -5,7 +5,7 @@ some rendered by software from the score. Visitors guess **Human** or **Machine*
 get an explanation of the tells after each answer, and track their accuracy over
 time. Static site — no backend, no build step, no frameworks.
 
-Live: `https://digitalfingers.netlify.app` (update canonical URLs if the domain changes —
+Live: `https://digitialfingers.netlify.app` (update canonical URLs if the domain changes —
 they appear in every HTML `<head>`, `sitemap.xml`, and `robots.txt`).
 
 ## Layout
@@ -145,7 +145,7 @@ Everything should sit within ±0.4 LU of −16.
 
 ## Deployment (Netlify)
 
-Deployed at `https://digitalfingers.netlify.app`.
+Deployed at `https://digitialfingers.netlify.app`.
 
 - CLI deploy: `netlify deploy --prod --dir .` (the repo is linked to the
   `digitalfingers` project).
