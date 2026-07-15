@@ -5,7 +5,7 @@ some rendered by software from the score. Visitors guess **Human** or **Machine*
 get an explanation of the tells after each answer, and track their accuracy over
 time. Static site — no backend, no build step, no frameworks.
 
-Live: `https://digitalfingers.pages.dev` (update canonical URLs if the domain changes —
+Live: `https://digitalfingers.netlify.app` (update canonical URLs if the domain changes —
 they appear in every HTML `<head>`, `sitemap.xml`, and `robots.txt`).
 
 ## Layout
@@ -143,12 +143,16 @@ Everything should sit within ±0.4 LU of −16.
 - `node tools/render-clips.js` re-renders everything deterministically (the
   expression randomness is seeded per clip id). `--ogg` also emits Vorbis files.
 
-## Deployment (Cloudflare Pages)
+## Deployment (Netlify)
 
-1. Push this repo to GitHub.
-2. Cloudflare Pages → Create project → connect the repo.
-3. Framework preset: **None**. Build command: *(empty)*. Output directory: `/`.
-4. `_headers` ships long-lived immutable caching for `/audio/*` and `/fonts/*`.
+Deployed at `https://digitalfingers.netlify.app`.
+
+- CLI deploy: `netlify deploy --prod --dir .` (the repo is linked to the
+  `digitalfingers` project).
+- Or wire continuous deploys: Netlify → Import from Git → this repo,
+  no build command, publish directory `/`.
+- `_headers` ships long-lived immutable caching for `/audio/*` and `/fonts/*`
+  (Netlify and Cloudflare Pages share this file format).
 
 If you re-render a clip in place, bump its filename (or the manifest `version`)
 — audio is cached as immutable.
