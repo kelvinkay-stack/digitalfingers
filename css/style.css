@@ -129,11 +129,38 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
 
 .site-footer {
   margin-top: 4rem;
-  padding: 2rem var(--pad) 2.6rem;
+  padding: 3.4rem var(--pad) 2.6rem;
   text-align: center;
   font-size: 0.8rem;
   color: var(--muted);
 }
+
+/* faint engraved keyboard running along the top of the footer */
+.site-footer::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 26px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='168' height='26'%3E%3Cg stroke='%2326231f' fill='none'%3E%3Cpath d='M0 0.5h168M0.5 0v26M24.5 0v26M48.5 0v26M72.5 0v26M96.5 0v26M120.5 0v26M144.5 0v26'/%3E%3C/g%3E%3Cg fill='%23151310' stroke='%23332d21'%3E%3Crect x='17.5' y='0.5' width='14' height='15'/%3E%3Crect x='41.5' y='0.5' width='14' height='15'/%3E%3Crect x='89.5' y='0.5' width='14' height='15'/%3E%3Crect x='113.5' y='0.5' width='14' height='15'/%3E%3Crect x='137.5' y='0.5' width='14' height='15'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: center top;
+  opacity: 0.55;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 18%, black 82%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 18%, black 82%, transparent);
+  pointer-events: none;
+}
+
+/* engraved keyboard divider (hero) */
+.keys-rule {
+  display: block;
+  width: min(72vw, 21rem);
+  height: auto;
+  margin: 3.2rem auto;
+  opacity: 0.85;
+}
+.keys-rule .white { fill: none; stroke: var(--line); }
+.keys-rule .black { fill: #151310; stroke: #3a3425; }
 .site-footer a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line); }
 .site-footer a:hover { color: var(--brass); }
 
@@ -197,11 +224,10 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
 .hero h1 {
   font-size: clamp(3rem, 9.5vw, 5.6rem);
   margin-bottom: 0.3em;
-  background: linear-gradient(180deg, #f6efdf 30%, #cfc2a6 90%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+  color: #f7f1e2;
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.35),
+    0 0 46px rgba(200, 162, 75, 0.16);
 }
 .hero .premise {
   font-family: var(--serif);
