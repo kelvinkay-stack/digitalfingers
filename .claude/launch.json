@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ghosthands",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8798"],
+      "port": 8798
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ghost Hands — Can You Hear the Human?</title>
+  <meta name="description" content="A blind listening test. Short piano performances — some played by human hands, some rendered by a machine from the score. Can your ear tell which is which?">
+  <link rel="canonical" href="https://ghosthands.pages.dev/">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ghost Hands">
+  <meta property="og:title" content="Ghost Hands — Can You Hear the Human?">
+  <meta property="og:description" content="A blind listening test: human pianist or machine rendering? Ten rounds. Trust your ear.">
+  <meta property="og:url" content="https://ghosthands.pages.dev/">
+  <meta property="og:image" content="https://ghosthands.pages.dev/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ghost Hands — Can You Hear the Human?">
+  <meta name="twitter:description" content="A blind listening test: human pianist or machine rendering? Ten rounds. Trust your ear.">
+  <meta name="twitter:image" content="https://ghosthands.pages.dev/assets/og-image.png">
+
+  <link rel="preload" href="/fonts/cormorant-garamond-normal-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/fonts/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "name": "Ghost Hands",
+        "url": "https://ghosthands.pages.dev/",
+        "description": "A blind listening test: human pianist or machine rendering?"
+      },
+      {
+        "@type": "Game",
+        "name": "Ghost Hands — Can You Hear the Human?",
+        "url": "https://ghosthands.pages.dev/",
+        "description": "An interactive listening game. Hear short piano excerpts and decide whether each was played by a human pianist or rendered by a computer from the score.",
+        "genre": "music listening test",
+        "gamePlatform": "Web browser",
+        "numberOfPlayers": { "@type": "QuantitativeValue", "value": 1 }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="/">Ghost Hands</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="/learn.html">Learn the tells</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <p id="live-region" class="visually-hidden" role="status" aria-live="polite"></p>
+
+    <!-- ============ intro ============ -->
+    <section id="screen-intro" class="screen is-active" aria-label="Start">
+      <div class="hero">
+        <h1>Ghost Hands</h1>
+        <p class="premise">Some of these piano performances are human. Some are <em>machines reading the score</em>. Half a minute each — can your ear tell the difference?</p>
+        <div class="begin-row">
+          <button id="begin-btn" class="btn-primary">Begin listening</button>
+          <label class="hardmode">
+            <input type="checkbox" id="hardmode">
+            <span class="track" aria-hidden="true"></span>
+            Hard mode — only the ambiguous ones
+          </label>
+        </div>
+        <p id="lifetime-line" class="lifetime-line"></p>
+      </div>
+      <hr class="staff-rule" aria-hidden="true">
+      <div class="prose" style="text-align:center">
+        <p class="fine">No sign-up, no tracking — your score lives in your browser.<br>
+        New to this? <a href="/learn.html">Learn how to hear a human first.</a></p>
+      </div>
+    </section>
+
+    <!-- ============ round ============ -->
+    <section id="screen-round" class="screen" aria-label="Listening round">
+      <div class="round-meta">
+        <span id="round-label">Round 1 of 8</span>
+        <span id="score-label" class="score" aria-label="Score so far"></span>
+      </div>
+
+      <div class="listen-stage">
+        <div class="play-wrap">
+          <svg class="play-ring" viewBox="0 0 100 100" aria-hidden="true">
+            <circle class="track" cx="50" cy="50" r="46"></circle>
+            <circle id="progress-arc" class="progress" cx="50" cy="50" r="46"></circle>
+          </svg>
+          <button id="play-btn" class="play-btn is-idle" aria-label="Play clip (Space)">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>
+          </button>
+        </div>
+
+        <div id="replays" class="replays" aria-hidden="true"><i></i><i></i></div>
+        <p id="listen-hint" class="listen-hint">Press play, then decide.</p>
+
+        <div class="answers" role="group" aria-label="Your answer">
+          <button id="answer-human" class="answer-btn" disabled>Human<small>H key</small></button>
+          <button id="answer-machine" class="answer-btn" disabled>Machine<small>M key</small></button>
+        </div>
+      </div>
+
+      <div id="reveal" class="reveal" hidden>
+        <p id="verdict-mark" class="verdict-mark">Correct</p>
+        <h2 id="reveal-title">—</h2>
+        <p id="reveal-truth" class="truth">—</p>
+        <p id="reveal-explain" class="explain">—</p>
+        <div class="reveal-actions">
+          <button id="next-btn" class="btn-primary">Next round</button>
+          <span class="key-hint">or press Enter</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ results ============ -->
+    <section id="screen-results" class="screen" aria-label="Results">
+      <div class="results">
+        <p id="final-score" class="final-score">0<span>/8</span></p>
+        <h2 id="verdict-title" class="verdict-title">—</h2>
+        <p id="verdict-line" class="verdict-line">—</p>
+
+        <ul id="review" class="review" aria-label="Round by round review"></ul>
+
+        <div id="spark-block" class="spark-block" hidden>
+          <h3>Your ear over time</h3>
+          <svg id="sparkline" class="sparkline" viewBox="0 0 200 44" role="img" aria-label="Accuracy across your recent sessions"></svg>
+          <p id="spark-caption" class="spark-caption"></p>
+        </div>
+        <p id="hardest-line" class="spark-caption"></p>
+
+        <div class="results-actions">
+          <button id="again-btn" class="btn-primary">Play again</button>
+          <button id="again-hard-btn" class="btn-ghost">Try hard mode</button>
+          <p class="learn-nudge">Want to get better? <a href="/learn.html">Learn the tells&nbsp;→</a></p>
+        </div>
+      </div>
+    </section>
+
+    <div id="toast" class="toast" role="status"></div>
+  </main>
+
+  <footer class="site-footer">
+    <p>All compositions and recordings are public domain — <a href="/about.html">credits &amp; sources</a>.</p>
+    <p>A <a href="https://kelvinkay.com">kelvinkay.com</a> project.</p>
+  </footer>
+
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+# OS noise
+.DS_Store
+
+# Salamander samples — fetched by the loop in the README, ~4 MB, not ours to commit
+tools/samples/*.mp3
+
+# Full-length source recordings for the human excerpts (archive.org URLs in README)
+tools/source-human/
+
+# Render intermediates
+audio/**/*.wav

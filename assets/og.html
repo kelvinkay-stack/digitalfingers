@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face {
+    font-family: 'Cormorant Garamond';
+    src: url('../fonts/cormorant-garamond-normal-600-latin.woff2') format('woff2');
+    font-weight: 600;
+  }
+  @font-face {
+    font-family: 'Cormorant Garamond';
+    src: url('../fonts/cormorant-garamond-italic-500-latin.woff2') format('woff2');
+    font-weight: 500; font-style: italic;
+  }
+  * { margin: 0; box-sizing: border-box; }
+  body {
+    width: 1200px; height: 630px; overflow: hidden;
+    background: radial-gradient(130% 100% at 50% 0%, #16130f 0%, #0b0a09 60%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    position: relative;
+  }
+  .ring {
+    position: absolute; width: 520px; height: 520px; border-radius: 50%;
+    border: 2px solid #221f1a;
+    top: 55px; left: 340px;
+  }
+  .arc {
+    position: absolute; inset: -2px; border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #c8a24b; border-right-color: #c8a24b;
+    transform: rotate(-45deg);
+  }
+  h1 {
+    font-size: 130px; font-weight: 600; color: #ede4d3;
+    letter-spacing: 0.02em; z-index: 1;
+  }
+  p {
+    font-size: 44px; font-style: italic; font-weight: 500;
+    color: #c8a24b; margin-top: 18px; z-index: 1;
+  }
+  .staff {
+    position: absolute; bottom: 78px; left: 460px; width: 280px; height: 17px;
+    background: repeating-linear-gradient(to bottom, #2c2823 0 1px, transparent 1px 5px);
+  }
+</style>
+</head>
+<body>
+  <div class="ring"><div class="arc"></div></div>
+  <h1>Ghost Hands</h1>
+  <p>Can you hear the human?</p>
+  <div class="staff"></div>
+</body>
+</html>

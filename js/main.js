@@ -1,0 +1,325 @@
+/* main.js — game page controller: screens, rounds, reveal, results. */
+
+import { ArcPlayer, preload } from './player.js';
+import { drawSession, verdictFor, MAX_REPLAYS } from './game.js';
+import { recordSession, getSessions, lifetime, hardestClip, renderSparkline } from './stats.js';
+
+const $ = (sel) => document.querySelector(sel);
+
+const els = {
+  screens: {
+    intro: $('#screen-intro'),
+    round: $('#screen-round'),
+    results: $('#screen-results'),
+  },
+  begin: $('#begin-btn'),
+  hardMode: $('#hardmode'),
+  lifetimeLine: $('#lifetime-line'),
+  roundLabel: $('#round-label'),
+  scoreLabel: $('#score-label'),
+  playBtn: $('#play-btn'),
+  progressArc: $('#progress-arc'),
+  replays: $('#replays'),
+  listenHint: $('#listen-hint'),
+  answerHuman: $('#answer-human'),
+  answerMachine: $('#answer-machine'),
+  reveal: $('#reveal'),
+  verdictMark: $('#verdict-mark'),
+  revealTitle: $('#reveal-title'),
+  revealTruth: $('#reveal-truth'),
+  revealExplain: $('#reveal-explain'),
+  nextBtn: $('#next-btn'),
+  live: $('#live-region'),
+  toast: $('#toast'),
+  finalScore: $('#final-score'),
+  verdictTitle: $('#verdict-title'),
+  verdictLine: $('#verdict-line'),
+  review: $('#review'),
+  sparkBlock: $('#spark-block'),
+  sparkline: $('#sparkline'),
+  sparkCaption: $('#spark-caption'),
+  againBtn: $('#again-btn'),
+  againHardBtn: $('#again-hard-btn'),
+  hardestLine: $('#hardest-line'),
+};
+
+let manifest = null;
+let session = null;
+let player = null;
+
+const state = {
+  index: 0,
+  score: 0,
+  replaysUsed: 0,
+  answered: false,
+  listened: false,
+  hard: false,
+  rounds: [], // {id, correct, guessedHuman}
+  preloaded: new Map(),
+};
+
+/* ---------- helpers ---------- */
+
+function show(name) {
+  for (const [k, el] of Object.entries(els.screens)) el.classList.toggle('is-active', k === name);
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function announce(text) { els.live.textContent = text; }
+
+let toastTimer = null;
+function toast(text) {
+  els.toast.textContent = text;
+  els.toast.classList.add('is-shown');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => els.toast.classList.remove('is-shown'), 3600);
+}
+
+function setAnswersEnabled(on) {
+  els.answerHuman.disabled = !on;
+  els.answerMachine.disabled = !on;
+}
+
+function renderReplays() {
+  const dots = els.replays.querySelectorAll('i');
+  dots.forEach((d, i) => d.classList.toggle('used', i < state.replaysUsed));
+  els.replays.style.visibility = state.answered ? 'hidden' : 'visible';
+}
+
+/* ---------- game flow ---------- */
+
+async function loadManifest() {
+  const res = await fetch('data/clips.json');
+  if (!res.ok) throw new Error('manifest failed');
+  manifest = await res.json();
+}
+
+function currentClip() { return session[state.index]; }
+
+function startSession(hard) {
+  state.hard = hard;
+  state.index = 0;
+  state.score = 0;
+  state.rounds = [];
+  state.preloaded.clear();
+  session = drawSession(manifest.clips, { hard });
+  if (!session.length) { toast('No clips available.'); return; }
+  show('round');
+  startRound();
+}
+
+function startRound() {
+  const clip = currentClip();
+  state.replaysUsed = 0;
+  state.answered = false;
+  state.listened = false;
+
+  els.roundLabel.textContent = `Round ${state.index + 1} of ${session.length}`;
+  const answeredSoFar = state.rounds.length;
+  els.scoreLabel.textContent = answeredSoFar ? `${state.score}/${answeredSoFar}` : '';
+  els.listenHint.textContent = 'Press play, then decide.';
+  els.playBtn.disabled = false;
+  els.playBtn.classList.add('is-idle');
+  setAnswersEnabled(false);
+  els.reveal.classList.remove('is-shown');
+  els.reveal.setAttribute('hidden', '');
+  renderReplays();
+
+  player.load(clip.src, state.preloaded.get(clip.id));
+  state.preloaded.delete(clip.id);
+
+  announce(`Round ${state.index + 1} of ${session.length}. Press play to listen, then choose human or machine.`);
+  els.playBtn.focus({ preventScroll: true });
+
+  // preload the next clip while this one is on stage
+  const next = session[state.index + 1];
+  if (next && !state.preloaded.has(next.id)) state.preloaded.set(next.id, preload(next.src));
+}
+
+function onPlayerState(ev) {
+  if (ev === 'play') {
+    els.playBtn.classList.remove('is-idle');
+    els.playBtn.disabled = true;
+    if (!state.answered) {
+      if (state.listened) state.replaysUsed += 1;
+      state.listened = true;
+      setAnswersEnabled(true);
+      els.listenHint.textContent = 'Human or machine?';
+    }
+    renderReplays();
+  } else if (ev === 'ended') {
+    const replaysLeft = MAX_REPLAYS - state.replaysUsed;
+    if (state.answered) {
+      els.playBtn.disabled = false;
+    } else if (replaysLeft > 0) {
+      els.playBtn.disabled = false;
+      els.listenHint.textContent = replaysLeft === 1 ? 'One replay left.' : `${replaysLeft} replays left.`;
+    } else {
+      els.playBtn.disabled = true;
+      els.listenHint.textContent = 'No replays left — trust your ear.';
+    }
+  } else if (ev === 'error') {
+    skipBrokenClip();
+  }
+}
+
+function skipBrokenClip() {
+  toast('That clip failed to load — skipping it.');
+  session.splice(state.index, 1);
+  if (state.index < session.length) startRound();
+  else if (state.rounds.length) finishSession();
+  else { show('intro'); toast('No clips could be loaded. Check your connection and try again.'); }
+}
+
+function answer(guessedHuman) {
+  if (state.answered || !state.listened) return;
+  state.answered = true;
+  const clip = currentClip();
+  const correct = guessedHuman === clip.isHuman;
+  if (correct) state.score += 1;
+  state.rounds.push({ id: clip.id, correct, guessedHuman });
+
+  setAnswersEnabled(false);
+  els.scoreLabel.textContent = `${state.score}/${state.rounds.length}`;
+
+  // the reveal
+  els.verdictMark.textContent = correct ? 'Correct' : 'Not this time';
+  els.verdictMark.classList.toggle('wrong', !correct);
+  els.revealTitle.textContent = clip.title;
+  els.revealTruth.innerHTML =
+    `<strong>${clip.isHuman ? 'Human' : 'Machine'}</strong> · ${escapeHtml(clip.composer)} · ${escapeHtml(clip.performer)}`;
+  els.revealExplain.innerHTML = mdEm(clip.reveal);
+  els.reveal.removeAttribute('hidden');
+  requestAnimationFrame(() => {
+    els.reveal.classList.add('is-shown');
+    els.reveal.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  els.playBtn.disabled = player.playing;
+  els.listenHint.textContent = 'Listen again, knowing the answer.';
+  renderReplays();
+  announce(`${correct ? 'Correct.' : 'Incorrect.'} This was a ${clip.isHuman ? 'human performance' : 'machine rendering'}: ${clip.title} by ${clip.composer}.`);
+  els.nextBtn.textContent = state.index + 1 < session.length ? 'Next round' : 'See results';
+  els.nextBtn.focus({ preventScroll: true });
+}
+
+function nextRound() {
+  player.stop();
+  state.index += 1;
+  if (state.index < session.length) startRound();
+  else finishSession();
+}
+
+function finishSession() {
+  recordSession({ score: state.score, total: state.rounds.length, hard: state.hard, rounds: state.rounds });
+  const { title, line } = verdictFor(state.score, state.rounds.length);
+
+  els.finalScore.innerHTML = `${state.score}<span>/${state.rounds.length}</span>`;
+  els.verdictTitle.textContent = title;
+  els.verdictLine.textContent = line;
+
+  // per-round review
+  els.review.innerHTML = '';
+  const byId = Object.fromEntries(manifest.clips.map(c => [c.id, c]));
+  for (const r of state.rounds) {
+    const c = byId[r.id];
+    const li = document.createElement('li');
+    li.innerHTML =
+      `<span class="mark ${r.correct ? 'right' : 'wrong'}" aria-hidden="true">${r.correct ? '✓' : '✕'}</span>` +
+      `<span class="piece"><b>${escapeHtml(c.title)}</b> — ${escapeHtml(c.composer)}</span>` +
+      `<span class="was">${c.isHuman ? 'human' : 'machine'}</span>`;
+    li.setAttribute('aria-label',
+      `${c.title} by ${c.composer}: ${c.isHuman ? 'human' : 'machine'} — you were ${r.correct ? 'right' : 'wrong'}.`);
+    els.review.appendChild(li);
+  }
+
+  // sparkline across sessions
+  const sessions = getSessions();
+  const drawn = renderSparkline(els.sparkline, sessions);
+  els.sparkBlock.hidden = !drawn;
+  if (drawn) {
+    const lt = lifetime();
+    els.sparkCaption.textContent = `${lt.pct}% lifetime accuracy over ${lt.games} sessions.`;
+  }
+
+  const worst = hardestClip(byId);
+  els.hardestLine.textContent = worst
+    ? `Your personal ghost: ${worst.clip.title} — it has fooled you ${worst.wrong} of ${worst.seen} times.`
+    : '';
+
+  show('results');
+  announce(`Session over. You scored ${state.score} out of ${state.rounds.length}. ${title}.`);
+  els.againBtn.focus({ preventScroll: true });
+}
+
+/* ---------- tiny formatters ---------- */
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+}
+/** *word* → <em>word</em>, everything else escaped. */
+function mdEm(s) {
+  return escapeHtml(s).replace(/\*([^*]+)\*/g, '<em>$1</em>');
+}
+
+/* ---------- wiring ---------- */
+
+function wireIntro() {
+  const lt = lifetime();
+  if (lt.games >= 1) {
+    els.lifetimeLine.textContent =
+      `Your ear so far: ${lt.pct}% over ${lt.games} session${lt.games === 1 ? '' : 's'}.`;
+  }
+  els.begin.addEventListener('click', () => startSession(els.hardMode.checked));
+}
+
+function wireRound() {
+  player = new ArcPlayer({ button: els.playBtn, progress: els.progressArc, onState: onPlayerState });
+  els.answerHuman.addEventListener('click', () => answer(true));
+  els.answerMachine.addEventListener('click', () => answer(false));
+  els.nextBtn.addEventListener('click', nextRound);
+}
+
+function wireResults() {
+  els.againBtn.addEventListener('click', () => startSession(state.hard));
+  els.againHardBtn.addEventListener('click', () => startSession(true));
+}
+
+function wireKeyboard() {
+  document.addEventListener('keydown', (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const tag = document.activeElement && document.activeElement.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+
+    if (els.screens.round.classList.contains('is-active')) {
+      if (e.key === ' ' || e.key === 'p' || e.key === 'P') {
+        e.preventDefault();
+        if (!els.playBtn.disabled) player.play();
+      } else if (e.key === 'h' || e.key === 'H' || e.key === 'ArrowLeft') {
+        if (!els.answerHuman.disabled) { e.preventDefault(); answer(true); }
+      } else if (e.key === 'm' || e.key === 'M' || e.key === 'ArrowRight') {
+        if (!els.answerMachine.disabled) { e.preventDefault(); answer(false); }
+      } else if ((e.key === 'n' || e.key === 'N') && state.answered) {
+        e.preventDefault(); nextRound();
+      } else if (e.key === 'Enter' && state.answered && document.activeElement !== els.nextBtn) {
+        // Enter on the focused Next button clicks it natively; only handle the rest
+        e.preventDefault(); nextRound();
+      }
+    }
+  });
+}
+
+async function init() {
+  wireIntro();
+  wireRound();
+  wireResults();
+  wireKeyboard();
+  try {
+    await loadManifest();
+  } catch {
+    toast('Could not load the clip list. Refresh to try again.');
+    els.begin.disabled = true;
+  }
+}
+
+init();

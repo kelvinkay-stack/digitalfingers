@@ -1,0 +1,56 @@
+/* game.js — session drawing and verdicts. Pure logic, no DOM. */
+
+export const STANDARD_ROUNDS = 8;   // raise toward 10 as the clip pool grows
+export const MAX_REPLAYS = 2;       // replays after the first listen
+
+/** Fisher–Yates on a copy. */
+function shuffle(list) {
+  const a = list.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/**
+ * Draw a session from the pool.
+ * Hard mode restricts the pool to clips flagged ambiguous. The draw is
+ * reshuffled until it contains at least one human and one machine clip
+ * (when the pool allows), so no session is trivially one-sided.
+ */
+export function drawSession(clips, { hard = false } = {}) {
+  const pool = hard ? clips.filter(c => c.hard) : clips;
+  const n = Math.min(STANDARD_ROUNDS, pool.length);
+  const hasBoth = pool.some(c => c.isHuman) && pool.some(c => !c.isHuman);
+  for (let attempt = 0; attempt < 20; attempt++) {
+    const draw = shuffle(pool).slice(0, n);
+    if (!hasBoth || (draw.some(c => c.isHuman) && draw.some(c => !c.isHuman))) return draw;
+  }
+  return shuffle(pool).slice(0, n);
+}
+
+/** End-of-session verdict copy. */
+export function verdictFor(score, total) {
+  const pct = total ? score / total : 0;
+  if (pct === 1) return {
+    title: 'Golden Ears',
+    line: `You caught the ghost ${score} times out of ${total}. Nothing got past you — not even the renders built to deceive.`,
+  };
+  if (pct >= 0.8) return {
+    title: 'The Skeptic',
+    line: `${score} of ${total}. You hear the seams — the too-even chords, the breathing that repeats itself. A machine has to earn your belief.`,
+  };
+  if (pct >= 0.6) return {
+    title: 'A Fine Ear, Occasionally Haunted',
+    line: `${score} of ${total}. You caught most of them, but a few ghosts walked right past you wearing human clothes.`,
+  };
+  if (pct >= 0.4) return {
+    title: 'In the Uncanny Valley',
+    line: `${score} of ${total}. The machines fooled you about as often as chance would. That's not an insult — it's the point of the experiment.`,
+  };
+  return {
+    title: 'Thoroughly Haunted',
+    line: `${score} of ${total}. The renders convinced you and the humans sounded suspicious. Spend a few minutes with the tells and play again.`,
+  };
+}

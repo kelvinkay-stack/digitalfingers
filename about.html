@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About &amp; Credits — Ghost Hands</title>
+  <meta name="description" content="How Ghost Hands works, why every clip is legally public domain, and full credits for the recordings, scores, and samples.">
+  <link rel="canonical" href="https://ghosthands.pages.dev/about.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ghost Hands">
+  <meta property="og:title" content="About Ghost Hands">
+  <meta property="og:description" content="How the blind listening test works, and full credits for its public-domain audio.">
+  <meta property="og:url" content="https://ghosthands.pages.dev/about.html">
+  <meta property="og:image" content="https://ghosthands.pages.dev/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preload" href="/fonts/cormorant-garamond-normal-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/fonts/fonts.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="/">Ghost Hands</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="/learn.html">Learn the tells</a>
+      <a href="/about.html" aria-current="page">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <article class="prose">
+      <header class="page-head">
+        <span class="kicker">About</span>
+        <h1>The Experiment</h1>
+        <p class="lede">Ghost Hands is a blind listening test. Every round plays a short solo-piano excerpt; you decide whether it came from human hands or from software reading the score. Then the site tells you the truth, and — more usefully — <em>why</em>.</p>
+      </header>
+
+      <h2>How the clips are made</h2>
+      <p>The machine clips are rendered offline from public-domain typesettings of the scores, using the freely licensed Salamander Grand Piano samples. They come in three tiers of realism: <strong>deadpan</strong> (the score executed exactly, every note the same weight), <strong>humanized</strong> (small random timing and touch errors), and <strong>expressive</strong> (programmed rubato, phrase-shaped dynamics, voiced melodies, simulated pedal). The human clips are real recordings of real pianists, released into the public domain.</p>
+
+      <h2>Fairness engineering</h2>
+      <p>A listening test is only interesting if the answer isn't leaked by the plumbing. Every clip on this site — human and machine alike — exits through an identical processing chain: loudness normalized to −16 LUFS with a static gain, the same fade shapes, the same encoder at the same quality, the same sample rate. No clip is louder, cleaner, or more "produced" than another. If you can tell them apart, it's because of the playing.</p>
+
+      <h2>Audio credits &amp; licensing</h2>
+      <p>Everything you hear is legally in the public domain — the compositions, the recordings, and the samples.</p>
+      <ul class="credits">
+        <li><b>Human performances</b> — from <a href="https://archive.org/details/musopen-chopin">Musopen's Complete Chopin Collection</a>, recordings commissioned by Musopen and dedicated to the public domain (CC0): the Nocturne Op. 9 No. 2, Mazurka Op. 17 No. 4, and Preludes Op. 28 Nos. 1 and 6. Excerpts were trimmed and loudness-normalized; the performances are untouched.</li>
+        <li><b>Machine renderings</b> — generated for this site from note data in <a href="https://www.mutopiaproject.org/">Mutopia Project</a> typesettings (all marked public domain by their typesetters): Bach's Prelude in C BWV 846, Petzold's Minuet in G BWV Anh. 114, Beethoven's Für Elise, Chopin's Preludes Op. 28 Nos. 4 and 7, Satie's Gymnopédie No. 1, and Mozart's Fantasia in D minor K. 397.</li>
+        <li><b>Piano samples</b> — the <a href="https://github.com/sfzinstruments/SalamanderGrandPiano">Salamander Grand Piano</a> by Alexander Holm (Creative Commons Attribution 3.0), a Yamaha C5 sampled at Musikhögskolan i Piteå.</li>
+        <li><b>Type</b> — <a href="https://github.com/CatharsisFonts/Cormorant">Cormorant Garamond</a> by Christian Thalmann (SIL Open Font License), self-hosted.</li>
+      </ul>
+      <p class="fine">All compositions are by composers who died well over a century ago and are public domain worldwide. The Musopen recordings carry a CC0 dedication, which waives performer and producer rights. If you believe any attribution here is incomplete, please get in touch and it will be corrected.</p>
+
+      <h2>Your data</h2>
+      <p>There isn't any. Scores and session history are stored in your own browser via <code>localStorage</code> and never leave your device. No analytics, no cookies, no accounts.</p>
+
+      <h2>Colophon</h2>
+      <p>Hand-built with vanilla HTML, CSS, and JavaScript — no frameworks, no build step. The render pipeline is a small Node script that parses MIDI, applies an expression model, and mixes samples offline, so the site serves plain audio files and playback is identical on every device. Source pieces, tiers, and the full methodology are documented in the project README.</p>
+
+      <div class="results-actions" style="margin-top:2.5rem">
+        <a class="btn-primary" href="/" style="text-decoration:none">Play the game</a>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>All compositions and recordings are public domain.</p>
+    <p>A <a href="https://kelvinkay.com">kelvinkay.com</a> project.</p>
+  </footer>
+</body>
+</html>
