@@ -1,6 +1,7 @@
 /* main.js — game page controller: screens, rounds, reveal, results. */
 
 import { ArcPlayer, preload } from './player.js';
+import { Waveform } from './waveform.js';
 import { drawSession, verdictFor, MAX_REPLAYS } from './game.js';
 import { recordSession, getSessions, lifetime, hardestClip, renderSparkline } from './stats.js';
 
@@ -46,6 +47,7 @@ const els = {
 let manifest = null;
 let session = null;
 let player = null;
+let wave = null;
 
 const state = {
   index: 0,
@@ -127,6 +129,7 @@ function startRound() {
 
   player.load(clip.src, state.preloaded.get(clip.id));
   state.preloaded.delete(clip.id);
+  wave.load(clip.src, player.audio);
 
   announce(`Round ${state.index + 1} of ${session.length}. Press play to listen, then choose human or machine.`);
   els.playBtn.focus({ preventScroll: true });
@@ -140,6 +143,7 @@ function onPlayerState(ev) {
   if (ev === 'play') {
     els.playBtn.classList.remove('is-idle');
     els.playBtn.disabled = true;
+    wave.startTicking();
     if (!state.answered) {
       if (state.listened) state.replaysUsed += 1;
       state.listened = true;
@@ -275,6 +279,7 @@ function wireIntro() {
 
 function wireRound() {
   player = new ArcPlayer({ button: els.playBtn, progress: els.progressArc, onState: onPlayerState });
+  wave = new Waveform(document.querySelector('#waveform'));
   els.answerHuman.addEventListener('click', () => answer(true));
   els.answerMachine.addEventListener('click', () => answer(false));
   els.nextBtn.addEventListener('click', nextRound);

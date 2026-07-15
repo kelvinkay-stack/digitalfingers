@@ -51,6 +51,47 @@ module.exports = [
     fadeOut: 2.8,
   },
 
+  {
+    id: 'clip-anh115', midi: 'minuet-g-minor.mid', outDir: 'audio/machine',
+    tier: 'deadpan', beats: [0, 48], bpm: 112, phraseBeats: 12,
+    fadeOut: 2.0,
+  },
+  {
+    id: 'clip-kinderszenen1', midi: 'kinderszenen1.mid', outDir: 'audio/machine',
+    tier: 'humanized', beats: [0, 30], bpm: 69, phraseBeats: 8, pedalBeats: 2,
+    fadeOut: 2.2,
+  },
+  {
+    id: 'clip-brahms3915', midi: 'brahms-39-15.mid', outDir: 'audio/machine',
+    tier: 'humanized', beats: [0, 48], bpm: 112, phraseBeats: 12, pedalBeats: 3,
+    fadeOut: 2.2,
+  },
+  {
+    id: 'clip-traumerei', midi: 'traumerei.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 33], bpm: 69, phraseBeats: 16, pedalBeats: 2,
+    fadeOut: 2.6,
+  },
+  {
+    id: 'clip-brahms1182', midi: 'brahms-118.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 36], bpm: 72, phraseBeats: 12, pedalBeats: 3,
+    fadeOut: 2.6,
+  },
+  {
+    id: 'clip-scriabin111', midi: 'scriabin-11-1.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 48], bpm: 132, phraseBeats: 16, pedalBeats: 4,
+    fadeOut: 2.4,
+  },
+  {
+    id: 'clip-clairdelune', midi: 'clair-de-lune.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 31.5], bpm: 66, phraseBeats: 13.5, pedalBeats: 4.5,
+    fadeOut: 2.8,
+  },
+  {
+    id: 'clip-arabesque1', midi: 'arabesque1.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 56], bpm: 132, phraseBeats: 16, pedalBeats: 4,
+    fadeOut: 2.4,
+  },
+
   /* ---------------- Learn page: A/B demos ---------------- */
   /* Same eight-bar Gymnopédie phrase every time; one dimension per demo. */
   {

@@ -31,8 +31,9 @@ _headers              Cloudflare Pages cache/security headers
 
 ## The game
 
-- A session is up to `STANDARD_ROUNDS` rounds (8 while the pool is small — raise it
-  in `js/game.js` as the pool grows toward the 20–40 clips the manifest is built for).
+- A session is 10 rounds (`STANDARD_ROUNDS` in `js/game.js`), drawn from a 25-clip
+  pool: 15 machine renders and 10 human recordings across nine composers
+  (Bach, Petzold, Mozart, Beethoven, Chopin, Schumann, Brahms, Satie, Scriabin, Debussy).
 - Max 2 replays per clip before answering; free relistening after the reveal.
 - **Hard mode** restricts the draw to clips flagged `"hard": true` — expressive-tier
   renders and unusually precise human playing.
@@ -40,6 +41,10 @@ _headers              Cloudflare Pages cache/security headers
 - Stats live in `localStorage` (`digitalfingers.v1`): per-session history, lifetime
   accuracy, the visitor's most-fooling clip, and a sparkline after 3+ sessions.
 - A clip that fails to load is skipped gracefully and doesn't count against the score.
+- The listening stage shows a **rolling waveform** (`js/waveform.js`): peaks are
+  decoded client-side from the same MP3 the player streams, so human and machine
+  clips get identical treatment and drop-in clips need no build step. Under
+  `prefers-reduced-motion` it renders as a static waveform with a progress fill.
 
 **Honesty note:** the truth for each clip is plainly visible in `data/clips.json`
 and in the audio paths (`/audio/human/` vs `/audio/machine/`). A visitor with
