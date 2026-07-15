@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * render-clips.js — Ghost Hands offline audio renderer.
+ * render-clips.js — Digital Fingers offline audio renderer.
  *
  * Parses public-domain MIDI files (Mutopia Project typesettings), applies one of
  * three expression tiers (deadpan / humanized / expressive), renders the result

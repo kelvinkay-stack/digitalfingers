@@ -1,6 +1,6 @@
 /* stats.js — persistent listener stats. localStorage only; no backend, no cookies. */
 
-const KEY = 'ghosthands.v1';
+const KEY = 'digitalfingers.v1';
 
 function read() {
   try {

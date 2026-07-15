@@ -244,7 +244,7 @@ function finishSession() {
 
   const worst = hardestClip(byId);
   els.hardestLine.textContent = worst
-    ? `Your personal ghost: ${worst.clip.title} — it has fooled you ${worst.wrong} of ${worst.seen} times.`
+    ? `The clip that haunts you: ${worst.clip.title} — it has fooled you ${worst.wrong} of ${worst.seen} times.`
     : '';
 
   show('results');

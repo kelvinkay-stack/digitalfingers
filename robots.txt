@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ghosthands.pages.dev/sitemap.xml
+Sitemap: https://digitalfingers.pages.dev/sitemap.xml

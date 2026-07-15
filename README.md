@@ -1,11 +1,11 @@
-# Ghost Hands — Can You Hear the Human?
+# Digital Fingers — Can You Hear the Human?
 
 A blind listening test: short solo-piano excerpts, some played by human pianists,
 some rendered by software from the score. Visitors guess **Human** or **Machine**,
 get an explanation of the tells after each answer, and track their accuracy over
 time. Static site — no backend, no build step, no frameworks.
 
-Live: `https://ghosthands.pages.dev` (update canonical URLs if the domain changes —
+Live: `https://digitalfingers.pages.dev` (update canonical URLs if the domain changes —
 they appear in every HTML `<head>`, `sitemap.xml`, and `robots.txt`).
 
 ## Layout
@@ -37,7 +37,7 @@ _headers              Cloudflare Pages cache/security headers
 - **Hard mode** restricts the draw to clips flagged `"hard": true` — expressive-tier
   renders and unusually precise human playing.
 - Keyboard: `Space`/`P` play · `H`/`←` human · `M`/`→` machine · `Enter`/`N` next.
-- Stats live in `localStorage` (`ghosthands.v1`): per-session history, lifetime
+- Stats live in `localStorage` (`digitalfingers.v1`): per-session history, lifetime
   accuracy, the visitor's most-fooling clip, and a sparkline after 3+ sessions.
 - A clip that fails to load is skipped gracefully and doesn't count against the score.
 

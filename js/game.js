@@ -35,7 +35,7 @@ export function verdictFor(score, total) {
   const pct = total ? score / total : 0;
   if (pct === 1) return {
     title: 'Golden Ears',
-    line: `You caught the ghost ${score} times out of ${total}. Nothing got past you — not even the renders built to deceive.`,
+    line: `${score} out of ${total}. Not one digital finger slipped past you — not even the renders built to deceive.`,
   };
   if (pct >= 0.8) return {
     title: 'The Skeptic',
@@ -43,7 +43,7 @@ export function verdictFor(score, total) {
   };
   if (pct >= 0.6) return {
     title: 'A Fine Ear, Occasionally Haunted',
-    line: `${score} of ${total}. You caught most of them, but a few ghosts walked right past you wearing human clothes.`,
+    line: `${score} of ${total}. You caught most of them, but a few machines walked right past you wearing human clothes.`,
   };
   if (pct >= 0.4) return {
     title: 'In the Uncanny Valley',
