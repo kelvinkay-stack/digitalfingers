@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Digital Fingers | Can You Hear the Human?</title>
-  <meta name="description" content="A blind listening test. Can you tell the difference between a human and a computer playing piano?">
+  <meta name="description" content="A blind listening test for piano and violin. Can you tell a human performance from a computer rendering?">
   <link rel="canonical" href="https://digital-fingers.netlify.app/">
   <link rel="icon" href="/assets/favicon.svg?v=3" type="image/svg+xml">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Digital Fingers">
   <meta property="og:title" content="Digital Fingers | Can You Hear the Human?">
-  <meta property="og:description" content="Five playful rounds of piano. Human or computer? Trust your ear.">
+  <meta property="og:description" content="Five playful rounds of piano or violin. Human or computer? Trust your ear.">
   <meta property="og:url" content="https://digital-fingers.netlify.app/">
   <meta property="og:image" content="https://digital-fingers.netlify.app/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Digital Fingers | Can You Hear the Human?">
-  <meta name="twitter:description" content="Five playful rounds of piano. Human or computer? Trust your ear.">
+  <meta name="twitter:description" content="Five playful rounds of piano or violin. Human or computer? Trust your ear.">
   <meta name="twitter:image" content="https://digital-fingers.netlify.app/assets/og-image.png">
 
   <link rel="preload" href="/fonts/cormorant-garamond-normal-600-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -33,13 +33,13 @@
         "@type": "WebSite",
         "name": "Digital Fingers",
         "url": "https://digital-fingers.netlify.app/",
-        "description": "A blind listening test: human pianist or machine rendering?"
+        "description": "A blind listening test: human musician or machine rendering?"
       },
       {
         "@type": "Game",
         "name": "Digital Fingers | Can You Hear the Human?",
         "url": "https://digital-fingers.netlify.app/",
-        "description": "An interactive listening game. Hear short piano excerpts and decide whether each was played by a human pianist or rendered by a computer from the score.",
+        "description": "An interactive listening game. Hear short piano or violin excerpts and decide whether each was performed by human musicians or rendered by a computer from the score.",
         "genre": "music listening test",
         "gamePlatform": "Web browser",
         "numberOfPlayers": { "@type": "QuantitativeValue", "value": 1 }
@@ -66,11 +66,23 @@
         <div class="hero-copy">
           <span class="kicker">A blind listening test</span>
           <h1>Digital Fingers</h1>
-          <p class="premise">Can you tell the difference between a <em>human</em> and a <em>computer</em> playing piano?</p>
-          <p class="hero-note">Five tiny mysteries for curious ears.</p>
+          <p id="premise" class="premise">Can you tell the difference between a <em>human</em> and a <em>computer</em> playing piano?</p>
+          <p id="hero-note" class="hero-note">Five tiny piano mysteries for curious ears.</p>
           <div class="begin-row">
+            <div class="instrument-picker" role="group" aria-label="Choose an instrument">
+              <button class="instrument-choice is-selected" data-instrument="piano" aria-pressed="true">
+                <span aria-hidden="true">♬</span>
+                <b>Piano</b>
+                <small>38 paired pieces</small>
+              </button>
+              <button class="instrument-choice" data-instrument="violin" aria-pressed="false">
+                <span aria-hidden="true">♩</span>
+                <b>Violin</b>
+                <small>5 paired pieces</small>
+              </button>
+            </div>
             <button id="begin-btn" class="btn-primary">Begin listening</button>
-            <label class="hardmode">
+            <label id="hardmode-wrap" class="hardmode">
               <input type="checkbox" id="hardmode">
               <span class="track" aria-hidden="true"></span>
               Hard mode: only the tricky ones
@@ -86,13 +98,13 @@
           <p id="lifetime-line" class="lifetime-line"></p>
         </div>
         <figure class="robot-pianist">
-          <img src="/assets/robot-human-pianists.webp" width="1200" height="800" alt="An old-fashioned robot and a human pianist seated across from each other at a grand piano" decoding="async">
+          <img id="hero-art" src="/assets/robot-human-pianists.webp" width="1200" height="800" alt="An old-fashioned robot and a human pianist seated across from each other at a grand piano" decoding="async">
         </figure>
       </div>
       <div class="game-preview" aria-hidden="true">
         <div class="game-preview-meta">
           <span>Round 1 of 5</span>
-          <span>Listen closely</span>
+          <span id="preview-instrument">Piano · listen closely</span>
         </div>
         <div class="game-preview-body">
           <span class="game-preview-play">
@@ -115,6 +127,13 @@
           <rect x="17" y="0.5" width="14" height="26"/><rect x="41" y="0.5" width="14" height="26"/><rect x="89" y="0.5" width="14" height="26"/><rect x="113" y="0.5" width="14" height="26"/><rect x="137" y="0.5" width="14" height="26"/><rect x="185" y="0.5" width="14" height="26"/><rect x="209" y="0.5" width="14" height="26"/><rect x="257" y="0.5" width="14" height="26"/><rect x="281" y="0.5" width="14" height="26"/><rect x="305" y="0.5" width="14" height="26"/>
         </g>
       </svg>
+      <svg id="strings-rule" class="strings-rule" viewBox="0 0 337 44" aria-hidden="true" hidden>
+        <path d="M3 8 C76 14 140 3 214 11 S299 18 334 8"/>
+        <path d="M3 17 C72 23 145 12 217 19 S296 26 334 17"/>
+        <path d="M3 26 C76 32 142 21 216 28 S300 35 334 26"/>
+        <path d="M3 35 C73 41 143 30 217 37 S298 44 334 35"/>
+        <path class="bow" d="M38 39 L300 4"/>
+      </svg>
       <div class="prose" style="text-align:center">
         <p class="fine">New to this? <a href="/learn.html">Learn how to hear a human first.</a></p>
       </div>
@@ -123,7 +142,7 @@
     <!-- ============ round ============ -->
     <section id="screen-round" class="screen" aria-label="Listening round">
       <div class="round-meta">
-        <span id="round-label">Round 1 of 5</span>
+        <span><b id="round-instrument" class="round-instrument">Piano</b> · <span id="round-label">Round 1 of 5</span></span>
         <span id="score-label" class="score" aria-label="Score so far"></span>
       </div>
 

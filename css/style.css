@@ -827,6 +827,47 @@ main { max-width: 70rem; }
   font-weight: 650;
   letter-spacing: 0.025em;
 }
+.instrument-picker {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: min(100%, 24rem);
+  gap: 0.65rem;
+}
+.instrument-choice {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0 0.55rem;
+  min-width: 0;
+  padding: 0.62rem 0.78rem;
+  color: var(--ivory-dim);
+  text-align: left;
+  background: rgba(255, 253, 247, 0.78);
+  border: 2px solid var(--line);
+  border-radius: 16px 16px 7px 16px;
+  transition: transform 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+}
+.instrument-choice > span {
+  grid-row: 1 / 3;
+  color: var(--brass);
+  font-family: var(--serif);
+  font-size: 1.75rem;
+  line-height: 1;
+}
+.instrument-choice b { color: var(--plum); font-size: 1rem; }
+.instrument-choice small { color: var(--muted); font-size: 0.72rem; white-space: nowrap; }
+.instrument-choice:hover {
+  color: var(--plum);
+  border-color: var(--plum);
+  transform: translateY(-1px);
+}
+.instrument-choice.is-selected {
+  background: var(--sun);
+  border-color: var(--plum);
+  box-shadow: 3px 3px 0 var(--plum);
+  transform: translate(-1px, -1px);
+}
+.instrument-choice[data-instrument="violin"].is-selected { background: var(--sky-soft); }
 .hero .begin-row { align-items: flex-start; }
 .hero .training-q { text-align: left; }
 .hero .training-buttons { justify-content: flex-start; }
@@ -962,6 +1003,37 @@ main { max-width: 70rem; }
 }
 .keys-rule .white { fill: #fff; stroke: #111; }
 .keys-rule .black { fill: #111; stroke: #111; }
+.strings-rule {
+  display: block;
+  width: min(100%, 337px);
+  height: 44px;
+  margin: 3.25rem auto 1.25rem;
+  overflow: visible;
+  fill: none;
+  stroke: var(--plum);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+.strings-rule[hidden] { display: none; }
+.strings-rule .bow {
+  stroke: var(--brass);
+  stroke-width: 3;
+  filter: drop-shadow(1px 1px 0 rgba(60, 42, 49, 0.25));
+}
+.hardmode[hidden],
+.keys-rule[hidden],
+.btn-outline[hidden] { display: none; }
+.round-instrument {
+  display: inline-block;
+  padding: 0.15rem 0.5rem 0.2rem;
+  color: var(--plum);
+  background: var(--sun);
+  border: 1px solid var(--plum);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
 
 #screen-round.is-active,
 #screen-results.is-active {
@@ -1147,6 +1219,9 @@ main > .prose .kicker { margin-bottom: 1.2rem; }
   .hero::before { left: -0.35rem; top: 8%; opacity: 0.58; }
   .hero::after { right: -0.1rem; top: 10%; opacity: 0.62; }
   .hero h1 { font-size: clamp(3.15rem, 17vw, 4.6rem); text-shadow: 2px 2px 0 #cbb893; }
+  .instrument-picker { width: 100%; }
+  .instrument-choice { padding: 0.55rem 0.62rem; }
+  .instrument-choice small { white-space: normal; line-height: 1.1; }
   .robot-pianist {
     padding: 0.28rem;
     box-shadow: 6px 7px 0 rgba(113, 129, 116, 0.68), 0 16px 38px rgba(57, 46, 34, 0.15);

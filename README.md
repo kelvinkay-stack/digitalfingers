@@ -1,7 +1,7 @@
 # Digital Fingers — Can You Hear the Human?
 
-A blind listening test: short solo-piano excerpts, some played by human pianists,
-some rendered by software from the score. Visitors guess **Human** or **Machine**,
+A blind listening test: short piano and violin excerpts, some played by human musicians,
+some rendered by software from the score. Visitors choose an instrument, guess **Human** or **Machine**,
 get an explanation of the tells after each answer, and track their accuracy over
 time. Static site — no backend, no build step, no frameworks.
 
@@ -18,23 +18,27 @@ css/style.css         the entire design system
 js/                   ES modules: main (game controller), game, player, stats, learn
 data/clips.json       the clip manifest — every clip and demo, with reveal copy
 audio/human/          human recordings (public domain / Creative Commons)
-audio/machine/        machine renderings (built by tools/render-clips.js)
+audio/machine/        machine renderings (built by the offline renderers)
 audio/demos/          Learn-page A/B pairs (same phrase, one dimension isolated)
 tools/render-clips.js offline renderer: MIDI → expression model → Salamander → MP3
+tools/render-violin.js offline renderer: MIDI → FluidSynth → GeneralUser GS → MP3
 tools/prepare-human.js trim/normalize a human recording into the pool
 tools/clips.config.js which excerpts get rendered, at which tier, with which knobs
+tools/violin.config.js excerpt windows for the violin machine renders
 tools/midi/           licensed score and performance MIDI used by the renderer
 tools/samples/        Salamander Grand Piano samples (not committed — see below)
+tools/soundfonts/     GeneralUser GS for violin renders (not committed — see below)
 tools/source-human/   full-length source recordings for the human excerpts
 _headers              Cloudflare Pages cache/security headers
 ```
 
 ## The game
 
-- A session is 5 rounds (`STANDARD_ROUNDS` in `js/game.js`), drawn from a 76-clip
-  pool (38 machine renders, 38 human recordings) covering 38 pieces across eleven
+- A session is 5 rounds (`STANDARD_ROUNDS` in `js/game.js`). The piano game draws
+  from a 76-clip pool (38 machine renders, 38 human recordings) covering 38 pieces across eleven
   composers (Bach, Petzold, Mozart, Beethoven, Chopin, Schumann, Brahms, Satie,
-  Scriabin, Debussy, Tchaikovsky). Every piece is twinned.
+  Scriabin, Debussy, Tchaikovsky). The violin game adds ten clips: human and
+  machine versions of Vivaldi's Four Seasons and Bach's Chaconne. Every piece is twinned.
 - **Twins:** clips carry a `piece` key, and every piece exists as BOTH a human
   recording and a machine render.
   The draw groups by piece, plays each piece at most once per session, and picks
@@ -53,8 +57,8 @@ _headers              Cloudflare Pages cache/security headers
   the results screen charts trained vs. untrained accuracy and offers a
   share-your-score button.
 - Max 2 replays per clip before answering; free relistening after the reveal.
-- **Hard mode** restricts the draw to clips flagged `"hard": true` — expressive-tier
-  renders and unusually precise human playing.
+- **Hard mode** is available for the larger piano pool and restricts the draw to
+  clips flagged `"hard": true` — expressive-tier renders and unusually precise human playing.
 - Keyboard: `Space`/`P` play · `H`/`←` human · `M`/`→` machine · `Enter`/`N` next.
 - Stats live in `localStorage` (`digitalfingers.v1`): per-session history, lifetime
   accuracy, the visitor's most-fooling clip, and a sparkline after 3+ sessions.
@@ -89,6 +93,7 @@ fetch after each guess.
    ```json
    {
      "id": "clip-myid",
+     "instrument": "piano",
      "title": "Nocturne in C minor",
      "composer": "F. Chopin",
      "performer": "Aunt Ruth (recorded 2019, used with ownership)",
@@ -105,7 +110,7 @@ fetch after each guess.
 
 That's it. The game picks it up on the next load.
 
-### A machine rendering
+### A piano machine rendering
 
 1. Drop a quantized MIDI file in `tools/midi/`. Verify its source and license;
    Mutopia Project files work well and state their license in the source `.ly`.
@@ -116,6 +121,18 @@ That's it. The game picks it up on the next load.
 4. Add the manifest entry as above with `"isHuman": false` and the tier.
 
 The renderer patches real durations back into `data/clips.json` after each run.
+
+### A violin machine rendering
+
+1. Put licensed MIDI in `tools/midi/violin/` and add an excerpt entry to
+   `tools/violin.config.js`.
+2. Install FluidSynth and download GeneralUser GS as described below.
+3. Render with `node tools/render-violin.js --only clip-vln-newid`.
+4. Add the manifest entry with `"instrument": "violin"` and `"isHuman": false`.
+
+The violin renderer uses each MIDI's embedded orchestration and then applies the
+same trim, fades, loudness target, limiter, sample rate, and MP3 encoder used for
+human clips.
 
 ## The expression model (tiers)
 
@@ -164,6 +181,15 @@ Everything should sit within ±0.4 LU of −16.
 
 - `node tools/render-clips.js` re-renders everything deterministically (the
   expression randomness is seeded per clip id). `--ogg` also emits Vorbis files.
+- Violin renders additionally require FluidSynth and GeneralUser GS:
+
+  ```sh
+  brew install fluidsynth
+  mkdir -p tools/soundfonts
+  curl -L -o tools/soundfonts/GeneralUser-GS.sf2 \
+    https://raw.githubusercontent.com/mrbumpy409/GeneralUser-GS/main/GeneralUser-GS.sf2
+  node tools/render-violin.js
+  ```
 
 ## Deployment (Netlify)
 
@@ -183,11 +209,15 @@ If you re-render a clip in place, bump its filename (or the manifest `version`)
 
 - Compositions: all public domain (composers deceased 100+ years).
 - Human recordings: Musopen, the Open Goldberg Variations, the Open
-  Well-Tempered Clavier, Wikimedia Commons, and IMSLP. Each is public domain,
+  Well-Tempered Clavier, Wikimedia Commons, and IMSLP, including the Modena
+  Chamber Orchestra's public-domain Four Seasons and Ben Goldstein's CC BY-SA
+  3.0 Chaconne. Each is public domain,
   CC0, or under the Creative Commons license named on the source and About page.
 - Machine renders: generated from licensed Mutopia, Knute Snortum, Bernd Krueger,
   MAESTRO v3, and Tirol's MIDI Works note data. The rendered excerpts preserve
   all applicable attribution, noncommercial, and share-alike terms.
 - Salamander Grand Piano samples: Alexander Holm, CC-BY 3.0 (credited on /about).
+- Violin and string samples: GeneralUser GS by S. Christian Collins, used through
+  FluidSynth for the committed audio renders (credited on /about).
 - Cormorant Garamond: SIL OFL, self-hosted.
 - Site code: © kelvinkay.com — do what you like with it, attribution appreciated.
