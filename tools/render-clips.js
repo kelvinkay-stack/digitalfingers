@@ -280,17 +280,17 @@ function performExcerpt(midiData, cfg) {
 const NOTE_NUM = { C: 0, Cs: 1, D: 2, Ds: 3, E: 4, F: 5, Fs: 6, G: 7, Gs: 8, A: 9, As: 10, B: 11 };
 const sampleCache = new Map();
 
-function loadSamples() {
-  const files = fs.readdirSync(SAMPLE_DIR).filter(f => f.endsWith('.mp3'));
+function loadSamples(dir = SAMPLE_DIR) {
+  const files = fs.readdirSync(dir).filter(f => f.endsWith('.mp3'));
   const samples = [];
   for (const f of files) {
     const m = f.match(/^([A-G]s?)(\d)\.mp3$/);
     if (!m) continue;
     const midi = NOTE_NUM[m[1]] + (parseInt(m[2], 10) + 1) * 12;
-    samples.push({ midi, file: path.join(SAMPLE_DIR, f) });
+    samples.push({ midi, file: path.join(dir, f) });
   }
   samples.sort((a, b) => a.midi - b.midi);
-  if (!samples.length) throw new Error(`no samples found in ${SAMPLE_DIR}`);
+  if (!samples.length) throw new Error(`no samples found in ${dir}`);
   return samples;
 }
 
@@ -304,8 +304,8 @@ function decodeSample(file) {
   return pcm;
 }
 
-function renderNotes(perf, tailSec = 3.2) {
-  const samples = loadSamples();
+function renderNotes(perf, tailSec = 3.2, sampleDir = SAMPLE_DIR) {
+  const samples = loadSamples(sampleDir);
   const endTime = Math.max(...perf.map(n => n.time + n.dur));
   const frames = Math.ceil((endTime + tailSec) * SR);
   const mix = new Float32Array(frames * 2);
@@ -455,7 +455,9 @@ function main() {
     const midiData = parseMidi(fs.readFileSync(path.join(MIDI_DIR, cfg.midi)));
     const perf = performExcerpt(midiData, cfg);
     console.log(`${cfg.id}: ${perf.length} notes, tier=${cfg.tier}`);
-    let mix = renderNotes(perf, cfg.tail ?? 3.2);
+    // per-clip instrument samples (e.g. samples-violin/); default is the piano set
+    const sampleDir = cfg.samples ? path.join(__dirname, cfg.samples) : SAMPLE_DIR;
+    let mix = renderNotes(perf, cfg.tail ?? 3.2, sampleDir);
     mix = applyFades(mix, cfg.fadeOut ?? 2.2);
     const outDir = path.join(ROOT, cfg.outDir);
     fs.mkdirSync(outDir, { recursive: true });
@@ -467,9 +469,10 @@ function main() {
     console.log(`  → ${cfg.outDir}/${cfg.id}.mp3  (${dur.toFixed(1)}s)`);
   }
 
-  // Patch durations into data/clips.json when entries exist.
-  const manifestPath = path.join(ROOT, 'data', 'clips.json');
-  if (fs.existsSync(manifestPath)) {
+  // Patch durations into the manifests when entries exist.
+  for (const name of ['clips.json', 'clips-violin.json']) {
+    const manifestPath = path.join(ROOT, 'data', name);
+    if (!fs.existsSync(manifestPath)) continue;
     const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
     let patched = 0;
     for (const list of [manifest.clips || [], manifest.demos || []]) {
@@ -477,8 +480,10 @@ function main() {
         if (durations[c.id] != null) { c.duration = Math.round(durations[c.id] * 10) / 10; patched++; }
       }
     }
-    fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
-    console.log(`patched ${patched} durations into data/clips.json`);
+    if (patched) {
+      fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
+      console.log(`patched ${patched} durations into data/${name}`);
+    }
   }
 }
 

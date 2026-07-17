@@ -1,6 +1,11 @@
 /* stats.js - persistent listener stats. localStorage only; no backend, no cookies. */
 
-const KEY = 'digitalfingers.v1';
+let KEY = 'digitalfingers.v1';
+
+/** Point the store at a different key (each instrument pool keeps its own history). */
+export function initStats(storageKey) {
+  if (storageKey) KEY = storageKey;
+}
 
 function read() {
   try {

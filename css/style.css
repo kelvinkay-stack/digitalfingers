@@ -152,6 +152,32 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
 }
 .keys-rule .white { fill: none; stroke: var(--line); }
 .keys-rule .black { fill: #151310; stroke: #3a3425; }
+
+/* engraved string divider (violin hero): four strings, G thickest to E thinnest */
+.strings-rule {
+  display: block;
+  width: min(72vw, 21rem);
+  height: auto;
+  margin: 3.2rem auto;
+  opacity: 0.85;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+}
+.strings-rule .string line { stroke: var(--line); }
+.strings-rule .bridge { fill: #151310; stroke: #3a3425; }
+
+/* notice shown while a new instrument pool has no clips yet */
+.pool-note {
+  max-width: 30rem;
+  margin: 2rem auto 0;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--muted);
+  text-align: center;
+}
 .site-footer a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line); }
 .site-footer a:hover { color: var(--brass); }
 
@@ -223,6 +249,8 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
   transition: background 0.15s ease;
 }
 .btn-primary:hover { background: var(--brass-bright); }
+.btn-primary:disabled { background: var(--line); color: var(--muted); cursor: not-allowed; }
+.btn-primary:disabled:hover { background: var(--line); }
 
 .btn-outline {
   background: none;

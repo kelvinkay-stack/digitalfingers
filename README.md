@@ -5,20 +5,28 @@ some rendered by software from the score. Visitors guess **Human** or **Machine*
 get an explanation of the tells after each answer, and track their accuracy over
 time. Static site — no backend, no build step, no frameworks.
 
+A second pool — **violin** — lives at `/violin.html`: same game engine, its own
+clip manifest (`data/clips-violin.json`), its own localStorage history and crowd
+counters. See "The violin section" below.
+
 Live: `https://digital-fingers.netlify.app` (update canonical URLs if the domain changes —
 they appear in every HTML `<head>`, `sitemap.xml`, and `robots.txt`).
 
 ## Layout
 
 ```
-index.html            the game (intro → rounds → reveal → results)
+index.html            the piano game (intro → rounds → reveal → results)
+violin.html           the violin game — same engine, its own pool
 learn.html            "How to Hear a Human" — essay + A/B ear-training demos
 about.html            methodology, credits, licensing
 css/style.css         the entire design system
 js/                   ES modules: main (game controller), game, player, stats, learn
-data/clips.json       the clip manifest — every clip and demo, with reveal copy
-audio/human/          human recordings (public domain / CC0)
-audio/machine/        machine renderings (built by tools/render-clips.js)
+data/clips.json       the piano clip manifest — every clip and demo, with reveal copy
+data/clips-violin.json the violin clip manifest (same schema)
+audio/human/          human piano recordings (public domain / CC0)
+audio/machine/        machine piano renderings (built by tools/render-clips.js)
+audio/violin/human/   human violin recordings    } created as the violin pool
+audio/violin/machine/ machine violin renderings  } is assembled
 audio/demos/          Learn-page A/B pairs (same phrase, one dimension isolated)
 tools/render-clips.js offline renderer: MIDI → expression model → Salamander → MP3
 tools/prepare-human.js trim/normalize a human recording into the pool
@@ -116,7 +124,59 @@ That's it. The game picks it up on the next load.
 3. Render: `node tools/render-clips.js --only clip-newid`
 4. Add the manifest entry as above with `"isHuman": false` and the tier.
 
-The renderer patches real durations back into `data/clips.json` after each run.
+The renderer patches real durations back into `data/clips.json` (and
+`data/clips-violin.json`) after each run.
+
+## The violin section
+
+`/violin.html` is a full second instance of the game, driven by the same
+`js/main.js`. The page selects its pool with `<body data-…>` attributes
+(`data-manifest`, `data-pool`, `data-storage-key`, `data-share-line`,
+`data-share-url`); `index.html` carries no attributes and runs on the piano
+defaults. Everything is namespaced:
+
+- **Manifest:** `data/clips-violin.json` — identical schema to `clips.json`.
+- **Local stats:** `localStorage` key `digitalfingers.violin.v1`.
+- **Crowd stats:** `/api/stats?pool=violin` → a separate Netlify Blobs key
+  (`aggregate-violin`), so violin sessions never pollute the piano numbers.
+- **Audio:** `audio/violin/human/` and `audio/violin/machine/` (the `_headers`
+  immutable-cache rule for `/audio/*` already covers them).
+
+While the manifest's `clips` array is empty the page shows a "pool is still
+being recorded" notice and disables Begin — it goes live automatically the
+moment clips are added.
+
+### Filling the violin pool
+
+Same rules as piano, same chain, different sources:
+
+- **Human recordings:** solo-violin performances with clear provenance and a
+  named performer (Musopen, Wikimedia Commons CC performances, crowdfunded
+  open recordings). The vetting rules above apply doubly: reject anything that
+  smells like a MIDI render or a YouTube rip. Bach's Sonatas & Partitas are the
+  natural backbone — widely recorded, public-domain compositions. Prepare with:
+
+  ```sh
+  node tools/prepare-human.js path/to/rec.wav clip-vmyid --start 0 --dur 26 --out audio/violin/human
+  ```
+
+- **Machine renders:** drop violin note samples (one MP3 per pitch, named like
+  `A4.mp3`/`Ds5.mp3` — e.g. the CC0 VSCO 2 Community Edition violin set, or the
+  violin folder of tonejs-instruments) into `tools/samples-violin/`, put
+  public-domain violin MIDI in `tools/midi/`, and give the clip's entry in
+  `tools/clips.config.js` `samples: 'samples-violin'` and
+  `outDir: 'audio/violin/machine'`. Solo-violin writing is mostly monophonic,
+  so skip `pedalBeats` and expect the melody/bass voicing model to mostly
+  no-op; the timing tiers (deadpan / humanized / expressive) carry the game.
+
+- **Manifest entries** go in `data/clips-violin.json`, same fields, and the
+  reveal copy should teach violin tells: bow changes and string crossings,
+  vibrato that varies within a note, expressive intonation and slides,
+  bow-pressure "consonants" at phrase starts — versus renders whose vibrato is
+  a fixed LFO and whose every note starts with the identical attack.
+
+The loudness policy is unchanged: every violin clip exits through the same
+−16 LUFS static-gain chain as the piano pool.
 
 ## The expression model (tiers)
 

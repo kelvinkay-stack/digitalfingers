@@ -3,9 +3,22 @@
 import { ArcPlayer, preload } from './player.js';
 import { Waveform } from './waveform.js';
 import { drawSession, verdictFor, MAX_REPLAYS } from './game.js';
-import { recordSession, getSessions, lifetime, hardestClip, renderSparkline } from './stats.js';
+import { initStats, recordSession, getSessions, lifetime, hardestClip, renderSparkline } from './stats.js';
 
 const $ = (sel) => document.querySelector(sel);
+
+/* Per-page pool config. index.html (piano) runs on the defaults; other
+ * instrument pages (violin.html) override via <body data-…> attributes. */
+const ds = document.body.dataset;
+const cfg = {
+  manifest: ds.manifest || 'data/clips.json',
+  pool: ds.pool || 'piano', // crowd-stats namespace on /api/stats
+  storageKey: ds.storageKey || 'digitalfingers.v1',
+  shareLine: ds.shareLine || 'telling humans from computers at the piano',
+  shareUrl: ds.shareUrl || 'https://digital-fingers.netlify.app',
+};
+const STATS_URL = cfg.pool === 'piano' ? '/api/stats' : `/api/stats?pool=${encodeURIComponent(cfg.pool)}`;
+initStats(cfg.storageKey);
 
 const els = {
   screens: {
@@ -101,7 +114,7 @@ function renderReplays() {
 /* ---------- game flow ---------- */
 
 async function loadManifest() {
-  const res = await fetch('data/clips.json');
+  const res = await fetch(cfg.manifest);
   if (!res.ok) throw new Error('manifest failed');
   manifest = await res.json();
 }
@@ -295,7 +308,7 @@ function reflectTrainingButtons() {
 
 function submitAndRenderCrowd(score, total) {
   const trained = getTrained();
-  fetch('/api/stats', {
+  fetch(STATS_URL, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
@@ -383,7 +396,7 @@ function wireResults() {
 
 async function shareScore() {
   const total = state.rounds.length;
-  const text = `I scored ${state.score}/${total} telling humans from computers at the piano. Can you? https://digital-fingers.netlify.app`;
+  const text = `I scored ${state.score}/${total} ${cfg.shareLine}. Can you? ${cfg.shareUrl}`;
   if (navigator.share) {
     try { await navigator.share({ text }); return; } catch { /* user cancelled; fall through */ }
   }
@@ -429,9 +442,18 @@ async function init() {
   } catch {
     toast('Could not load the clip list. Refresh to try again.');
     els.begin.disabled = true;
+    return;
+  }
+  // A pool that exists but has no clips yet (a new instrument section being
+  // assembled) shows its notice instead of a dead Begin button.
+  if (!manifest.clips.length) {
+    els.begin.disabled = true;
+    const note = $('#pool-note');
+    if (note) note.hidden = false;
+    return;
   }
   // per-clip crowd numbers for the reveals; the game works fine without them
-  fetch('/api/stats')
+  fetch(STATS_URL)
     .then(r => { if (!r.ok) throw new Error(); return r.json(); })
     .then(agg => { crowdData = agg; })
     .catch(() => {});

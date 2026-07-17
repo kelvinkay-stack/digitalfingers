@@ -12,9 +12,11 @@
  *
  * Usage:
  *   node tools/prepare-human.js <input> <clip-id> [--start s] [--dur s] [--ogg]
+ *                               [--out audio/violin/human]
  *
- * Output: audio/human/<clip-id>.mp3 — then add a matching entry to
- * data/clips.json (see README).
+ * Output: <out>/<clip-id>.mp3 (default audio/human/) — then add a matching
+ * entry to the pool's manifest, data/clips.json or data/clips-violin.json
+ * (see README).
  */
 
 'use strict';
@@ -26,7 +28,7 @@ const { spawnSync } = require('child_process');
 
 const args = process.argv.slice(2);
 if (args.length < 2) {
-  console.error('usage: node tools/prepare-human.js <input> <clip-id> [--start s] [--dur s] [--ogg]');
+  console.error('usage: node tools/prepare-human.js <input> <clip-id> [--start s] [--dur s] [--ogg] [--out dir]');
   process.exit(1);
 }
 const [input, id] = args;
@@ -38,7 +40,8 @@ const start = flag('--start', 0);
 const dur = flag('--dur', 26);
 const ogg = args.includes('--ogg');
 
-const outDir = path.join(__dirname, '..', 'audio', 'human');
+const outRel = args.includes('--out') ? args[args.indexOf('--out') + 1] : path.join('audio', 'human');
+const outDir = path.join(__dirname, '..', outRel);
 fs.mkdirSync(outDir, { recursive: true });
 const out = path.join(outDir, `${id}.mp3`);
 
@@ -79,5 +82,5 @@ if (ogg) {
 fs.unlinkSync(tmp); fs.unlinkSync(tmpNorm);
 
 const probe = spawnSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', out]);
-console.log(`→ audio/human/${id}.mp3 (${parseFloat(probe.stdout).toFixed(1)}s)`);
-console.log(`Now add an entry with "id": "${id}", "isHuman": true to data/clips.json.`);
+console.log(`→ ${outRel}/${id}.mp3 (${parseFloat(probe.stdout).toFixed(1)}s)`);
+console.log(`Now add an entry with "id": "${id}", "isHuman": true to the pool's manifest (data/clips.json or data/clips-violin.json).`);
