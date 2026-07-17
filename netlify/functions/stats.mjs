@@ -15,7 +15,7 @@ const EMPTY = {
 };
 
 export default async (req) => {
-  const store = getStore('digital-fingers-stats');
+  const store = getStore({ name: 'digital-fingers-stats', consistency: 'strong' });
 
   if (req.method === 'POST') {
     let body;
