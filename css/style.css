@@ -224,7 +224,7 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
 }
 .btn-primary:hover { background: var(--brass-bright); }
 
-.btn-ghost {
+.btn-outline {
   background: none;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -233,7 +233,7 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
   padding: 0.55rem 1.5rem;
   transition: border-color 0.15s ease, color 0.15s ease;
 }
-.btn-ghost:hover { border-color: var(--brass-dim); color: var(--ivory); }
+.btn-outline:hover { border-color: var(--brass-dim); color: var(--ivory); }
 
 /* hard mode switch */
 .hardmode {
