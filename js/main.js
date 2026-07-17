@@ -47,6 +47,8 @@ const els = {
   crowdBlock: $('#crowd-block'),
   crowdChart: $('#crowd-chart'),
   crowdCaption: $('#crowd-caption'),
+  revealCrowd: $('#reveal-crowd'),
+  shareBtn: $('#share-btn'),
 };
 
 const TRAINED_KEY = 'digitalfingers.trained';
@@ -55,6 +57,7 @@ let manifest = null;
 let session = null;
 let player = null;
 let wave = null;
+let crowdData = null; // latest aggregate from /api/stats
 
 const state = {
   index: 0,
@@ -200,6 +203,17 @@ function answer(guessedHuman) {
   els.revealTruth.innerHTML =
     `<strong>${clip.isHuman ? 'Human' : 'Machine'}</strong> · ${escapeHtml(clip.composer)} · ${escapeHtml(clip.performer)}`;
   els.revealExplain.innerHTML = mdEm(clip.reveal);
+
+  // how the crowd did on this exact clip
+  const cs = crowdData && crowdData.clips && crowdData.clips[clip.id];
+  if (cs && cs.total >= 5) {
+    const pct = Math.round(100 * cs.right / cs.total);
+    els.revealCrowd.textContent = `${pct}% of players have called this one correctly.`;
+    els.revealCrowd.hidden = false;
+  } else {
+    els.revealCrowd.hidden = true;
+  }
+
   els.reveal.removeAttribute('hidden');
   requestAnimationFrame(() => {
     els.reveal.classList.add('is-shown');
@@ -281,15 +295,18 @@ function reflectTrainingButtons() {
 
 function submitAndRenderCrowd(score, total) {
   const trained = getTrained();
-  const req = trained
-    ? fetch('/api/stats', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ trained: trained === 'yes', score, total }),
-      })
-    : fetch('/api/stats');
-  req.then(r => { if (!r.ok) throw new Error(); return r.json(); })
-    .then(renderCrowd)
+  fetch('/api/stats', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      trained: trained ? trained === 'yes' : null,
+      score,
+      total,
+      rounds: state.rounds.map(r => ({ id: r.id, correct: r.correct })),
+    }),
+  })
+    .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+    .then(agg => { crowdData = agg; renderCrowd(agg); })
     .catch(() => { els.crowdBlock.hidden = true; });
 }
 
@@ -361,6 +378,21 @@ function wireRound() {
 function wireResults() {
   els.againBtn.addEventListener('click', () => startSession(state.hard));
   els.againHardBtn.addEventListener('click', () => startSession(true));
+  els.shareBtn.addEventListener('click', shareScore);
+}
+
+async function shareScore() {
+  const total = state.rounds.length;
+  const text = `I scored ${state.score}/${total} telling humans from computers at the piano. Can you? https://digital-fingers.netlify.app`;
+  if (navigator.share) {
+    try { await navigator.share({ text }); return; } catch { /* user cancelled; fall through */ }
+  }
+  try {
+    await navigator.clipboard.writeText(text);
+    toast('Copied to clipboard. Go brag a little.');
+  } catch {
+    toast(text);
+  }
 }
 
 function wireKeyboard() {
@@ -398,6 +430,11 @@ async function init() {
     toast('Could not load the clip list. Refresh to try again.');
     els.begin.disabled = true;
   }
+  // per-clip crowd numbers for the reveals; the game works fine without them
+  fetch('/api/stats')
+    .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+    .then(agg => { crowdData = agg; })
+    .catch(() => {});
 }
 
 init();

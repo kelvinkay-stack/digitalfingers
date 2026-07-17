@@ -129,6 +129,32 @@ module.exports = [
     fadeOut: 2.2,
   },
 
+  {
+    id: 'clip-etude251-m', midi: 'etude-25-1.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 44], bpm: 104, phraseBeats: 16, pedalBeats: 4,
+    fadeOut: 2.4,
+  },
+  {
+    id: 'clip-fantimpromptu-m', midi: 'fantaisie-impromptu.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 64], bpm: 160, phraseBeats: 16, pedalBeats: 4,
+    fadeOut: 2.4,
+  },
+  {
+    id: 'clip-etude1012-m', midi: 'etude-10-12.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 60], bpm: 152, phraseBeats: 16, pedalBeats: 4,
+    fadeOut: 2.4,
+  },
+  {
+    id: 'clip-etude109-m', midi: 'etude-10-9.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 60], bpm: 138, phraseBeats: 12, pedalBeats: 3,
+    fadeOut: 2.4,
+  },
+  {
+    id: 'clip-pathetique3-m', midi: 'pathetique3.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 96], bpm: 200, phraseBeats: 16, pedalBeats: 2,
+    fadeOut: 2.4,
+  },
+
   /* ---------------- Learn page: A/B demos ---------------- */
   /* Same eight-bar Gymnopédie phrase every time; one dimension per demo. */
   {

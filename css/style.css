@@ -395,7 +395,12 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
   font-size: 0.85rem; color: var(--ivory-dim); margin: 0 0 1rem;
 }
 .reveal .truth strong { color: var(--brass); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.8rem; }
-.reveal .explain { color: var(--ivory-dim); font-size: 1.02rem; margin: 0 0 1.6rem; }
+.reveal .explain { color: var(--ivory-dim); font-size: 1.02rem; margin: 0 0 1.2rem; }
+.reveal-crowd {
+  font-size: 0.82rem;
+  color: var(--brass);
+  margin: 0 0 1.4rem;
+}
 .reveal .explain em { color: var(--ivory); }
 .reveal-actions { display: flex; align-items: center; gap: 1.2rem; padding-bottom: 2rem; }
 .reveal-actions .key-hint { font-size: 0.75rem; color: var(--muted); }
