@@ -92,6 +92,12 @@ module.exports = [
     fadeOut: 2.4,
   },
 
+  {
+    id: 'clip-op28n6-m', midi: 'chopin-28-6.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 24], bpm: 54, phraseBeats: 12, pedalBeats: 3,
+    fadeOut: 2.6,
+  },
+
   /* ---------------- Learn page: A/B demos ---------------- */
   /* Same eight-bar Gymnopédie phrase every time; one dimension per demo. */
   {

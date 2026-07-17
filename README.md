@@ -31,9 +31,15 @@ _headers              Cloudflare Pages cache/security headers
 
 ## The game
 
-- A session is 10 rounds (`STANDARD_ROUNDS` in `js/game.js`), drawn from a 25-clip
-  pool: 15 machine renders and 10 human recordings across nine composers
-  (Bach, Petzold, Mozart, Beethoven, Chopin, Schumann, Brahms, Satie, Scriabin, Debussy).
+- A session is 10 rounds (`STANDARD_ROUNDS` in `js/game.js`), drawn from a 29-clip
+  pool (16 machine renders, 13 human recordings) covering 26 pieces across ten
+  composers (Bach, Petzold, Mozart, Beethoven, Chopin, Schumann, Brahms, Satie,
+  Scriabin, Debussy).
+- **Twins:** clips carry a `piece` key, and some pieces exist as BOTH a human
+  recording and a machine render (currently Chopin Preludes Op. 28 Nos. 4/6/7).
+  The draw groups by piece, plays each piece at most once per session, and picks
+  the version at random — so on replay a familiar tune can switch sides. To twin
+  another piece, give both clips the same `piece` value.
 - Max 2 replays per clip before answering; free relistening after the reveal.
 - **Hard mode** restricts the draw to clips flagged `"hard": true` — expressive-tier
   renders and unusually precise human playing.

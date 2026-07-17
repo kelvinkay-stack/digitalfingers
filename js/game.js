@@ -15,19 +15,35 @@ function shuffle(list) {
 
 /**
  * Draw a session from the pool.
+ *
+ * Some pieces exist in BOTH a human and a machine version (same excerpt,
+ * different hands) — so a session first groups clips by `piece`, then picks
+ * ONE version of each piece at random. A piece never appears twice in a
+ * session, and on replay the same piece may switch sides: recognizing the
+ * tune tells you nothing.
+ *
  * Hard mode restricts the pool to clips flagged ambiguous. The draw is
  * reshuffled until it contains at least one human and one machine clip
  * (when the pool allows), so no session is trivially one-sided.
  */
 export function drawSession(clips, { hard = false } = {}) {
   const pool = hard ? clips.filter(c => c.hard) : clips;
-  const n = Math.min(STANDARD_ROUNDS, pool.length);
+  const byPiece = new Map();
+  for (const c of pool) {
+    const key = c.piece || c.id;
+    if (!byPiece.has(key)) byPiece.set(key, []);
+    byPiece.get(key).push(c);
+  }
+  const pieces = [...byPiece.values()];
+  const n = Math.min(STANDARD_ROUNDS, pieces.length);
   const hasBoth = pool.some(c => c.isHuman) && pool.some(c => !c.isHuman);
+  let draw = [];
   for (let attempt = 0; attempt < 20; attempt++) {
-    const draw = shuffle(pool).slice(0, n);
+    draw = shuffle(pieces).slice(0, n)
+      .map(versions => versions[Math.floor(Math.random() * versions.length)]);
     if (!hasBoth || (draw.some(c => c.isHuman) && draw.some(c => !c.isHuman))) return draw;
   }
-  return shuffle(pool).slice(0, n);
+  return draw;
 }
 
 /** End-of-session verdict copy. */
