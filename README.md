@@ -31,10 +31,10 @@ _headers              Cloudflare Pages cache/security headers
 
 ## The game
 
-- A session is 10 rounds (`STANDARD_ROUNDS` in `js/game.js`), drawn from a 48-clip
-  pool (22 machine renders, 26 human recordings) covering 34 pieces across eleven
+- A session is 10 rounds (`STANDARD_ROUNDS` in `js/game.js`), drawn from a 57-clip
+  pool (27 machine renders, 30 human recordings) covering 38 pieces across eleven
   composers (Bach, Petzold, Mozart, Beethoven, Chopin, Schumann, Brahms, Satie,
-  Scriabin, Debussy, Tchaikovsky).
+  Scriabin, Debussy, Tchaikovsky). 19 pieces are twinned.
 - **Twins:** clips carry a `piece` key, and some pieces exist as BOTH a human
   recording and a machine render (currently Chopin Preludes Op. 28 Nos. 4/6/7).
   The draw groups by piece, plays each piece at most once per session, and picks
@@ -44,11 +44,14 @@ _headers              Cloudflare Pages cache/security headers
   analysis, and read the source page — reject anything whose provenance says
   MuseScore/Sibelius (MIDI renders masquerading as recordings), YouTube rips,
   or has no named performer/provenance at all.
-- **The training experiment:** the intro asks whether the player has musical
-  training (stored locally). Finished sessions from players who answered are
-  POSTed anonymously to `/api/stats` (a Netlify Function backed by Netlify
-  Blobs — see `netlify/functions/stats.mjs`), which keeps six counters total.
-  The results screen charts average accuracy for trained vs. untrained ears.
+- **The training experiment and crowd stats:** the intro asks whether the
+  player has musical training (stored locally). Every finished session POSTs
+  anonymously to `/api/stats` (a Netlify Function backed by Netlify Blobs, see
+  `netlify/functions/stats.mjs`): per-clip right/wrong counters always, plus
+  the trained/untrained group totals when the question was answered. Reveals
+  show "NN% of players called this one correctly" once a clip has 5+ answers;
+  the results screen charts trained vs. untrained accuracy and offers a
+  share-your-score button.
 - Max 2 replays per clip before answering; free relistening after the reveal.
 - **Hard mode** restricts the draw to clips flagged `"hard": true` — expressive-tier
   renders and unusually precise human playing.
