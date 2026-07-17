@@ -6,19 +6,19 @@
   <title>Digital Fingers | Can You Hear the Human?</title>
   <meta name="description" content="A blind listening test. Can you tell the difference between a human and a computer playing piano?">
   <link rel="canonical" href="https://digital-fingers.netlify.app/">
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/favicon.svg?v=3" type="image/svg+xml">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Digital Fingers">
   <meta property="og:title" content="Digital Fingers | Can You Hear the Human?">
-  <meta property="og:description" content="Ten rounds of piano. Human or computer? Trust your ear.">
+  <meta property="og:description" content="Five playful rounds of piano. Human or computer? Trust your ear.">
   <meta property="og:url" content="https://digital-fingers.netlify.app/">
   <meta property="og:image" content="https://digital-fingers.netlify.app/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Digital Fingers | Can You Hear the Human?">
-  <meta name="twitter:description" content="Ten rounds of piano. Human or computer? Trust your ear.">
+  <meta name="twitter:description" content="Five playful rounds of piano. Human or computer? Trust your ear.">
   <meta name="twitter:image" content="https://digital-fingers.netlify.app/assets/og-image.png">
 
   <link rel="preload" href="/fonts/cormorant-garamond-normal-600-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -63,25 +63,49 @@
     <!-- ============ intro ============ -->
     <section id="screen-intro" class="screen is-active" aria-label="Start">
       <div class="hero">
-        <span class="kicker">A blind listening test</span>
-        <h1>Digital Fingers</h1>
-        <p class="premise">Can you tell the difference between a <em>human</em> and a <em>computer</em> playing piano?</p>
-        <div class="begin-row">
-          <button id="begin-btn" class="btn-primary">Begin listening</button>
-          <label class="hardmode">
-            <input type="checkbox" id="hardmode">
-            <span class="track" aria-hidden="true"></span>
-            Hard mode: only the tricky ones
-          </label>
-          <div class="training-q" role="group" aria-labelledby="training-label">
-            <p id="training-label">Quick question for our experiment: do you have musical training?</p>
-            <div class="training-buttons">
-              <button id="trained-yes" class="chip">Yes, I play or studied music</button>
-              <button id="trained-no" class="chip">No formal training</button>
+        <div class="hero-copy">
+          <span class="kicker">A blind listening test</span>
+          <h1>Digital Fingers</h1>
+          <p class="premise">Can you tell the difference between a <em>human</em> and a <em>computer</em> playing piano?</p>
+          <p class="hero-note">Five tiny mysteries for curious ears.</p>
+          <div class="begin-row">
+            <button id="begin-btn" class="btn-primary">Begin listening</button>
+            <label class="hardmode">
+              <input type="checkbox" id="hardmode">
+              <span class="track" aria-hidden="true"></span>
+              Hard mode: only the tricky ones
+            </label>
+            <div class="training-q" role="group" aria-labelledby="training-label">
+              <p id="training-label">Quick question for our experiment: do you have musical training?</p>
+              <div class="training-buttons">
+                <button id="trained-yes" class="chip">Yes, I play or studied music</button>
+                <button id="trained-no" class="chip">No formal training</button>
+              </div>
             </div>
           </div>
+          <p id="lifetime-line" class="lifetime-line"></p>
         </div>
-        <p id="lifetime-line" class="lifetime-line"></p>
+        <figure class="robot-pianist">
+          <img src="/assets/robot-human-pianists.webp" width="1200" height="800" alt="An old-fashioned robot and a human pianist seated across from each other at a grand piano" decoding="async">
+        </figure>
+      </div>
+      <div class="game-preview" aria-hidden="true">
+        <div class="game-preview-meta">
+          <span>Round 1 of 5</span>
+          <span>Listen closely</span>
+        </div>
+        <div class="game-preview-body">
+          <span class="game-preview-play">
+            <svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg>
+          </span>
+          <div class="game-preview-wave">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+        </div>
+        <div class="game-preview-answers">
+          <span>Human</span>
+          <span>Machine</span>
+        </div>
       </div>
       <svg class="keys-rule" viewBox="0 0 337 44" aria-hidden="true">
         <g class="white">
@@ -92,16 +116,14 @@
         </g>
       </svg>
       <div class="prose" style="text-align:center">
-        <p class="fine">No sign-up and no tracking. Your score stays in your browser.<br>
-        Many pieces are in the game as both a human and a computer version, so recognizing the tune won't save you.<br>
-        New to this? <a href="/learn.html">Learn how to hear a human first.</a></p>
+        <p class="fine">New to this? <a href="/learn.html">Learn how to hear a human first.</a></p>
       </div>
     </section>
 
     <!-- ============ round ============ -->
     <section id="screen-round" class="screen" aria-label="Listening round">
       <div class="round-meta">
-        <span id="round-label">Round 1 of 8</span>
+        <span id="round-label">Round 1 of 5</span>
         <span id="score-label" class="score" aria-label="Score so far"></span>
       </div>
 
@@ -143,7 +165,7 @@
     <!-- ============ results ============ -->
     <section id="screen-results" class="screen" aria-label="Results">
       <div class="results">
-        <p id="final-score" class="final-score">0<span>/8</span></p>
+        <p id="final-score" class="final-score">0<span>/5</span></p>
         <h2 id="verdict-title" class="verdict-title">…</h2>
         <p id="verdict-line" class="verdict-line">…</p>
 

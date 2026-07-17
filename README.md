@@ -17,13 +17,13 @@ about.html            methodology, credits, licensing
 css/style.css         the entire design system
 js/                   ES modules: main (game controller), game, player, stats, learn
 data/clips.json       the clip manifest — every clip and demo, with reveal copy
-audio/human/          human recordings (public domain / CC0)
+audio/human/          human recordings (public domain / Creative Commons)
 audio/machine/        machine renderings (built by tools/render-clips.js)
 audio/demos/          Learn-page A/B pairs (same phrase, one dimension isolated)
 tools/render-clips.js offline renderer: MIDI → expression model → Salamander → MP3
 tools/prepare-human.js trim/normalize a human recording into the pool
 tools/clips.config.js which excerpts get rendered, at which tier, with which knobs
-tools/midi/           public-domain source MIDI (Mutopia Project typesettings)
+tools/midi/           licensed score and performance MIDI used by the renderer
 tools/samples/        Salamander Grand Piano samples (not committed — see below)
 tools/source-human/   full-length source recordings for the human excerpts
 _headers              Cloudflare Pages cache/security headers
@@ -31,16 +31,16 @@ _headers              Cloudflare Pages cache/security headers
 
 ## The game
 
-- A session is 10 rounds (`STANDARD_ROUNDS` in `js/game.js`), drawn from a 57-clip
-  pool (27 machine renders, 30 human recordings) covering 38 pieces across eleven
+- A session is 5 rounds (`STANDARD_ROUNDS` in `js/game.js`), drawn from a 76-clip
+  pool (38 machine renders, 38 human recordings) covering 38 pieces across eleven
   composers (Bach, Petzold, Mozart, Beethoven, Chopin, Schumann, Brahms, Satie,
-  Scriabin, Debussy, Tchaikovsky). 19 pieces are twinned.
-- **Twins:** clips carry a `piece` key, and some pieces exist as BOTH a human
-  recording and a machine render (currently Chopin Preludes Op. 28 Nos. 4/6/7).
+  Scriabin, Debussy, Tchaikovsky). Every piece is twinned.
+- **Twins:** clips carry a `piece` key, and every piece exists as BOTH a human
+  recording and a machine render.
   The draw groups by piece, plays each piece at most once per session, and picks
-  the version at random — so on replay a familiar tune can switch sides. 14 of
-  the 34 pieces are twinned. To twin another piece, give both clips the same
-  `piece` value. Vetting rules for found recordings: verify the key by chroma
+  the version at random — so on replay a familiar tune can switch sides. To add
+  another piece, give both clips the same `piece` value. Vetting rules for found
+  recordings: verify the key by chroma
   analysis, and read the source page — reject anything whose provenance says
   MuseScore/Sibelius (MIDI renders masquerading as recordings), YouTube rips,
   or has no named performer/provenance at all.
@@ -107,9 +107,8 @@ That's it. The game picks it up on the next load.
 
 ### A machine rendering
 
-1. Drop a quantized MIDI file in `tools/midi/` (Mutopia Project files work
-   perfectly and state their license in the source `.ly`; verify it says
-   Public Domain).
+1. Drop a quantized MIDI file in `tools/midi/`. Verify its source and license;
+   Mutopia Project files work well and state their license in the source `.ly`.
 2. Add an entry to `tools/clips.config.js` — pick the excerpt window in beats
    (use `node tools/render-clips.js --inspect tools/midi/file.mid` to see the
    structure), a tempo, a tier, and phrase/pedal settings.
@@ -183,12 +182,12 @@ If you re-render a clip in place, bump its filename (or the manifest `version`)
 ## Licensing
 
 - Compositions: all public domain (composers deceased 100+ years).
-- Human recordings: Musopen (CC0/PD), the Open Goldberg Variations and Open
-  Well-Tempered Clavier (Kimiko Ishizaka, CC0/PD), and three Wikimedia Commons
-  performances (CC BY-SA 4.0 — Prati, Han, eldüendesüarez; those three clips
-  remain CC BY-SA).
-- Machine renders: generated from Mutopia Project typesettings (public domain);
-  the renders themselves are dedicated to the public domain.
+- Human recordings: Musopen, the Open Goldberg Variations, the Open
+  Well-Tempered Clavier, Wikimedia Commons, and IMSLP. Each is public domain,
+  CC0, or under the Creative Commons license named on the source and About page.
+- Machine renders: generated from licensed Mutopia, Knute Snortum, Bernd Krueger,
+  MAESTRO v3, and Tirol's MIDI Works note data. The rendered excerpts preserve
+  all applicable attribution, noncommercial, and share-alike terms.
 - Salamander Grand Piano samples: Alexander Holm, CC-BY 3.0 (credited on /about).
 - Cormorant Garamond: SIL OFL, self-hosted.
 - Site code: © kelvinkay.com — do what you like with it, attribution appreciated.

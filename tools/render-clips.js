@@ -2,7 +2,7 @@
 /**
  * render-clips.js — Digital Fingers offline audio renderer.
  *
- * Parses public-domain MIDI files (Mutopia Project typesettings), applies one of
+ * Parses licensed MIDI score or performance data, applies one of
  * three expression tiers (deadpan / humanized / expressive), renders the result
  * through the Salamander Grand Piano samples, then normalizes loudness and
  * encodes MP3 (optionally OGG) via ffmpeg so every clip — machine or human —

@@ -154,6 +154,61 @@ module.exports = [
     tier: 'expressive', beats: [0, 96], bpm: 200, phraseBeats: 16, pedalBeats: 2,
     fadeOut: 2.4,
   },
+  {
+    id: 'clip-noc92-m', midi: 'chopin-9-2.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 25], bpm: 66, phraseBeats: 12, pedalBeats: 3,
+    fadeOut: 2.6,
+  },
+  {
+    id: 'clip-maz174-m', midi: 'chopin-17-4.mid', outDir: 'audio/machine',
+    tier: 'humanized', beats: [9, 49], bpm: 100, phraseBeats: 12, pedalBeats: 3,
+    fadeOut: 2.2,
+  },
+  {
+    id: 'clip-op28n1-m', midi: 'chopin-28-1.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 34], bpm: 100, phraseBeats: 8, pedalBeats: 2,
+    fadeOut: 2.4,
+  },
+  {
+    id: 'clip-op28n3-m', midi: 'chopin-28-3.mid', outDir: 'audio/machine',
+    tier: 'humanized', beats: [0, 56], bpm: 168, phraseBeats: 16, pedalBeats: 2,
+    fadeOut: 2.2,
+  },
+  {
+    id: 'clip-noc151-m', midi: 'chopin-15-1.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [2, 48], bpm: 120, phraseBeats: 16, pedalBeats: 4,
+    fadeOut: 2.6,
+  },
+  {
+    id: 'clip-maz242-m', midi: 'chopin-24-2.mid', outDir: 'audio/machine',
+    tier: 'humanized', beats: [4, 66], bpm: 168, phraseBeats: 12, pedalBeats: 3,
+    fadeOut: 2.2,
+  },
+  {
+    id: 'clip-noc271-m', midi: 'chopin-27-1.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 24], bpm: 60, phraseBeats: 12, pedalBeats: 3,
+    fadeOut: 2.6,
+  },
+  {
+    id: 'clip-moonlight3-m', midi: 'moonlight3.mid', outDir: 'audio/machine',
+    tier: 'humanized', beats: [0, 56], bpm: 167, phraseBeats: 16, pedalBeats: 2,
+    fadeOut: 2.2,
+  },
+  {
+    id: 'clip-waltz691-m', midi: 'chopin-69-1.mid', outDir: 'audio/machine',
+    tier: 'humanized', beats: [2, 48], bpm: 120, phraseBeats: 12, pedalBeats: 3,
+    fadeOut: 2.2,
+  },
+  {
+    id: 'clip-aria-m', midi: 'bwv988-aria.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 24], bpm: 60, phraseBeats: 12, pedalBeats: 3,
+    fadeOut: 2.6,
+  },
+  {
+    id: 'clip-berceuse-m', midi: 'chopin-57.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [2, 50], bpm: 120, phraseBeats: 16, pedalBeats: 4,
+    fadeOut: 2.6,
+  },
 
   /* ---------------- Learn page: A/B demos ---------------- */
   /* Same eight-bar Gymnopédie phrase every time; one dimension per demo. */

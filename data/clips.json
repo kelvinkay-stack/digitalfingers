@@ -32,6 +32,21 @@
       "piece": "anh114"
     },
     {
+      "id": "clip-anh114-h",
+      "title": "Minuet in G major, BWV Anh. 114",
+      "composer": "Christian Petzold",
+      "performer": "Aaron Dunn",
+      "src": "audio/human/clip-anh114-h.mp3",
+      "duration": 29,
+      "isHuman": true,
+      "tier": null,
+      "difficulty": 1,
+      "hard": false,
+      "source": "Wikimedia Commons / Musopen (Public Domain Mark)",
+      "reveal": "Human. Aaron Dunn gives the dance a real three-step shape: the first beat lands, the next two lift away, and the ends of phrases take a small breath. The machine twin keeps every beat on the same level. Here the pulse has posture, and that comes from a player deciding where the weight belongs.",
+      "piece": "anh114"
+    },
+    {
       "id": "clip-woo59",
       "title": "Für Elise, WoO 59 (opening)",
       "composer": "Ludwig van Beethoven",
@@ -107,6 +122,21 @@
       "piece": "kv397"
     },
     {
+      "id": "clip-kv397-h",
+      "title": "Fantasia in D minor, K. 397 (opening)",
+      "composer": "W. A. Mozart",
+      "performer": "Luis Kolodin",
+      "src": "audio/human/clip-kv397-h.mp3",
+      "duration": 25,
+      "isHuman": true,
+      "tier": null,
+      "difficulty": 3,
+      "hard": true,
+      "source": "IMSLP, Luis Kolodin performance (CC BY-SA 4.0)",
+      "reveal": "Human. Luis Kolodin lets the opening arpeggios search rather than march. The spaces between notes subtly expand as the hand reaches outward, then tighten when it turns back. Each new harmony also arrives with a different shade of weight. That physical travel and changing intention are the clues.",
+      "piece": "kv397"
+    },
+    {
       "id": "clip-noc92",
       "title": "Nocturne in E-flat major, Op. 9 No. 2",
       "composer": "Frédéric Chopin",
@@ -119,6 +149,21 @@
       "hard": false,
       "source": "Musopen, The Complete Chopin Collection (CC0)",
       "reveal": "Human. The little ornaments give it away. Those fast decorative turns come out uneven, quicker at the top and relaxing at the bottom, which is just how hands work. Also notice the left hand putting the bass down slightly before the melody answers. That tiny mismatch between the hands is something players do naturally and machines usually don't.",
+      "piece": "noc92"
+    },
+    {
+      "id": "clip-noc92-m",
+      "title": "Nocturne in E-flat major, Op. 9 No. 2",
+      "composer": "Frédéric Chopin",
+      "performer": "Rendered from score (Salamander Grand samples)",
+      "src": "audio/machine/clip-noc92-m.mp3",
+      "duration": 26.6,
+      "isHuman": false,
+      "tier": "expressive",
+      "difficulty": 3,
+      "hard": true,
+      "source": "Mutopia Project typesetting (CC BY-SA 3.0)",
+      "reveal": "Machine, and a fairly persuasive one. Rubato, pedal and melody voicing are all programmed in. The ornaments expose it: every turn is fitted into its allotted space with the same clean geometry, while a pianist compresses and stretches decorations to aim at the next important note.",
       "piece": "noc92"
     },
     {
@@ -137,6 +182,21 @@
       "piece": "maz174"
     },
     {
+      "id": "clip-maz174-m",
+      "title": "Mazurka in A minor, Op. 17 No. 4",
+      "composer": "Frédéric Chopin",
+      "performer": "Rendered from score (Salamander Grand samples)",
+      "src": "audio/machine/clip-maz174-m.mp3",
+      "duration": 27.3,
+      "isHuman": false,
+      "tier": "humanized",
+      "difficulty": 2,
+      "hard": false,
+      "source": "Knute Snortum LilyPond engraving (CC BY-SA 4.0)",
+      "reveal": "Machine with small timing and touch variations. It is loose enough to avoid sounding quantized, but the looseness has no dance logic. The second beat never receives the slight lean that gives a mazurka its gait, and phrase endings do not settle; the clock has simply been made a little wobbly.",
+      "piece": "maz174"
+    },
+    {
       "id": "clip-op28n1",
       "title": "Prelude in C major, Op. 28 No. 1",
       "composer": "Frédéric Chopin",
@@ -149,6 +209,21 @@
       "hard": true,
       "source": "Musopen, The Complete Chopin Collection (CC0)",
       "reveal": "Human, the kind that fools people. It's fast and almost machine-even. But listen to what happens when it gets louder: it also speeds up, and when it gets quieter it relaxes. Volume and speed moving together is a body thing. It's what excitement sounds like. Random computer jitter can fake sloppiness, but it can't fake wanting to get somewhere.",
+      "piece": "op28n1"
+    },
+    {
+      "id": "clip-op28n1-m",
+      "title": "Prelude in C major, Op. 28 No. 1",
+      "composer": "Frédéric Chopin",
+      "performer": "Rendered from score (Salamander Grand samples)",
+      "src": "audio/machine/clip-op28n1-m.mp3",
+      "duration": 24.2,
+      "isHuman": false,
+      "tier": "expressive",
+      "difficulty": 3,
+      "hard": true,
+      "source": "Bernd Krueger, Classical Piano MIDI Page (CC BY-SA Germany)",
+      "reveal": "Machine. The swell and acceleration are convincing because they were programmed together, but the pattern repeats with identical finger-to-finger clarity even at its most excited. A real hand pays for intensity with tiny changes in balance and spacing. This one gets emotional without ever getting physically involved.",
       "piece": "op28n1"
     },
     {
@@ -179,6 +254,21 @@
       "hard": false,
       "source": "Mutopia Project typesetting (public domain)",
       "reveal": "Machine. It's the minor-key cousin of the famous Minuet in G, played with zero opinion. Real dance music moves in two-bar pairs, a step and an answer. Here every bar has the same weight and the same footfall. Nothing lifts and nothing lands.",
+      "piece": "anh115"
+    },
+    {
+      "id": "clip-anh115-h",
+      "title": "Minuet in G minor, BWV Anh. 115",
+      "composer": "Christian Petzold",
+      "performer": "KasraR",
+      "src": "audio/human/clip-anh115-h.mp3",
+      "duration": 29,
+      "isHuman": true,
+      "tier": null,
+      "difficulty": 1,
+      "hard": false,
+      "source": "Wikimedia Commons (public-domain performance)",
+      "reveal": "Human. The phrases come in question-and-answer pairs: the first line presses forward and the reply relaxes. Chords do not arrive as perfectly sealed blocks, either; the melody note often speaks a fraction ahead of the inner voices. Those small priorities give the dance a point of view.",
       "piece": "anh115"
     },
     {
@@ -257,6 +347,21 @@
       "piece": "scriabin111"
     },
     {
+      "id": "clip-scriabin111-h",
+      "title": "Prelude in C major, Op. 11 No. 1",
+      "composer": "Alexander Scriabin",
+      "performer": "Alexander Scriabin (1910 Welte-Mignon piano roll)",
+      "src": "audio/human/clip-scriabin111-h.mp3",
+      "duration": 26,
+      "isHuman": true,
+      "tier": null,
+      "difficulty": 3,
+      "hard": true,
+      "source": "Wikimedia Commons, 1910 composer performance (public domain)",
+      "reveal": "Human—Scriabin himself, preserved on a 1910 reproducing-piano roll. The playback mechanism is mechanical, but the timing and touch were captured from his hands. Phrases surge and recoil asymmetrically, and the bass jumps take real time. It is a century-old recording of human decisions, not software reading notation.",
+      "piece": "scriabin111"
+    },
+    {
       "id": "clip-clairdelune",
       "title": "Clair de lune (opening)",
       "composer": "Claude Debussy",
@@ -269,6 +374,21 @@
       "hard": true,
       "source": "Mutopia Project typesetting (public domain)",
       "reveal": "Machine, with rubato and simulated pedal, because deadpan Debussy fools nobody. What's missing is the touch. Those opening thirds are supposed to be stroked, with the two notes melting in at very slightly different moments. Here every third arrives as one sealed unit. Pretty, but airless.",
+      "piece": "clairdelune"
+    },
+    {
+      "id": "clip-clairdelune-h",
+      "title": "Clair de lune (opening)",
+      "composer": "Claude Debussy",
+      "performer": "eldüendesüarez",
+      "src": "audio/human/clip-clairdelune-h.mp3",
+      "duration": 33,
+      "isHuman": true,
+      "tier": null,
+      "difficulty": 3,
+      "hard": true,
+      "source": "Wikimedia Commons (CC BY-SA 4.0)",
+      "reveal": "Human. The quiet opening is held together by touch rather than a grid. Paired notes bloom a little unevenly, the melody waits over changing harmonies, and the pedal is cleared by ear instead of on a fixed boundary. The silence between gestures feels chosen, not measured.",
       "piece": "clairdelune"
     },
     {
@@ -302,6 +422,21 @@
       "piece": "op28n3"
     },
     {
+      "id": "clip-op28n3-m",
+      "title": "Prelude in G major, Op. 28 No. 3",
+      "composer": "Frédéric Chopin",
+      "performer": "Rendered from score (Salamander Grand samples)",
+      "src": "audio/machine/clip-op28n3-m.mp3",
+      "duration": 23.3,
+      "isHuman": false,
+      "tier": "humanized",
+      "difficulty": 3,
+      "hard": true,
+      "source": "Bernd Krueger, Classical Piano MIDI Page (CC BY-SA Germany)",
+      "reveal": "Machine with randomized timing and velocity. The rushing left hand sounds impressively alive, but the right-hand tune never changes how that current flows beneath it. A pianist's hands negotiate with each other at every turn. These two parts remain independent layers.",
+      "piece": "op28n3"
+    },
+    {
       "id": "clip-noc151",
       "title": "Nocturne in F major, Op. 15 No. 1",
       "composer": "Frédéric Chopin",
@@ -314,6 +449,21 @@
       "hard": false,
       "source": "Musopen, The Complete Chopin Collection (CC0)",
       "reveal": "Human. The melody is genuinely sung. Each note grows out of the one before it, connected by weight moving from finger to finger, and machines still don't fake that well. Also notice how the accompaniment gets out of the way when the tune speaks and fills in during the gaps. Both hands belong to the same person, and you can hear them cooperating.",
+      "piece": "noc151"
+    },
+    {
+      "id": "clip-noc151-m",
+      "title": "Nocturne in F major, Op. 15 No. 1",
+      "composer": "Frédéric Chopin",
+      "performer": "Rendered from performance data (Salamander Grand samples)",
+      "src": "audio/machine/clip-noc151-m.mp3",
+      "duration": 26.8,
+      "isHuman": false,
+      "tier": "expressive",
+      "difficulty": 3,
+      "hard": true,
+      "source": "MAESTRO v3 performance MIDI (CC BY-NC-SA 4.0)",
+      "reveal": "Machine rendering. Its source timing came from a captured performance, then this site re-rendered and reshaped it, so it is deliberately difficult. Listen past the rubato to the tone: repeated accompaniment notes have the same clean attack and the programmed phrase arcs peak with suspicious regularity.",
       "piece": "noc151"
     },
     {
@@ -332,6 +482,21 @@
       "piece": "maz242"
     },
     {
+      "id": "clip-maz242-m",
+      "title": "Mazurka in C major, Op. 24 No. 2",
+      "composer": "Frédéric Chopin",
+      "performer": "Rendered from score (Salamander Grand samples)",
+      "src": "audio/machine/clip-maz242-m.mp3",
+      "duration": 25.5,
+      "isHuman": false,
+      "tier": "humanized",
+      "difficulty": 2,
+      "hard": false,
+      "source": "Tirol's MIDI Works score sequence (CC BY-NC-SA 2.1 Japan)",
+      "reveal": "Machine with a lightly loosened clock. The chords vary enough to avoid sounding stamped out, but the dance never develops a stable accent on the second or third beat. Random variation changes the surface; a human dancer changes the shape of the bar.",
+      "piece": "maz242"
+    },
+    {
       "id": "clip-noc271",
       "title": "Nocturne in C-sharp minor, Op. 27 No. 1",
       "composer": "Frédéric Chopin",
@@ -344,6 +509,21 @@
       "hard": true,
       "source": "Musopen, The Complete Chopin Collection (CC0)",
       "reveal": "Human. The low, dark arpeggios could almost be a synth patch, until the melody enters and everything changes around it. The accompaniment flattens itself to make room, and the pedal clears late, letting each harmony bleed into the next like ink in water. A render changes pedal on the barline. This player changes it when the blur gets to be too much.",
+      "piece": "noc271"
+    },
+    {
+      "id": "clip-noc271-m",
+      "title": "Nocturne in C-sharp minor, Op. 27 No. 1",
+      "composer": "Frédéric Chopin",
+      "performer": "Rendered from score (Salamander Grand samples)",
+      "src": "audio/machine/clip-noc271-m.mp3",
+      "duration": 27.9,
+      "isHuman": false,
+      "tier": "expressive",
+      "difficulty": 3,
+      "hard": true,
+      "source": "Bernd Krueger, Classical Piano MIDI Page (CC BY-SA Germany)",
+      "reveal": "Machine. The dark opening breathes and uses simulated pedal, but every arpeggio is assembled with the same spacing and the blur clears at regular boundaries. A pianist adjusts the pedal continuously to what the room and harmony are doing. This atmosphere is convincing but scheduled.",
       "piece": "noc271"
     },
     {
@@ -362,6 +542,21 @@
       "piece": "moonlight3"
     },
     {
+      "id": "clip-moonlight3-m",
+      "title": "Moonlight Sonata, third movement (opening)",
+      "composer": "Ludwig van Beethoven",
+      "performer": "Rendered from score (Salamander Grand samples)",
+      "src": "audio/machine/clip-moonlight3-m.mp3",
+      "duration": 23.2,
+      "isHuman": false,
+      "tier": "humanized",
+      "difficulty": 3,
+      "hard": true,
+      "source": "Bernd Krueger, Classical Piano MIDI Page (CC BY-SA Germany)",
+      "reveal": "Machine. Small deviations keep the arpeggios from being perfectly quantized, but the huge leaps cost no time and every arrival is equally secure. At this speed a real hand leaves evidence of travel—late chords, squeezed notes, a moment of recovery. This performance never risks anything.",
+      "piece": "moonlight3"
+    },
+    {
       "id": "clip-waltz691",
       "title": "Waltz in A-flat major, Op. 69 No. 1 'L'adieu'",
       "composer": "Frédéric Chopin",
@@ -374,6 +569,21 @@
       "hard": false,
       "source": "Musopen (public domain)",
       "reveal": "Human. This is Luke Faulkner, recorded for Musopen. The Farewell waltz bends constantly. The opening line lingers, pushes forward, then thinks better of it. Listen to the phrase endings, where the last note often comes early and just fades. That's a singer's habit, breathing at the end of a sentence. Machines spread their rubato out evenly. This player spends it in a few chosen places.",
+      "piece": "waltz691"
+    },
+    {
+      "id": "clip-waltz691-m",
+      "title": "Waltz in A-flat major, Op. 69 No. 1 'L'adieu'",
+      "composer": "Frédéric Chopin",
+      "performer": "Rendered from score (Salamander Grand samples)",
+      "src": "audio/machine/clip-waltz691-m.mp3",
+      "duration": 26.2,
+      "isHuman": false,
+      "tier": "humanized",
+      "difficulty": 2,
+      "hard": false,
+      "source": "Tirol's MIDI Works score sequence (CC BY-NC-SA 2.1 Japan)",
+      "reveal": "Machine with timing and touch variation. The melody bends a little, but every bass note and accompanying chord remain in the same tidy relationship. A pianist separates the waltz's one-two-three layers—bass, lift, lift—and lets the melody float over them. Here everything travels as one package.",
       "piece": "waltz691"
     },
     {
@@ -435,6 +645,21 @@
       "hard": true,
       "source": "The Open Goldberg Variations (CC0)",
       "reveal": "Human. This is Kimiko Ishizaka, from the Open Goldberg Variations, a recording crowdfunded specifically so it could be given away for free. Ornaments are like handwriting. Every trill here starts at its own speed, tapers unevenly, and lands early or late depending on where the phrase is headed. A machine executes an ornament. A player negotiates with it. The second trill even hesitates before it resolves."
+    },
+    {
+      "id": "clip-aria-m",
+      "piece": "aria",
+      "title": "Goldberg Variations: Aria",
+      "composer": "J. S. Bach",
+      "performer": "Rendered from score (Salamander Grand samples)",
+      "src": "audio/machine/clip-aria-m.mp3",
+      "duration": 27.9,
+      "isHuman": false,
+      "tier": "expressive",
+      "difficulty": 3,
+      "hard": true,
+      "source": "Mutopia Project typesetting (CC BY-SA 4.0)",
+      "reveal": "Machine, despite the shaped phrases and voiced melody. The ornaments are the tell: each one occupies a precise slot and resolves with identical neatness. In Kimiko Ishizaka's human twin, every decoration has a different contour because it responds to the phrase around it. These are instructions being executed."
     },
     {
       "id": "clip-op28n15-m",
@@ -512,6 +737,21 @@
       "reveal": "Machine. Same trick as the first Gymnopedie: programmed rubato, a floating melody, simulated pedal. And the same flaw. It drifts on a schedule. Every four bars it takes the same breath, the same size. A person spacing out at the piano (which is the correct way to play Satie) doesn't space out this consistently."
     },
     {
+      "id": "clip-gym3-h",
+      "piece": "gym3",
+      "title": "Gymnopédie No. 3",
+      "composer": "Erik Satie",
+      "performer": "Kevin MacLeod",
+      "src": "audio/human/clip-gym3-h.mp3",
+      "duration": 33,
+      "isHuman": true,
+      "tier": null,
+      "difficulty": 2,
+      "hard": false,
+      "source": "Wikimedia Commons / Incompetech (CC BY 3.0)",
+      "reveal": "Human. Kevin MacLeod lets the melody hover independently over the steady bass-and-chord pattern. The gaps are not repeated on a four-bar schedule: one phrase waits longer, another moves on early, and the pedal blur is cleared when the harmony needs it. The drift has memory rather than randomness."
+    },
+    {
       "id": "clip-pathetique2",
       "piece": "pathetique2",
       "title": "Pathétique Sonata, second movement (opening)",
@@ -542,6 +782,21 @@
       "reveal": "Machine with jitter. This is a little chorale from Tchaikovsky's Album for the Young, and hymn-style chords are hard for renders because every chord needs its own balance. The randomness adds looseness but no intention. All four voices stay equally loud the whole way through, and no real pianist plays a chorale without favoring the top line."
     },
     {
+      "id": "clip-tchaik-morning-h",
+      "piece": "tchaikmorning",
+      "title": "Album for the Young: Morning Prayer",
+      "composer": "P. I. Tchaikovsky",
+      "performer": "Luis Kolodin",
+      "src": "audio/human/clip-tchaik-morning-h.mp3",
+      "duration": 32,
+      "isHuman": true,
+      "tier": null,
+      "difficulty": 2,
+      "hard": false,
+      "source": "IMSLP, Luis Kolodin performance (CC BY-SA 4.0)",
+      "reveal": "Human. Luis Kolodin balances this little chorale from the top down: the melody sings, inner notes stay soft, and bass notes arrive with enough weight to support without dominating. Chords also open by tiny amounts instead of striking as rigid blocks. Four voices are being guided by one pair of hands."
+    },
+    {
       "id": "clip-tchaik-french",
       "piece": "tchaikfrench",
       "title": "Album for the Young: Old French Song",
@@ -555,6 +810,21 @@
       "hard": false,
       "source": "Mutopia Project typesetting (public domain)",
       "reveal": "Machine. A folk-song melody over a simple accompaniment. The jitter roughs up the surface a bit, but listen to the ends of the phrases. A person telling this little story would let the ends of lines settle, even slightly. These lines all end at full walking speed, like someone reading out loud without punctuation."
+    },
+    {
+      "id": "clip-tchaik-french-h",
+      "piece": "tchaikfrench",
+      "title": "Album for the Young: Old French Song",
+      "composer": "P. I. Tchaikovsky",
+      "performer": "Luis Kolodin",
+      "src": "audio/human/clip-tchaik-french-h.mp3",
+      "duration": 30,
+      "isHuman": true,
+      "tier": null,
+      "difficulty": 2,
+      "hard": false,
+      "source": "IMSLP, Luis Kolodin performance (CC BY-SA 4.0)",
+      "reveal": "Human. The tune is treated like a remembered song: Luis Kolodin leans into its high points, lets the ends of lines settle, and keeps the accompaniment slightly behind the melody. The machine twin adds random looseness, but it never decides which word in the musical sentence matters."
     },
     {
       "id": "clip-etude251-h",
@@ -585,6 +855,21 @@
       "hard": true,
       "source": "Musopen, The Complete Chopin Collection (CC0)",
       "reveal": "Human. The left hand repeats the same rocking pattern for the entire piece, which sounds like machine territory. But it breathes. The rocking widens a little when the right hand gets fancy and settles when things calm down. Meanwhile the right hand's decorations spill out unevenly, like they're being invented on the spot. A lullaby played by a clock wouldn't put anyone to sleep."
+    },
+    {
+      "id": "clip-berceuse-m",
+      "piece": "berceuse",
+      "title": "Berceuse in D-flat major, Op. 57",
+      "composer": "Frédéric Chopin",
+      "performer": "Rendered from performance data (Salamander Grand samples)",
+      "src": "audio/machine/clip-berceuse-m.mp3",
+      "duration": 27.9,
+      "isHuman": false,
+      "tier": "expressive",
+      "difficulty": 3,
+      "hard": true,
+      "source": "MAESTRO v3 performance MIDI (CC BY-NC-SA 4.0)",
+      "reveal": "Machine rendering built from captured performance data, which makes this a hard one. The timing breathes, but the repeated rocking bass keeps exactly the same polished attack while the programmed expression comes in broad, regular waves. Human timing survived the capture; human tone did not."
     },
     {
       "id": "clip-846-h",
@@ -773,7 +1058,7 @@
       "composer": "Frédéric Chopin",
       "performer": "Rendered from score (Salamander Grand samples)",
       "src": "audio/machine/clip-etude109-m.mp3",
-      "duration": 30.0,
+      "duration": 30,
       "isHuman": false,
       "tier": "expressive",
       "difficulty": 3,
@@ -803,7 +1088,7 @@
       "composer": "Frédéric Chopin",
       "performer": "Musopen, The Complete Chopin Collection (CC0)",
       "src": "audio/human/clip-fantimpromptu-h.mp3",
-      "duration": 27.0,
+      "duration": 27,
       "isHuman": true,
       "tier": null,
       "difficulty": 3,
@@ -818,7 +1103,7 @@
       "composer": "Frédéric Chopin",
       "performer": "Musopen, The Complete Chopin Collection (CC0)",
       "src": "audio/human/clip-etude1012-h.mp3",
-      "duration": 26.0,
+      "duration": 26,
       "isHuman": true,
       "tier": null,
       "difficulty": 3,
@@ -833,7 +1118,7 @@
       "composer": "Frédéric Chopin",
       "performer": "Musopen, The Complete Chopin Collection (CC0)",
       "src": "audio/human/clip-etude109-h.mp3",
-      "duration": 26.0,
+      "duration": 26,
       "isHuman": true,
       "tier": null,
       "difficulty": 3,
@@ -848,7 +1133,7 @@
       "composer": "Ludwig van Beethoven",
       "performer": "Musopen (public domain)",
       "src": "audio/human/clip-pathetique3-h.mp3",
-      "duration": 27.0,
+      "duration": 27,
       "isHuman": true,
       "tier": null,
       "difficulty": 3,

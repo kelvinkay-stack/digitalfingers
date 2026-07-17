@@ -132,6 +132,9 @@ function startRound() {
   els.listenHint.textContent = 'Press play, then decide.';
   els.playBtn.disabled = false;
   els.playBtn.classList.add('is-idle');
+  els.screens.round.classList.remove('is-listening', 'is-revealed', 'is-correct', 'is-wrong');
+  els.answerHuman.classList.remove('is-selected', 'is-truth', 'is-wrong');
+  els.answerMachine.classList.remove('is-selected', 'is-truth', 'is-wrong');
   setAnswersEnabled(false);
   els.reveal.classList.remove('is-shown');
   els.reveal.setAttribute('hidden', '');
@@ -151,6 +154,7 @@ function startRound() {
 
 function onPlayerState(ev) {
   if (ev === 'play') {
+    els.screens.round.classList.add('is-listening');
     els.playBtn.classList.remove('is-idle');
     els.playBtn.disabled = true;
     wave.startTicking();
@@ -162,6 +166,7 @@ function onPlayerState(ev) {
     }
     renderReplays();
   } else if (ev === 'ended') {
+    els.screens.round.classList.remove('is-listening');
     const replaysLeft = MAX_REPLAYS - state.replaysUsed;
     if (state.answered) {
       els.playBtn.disabled = false;
@@ -173,6 +178,7 @@ function onPlayerState(ev) {
       els.listenHint.textContent = 'No replays left. Trust your ear.';
     }
   } else if (ev === 'error') {
+    els.screens.round.classList.remove('is-listening');
     skipBrokenClip();
   }
 }
@@ -192,6 +198,14 @@ function answer(guessedHuman) {
   const correct = guessedHuman === clip.isHuman;
   if (correct) state.score += 1;
   state.rounds.push({ id: clip.id, correct, guessedHuman });
+
+  els.screens.round.classList.remove('is-listening');
+  els.screens.round.classList.add('is-revealed', correct ? 'is-correct' : 'is-wrong');
+  const chosenButton = guessedHuman ? els.answerHuman : els.answerMachine;
+  const truthButton = clip.isHuman ? els.answerHuman : els.answerMachine;
+  chosenButton.classList.add('is-selected');
+  truthButton.classList.add('is-truth');
+  if (!correct) chosenButton.classList.add('is-wrong');
 
   setAnswersEnabled(false);
   els.scoreLabel.textContent = `${state.score}/${state.rounds.length}`;

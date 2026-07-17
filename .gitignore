@@ -13,5 +13,9 @@ audio/**/*.wav
 # Local Netlify folder
 .netlify
 
+# Local browser-test artifacts
+.playwright-cli/
+output/
+
 # Function dependencies (installed at deploy time from netlify/functions/package.json)
 netlify/functions/node_modules
