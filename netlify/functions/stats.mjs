@@ -1,4 +1,4 @@
-/* stats.mjs — anonymous crowd counters for the training experiment.
+/* stats.mjs - anonymous crowd counters for the training experiment.
  *
  * Stores exactly six numbers (sessions / correct answers / total answers,
  * for "trained" and "untrained"). No identifiers, no timestamps, no IPs.

@@ -1,4 +1,4 @@
-/* main.js — game page controller: screens, rounds, reveal, results. */
+/* main.js - game page controller: screens, rounds, reveal, results. */
 
 import { ArcPlayer, preload } from './player.js';
 import { Waveform } from './waveform.js';
@@ -167,7 +167,7 @@ function onPlayerState(ev) {
       els.listenHint.textContent = replaysLeft === 1 ? 'One replay left.' : `${replaysLeft} replays left.`;
     } else {
       els.playBtn.disabled = true;
-      els.listenHint.textContent = 'No replays left — trust your ear.';
+      els.listenHint.textContent = 'No replays left. Trust your ear.';
     }
   } else if (ev === 'error') {
     skipBrokenClip();
@@ -175,7 +175,7 @@ function onPlayerState(ev) {
 }
 
 function skipBrokenClip() {
-  toast('That clip failed to load — skipping it.');
+  toast('That clip failed to load. Skipping it.');
   session.splice(state.index, 1);
   if (state.index < session.length) startRound();
   else if (state.rounds.length) finishSession();
@@ -238,10 +238,10 @@ function finishSession() {
     const li = document.createElement('li');
     li.innerHTML =
       `<span class="mark ${r.correct ? 'right' : 'wrong'}" aria-hidden="true">${r.correct ? '✓' : '✕'}</span>` +
-      `<span class="piece"><b>${escapeHtml(c.title)}</b> — ${escapeHtml(c.composer)}</span>` +
+      `<span class="piece"><b>${escapeHtml(c.title)}</b> · ${escapeHtml(c.composer)}</span>` +
       `<span class="was">${c.isHuman ? 'human' : 'machine'}</span>`;
     li.setAttribute('aria-label',
-      `${c.title} by ${c.composer}: ${c.isHuman ? 'human' : 'machine'} — you were ${r.correct ? 'right' : 'wrong'}.`);
+      `${c.title} by ${c.composer}: ${c.isHuman ? 'human' : 'machine'}. You were ${r.correct ? 'right' : 'wrong'}.`);
     els.review.appendChild(li);
   }
 
@@ -256,7 +256,7 @@ function finishSession() {
 
   const worst = hardestClip(byId);
   els.hardestLine.textContent = worst
-    ? `Your blind spot: ${worst.clip.title} — it has fooled you ${worst.wrong} of ${worst.seen} times.`
+    ? `Your blind spot: ${worst.clip.title}. It has fooled you ${worst.wrong} of ${worst.seen} times.`
     : '';
 
   show('results');
@@ -307,7 +307,7 @@ function renderCrowd(agg) {
     row.innerHTML =
       `<span class="crowd-label">${r.label}${r.mine ? ' <em>(you)</em>' : ''}</span>` +
       `<span class="crowd-bar"><i style="width:${r.g.total ? pct : 0}%"></i></span>` +
-      `<span class="crowd-pct">${r.g.total ? pct + '%' : '—'}</span>`;
+      `<span class="crowd-pct">${r.g.total ? pct + '%' : '–'}</span>`;
     els.crowdChart.appendChild(row);
   }
   const n = (agg.trained.sessions || 0) + (agg.untrained.sessions || 0);

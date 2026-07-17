@@ -1,4 +1,4 @@
-/* waveform.js — the rolling waveform on the listening stage.
+/* waveform.js - the rolling waveform on the listening stage.
  *
  * Peaks are computed client-side from the same MP3 the player streams
  * (fetch → decodeAudioData → bucketed |peak|), so human and machine clips
@@ -78,7 +78,7 @@ export class Waveform {
       const data = await computePeaks(src);
       // a later load() may have superseded this one
       if (this._boundAudio === audio) { this.data = data; this.draw(); }
-    } catch { /* no waveform — the game plays fine without it */ }
+    } catch { /* no waveform - the game plays fine without it */ }
   }
 
   _detach() {

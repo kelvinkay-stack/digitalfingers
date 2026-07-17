@@ -1,4 +1,4 @@
-/* learn.js — A/B demo widgets on the Learn page.
+/* learn.js - A/B demo widgets on the Learn page.
    One shared audio element; pressing a demo button swaps the source, so
    comparisons stay honest (same output path, no overlapping audio). */
 

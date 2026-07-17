@@ -1,4 +1,4 @@
-/* game.js — session drawing and verdicts. Pure logic, no DOM. */
+/* game.js - session drawing and verdicts. Pure logic, no DOM. */
 
 export const STANDARD_ROUNDS = 10;  // drawn from a 25-clip pool
 export const MAX_REPLAYS = 2;       // replays after the first listen
@@ -17,7 +17,7 @@ function shuffle(list) {
  * Draw a session from the pool.
  *
  * Some pieces exist in BOTH a human and a machine version (same excerpt,
- * different hands) — so a session first groups clips by `piece`, then picks
+ * different hands) - so a session first groups clips by `piece`, then picks
  * ONE version of each piece at random. A piece never appears twice in a
  * session, and on replay the same piece may switch sides: recognizing the
  * tune tells you nothing.
@@ -51,7 +51,7 @@ export function verdictFor(score, total) {
   const pct = total ? score / total : 0;
   if (pct === 1) return {
     title: 'Golden Ears',
-    line: `${score} out of ${total}. Nothing got past you — not even the renders that were built to fool people.`,
+    line: `${score} out of ${total}. Nothing got past you, not even the renders that were built to fool people.`,
   };
   if (pct >= 0.8) return {
     title: 'The Skeptic',
@@ -63,7 +63,7 @@ export function verdictFor(score, total) {
   };
   if (pct >= 0.4) return {
     title: 'About Even With the Coin Flip',
-    line: `${score} of ${total}. You did roughly as well as guessing. That's not an insult — it's kind of the whole point of this experiment.`,
+    line: `${score} of ${total}. You did roughly as well as guessing. That's not an insult. It's kind of the whole point of this experiment.`,
   };
   return {
     title: 'Thoroughly Fooled',

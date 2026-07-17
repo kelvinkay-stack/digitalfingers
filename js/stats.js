@@ -1,4 +1,4 @@
-/* stats.js — persistent listener stats. localStorage only; no backend, no cookies. */
+/* stats.js - persistent listener stats. localStorage only; no backend, no cookies. */
 
 const KEY = 'digitalfingers.v1';
 
@@ -9,7 +9,7 @@ function read() {
       const data = JSON.parse(raw);
       if (Array.isArray(data.sessions)) return data;
     }
-  } catch { /* private mode or corrupt state — start fresh */ }
+  } catch { /* private mode or corrupt state - start fresh */ }
   return { sessions: [] };
 }
 

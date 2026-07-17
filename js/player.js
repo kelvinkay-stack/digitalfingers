@@ -1,4 +1,4 @@
-/* player.js — circular-arc audio player used by the game and the Learn demos. */
+/* player.js - circular-arc audio player used by the game and the Learn demos. */
 
 const CIRCUMFERENCE = 2 * Math.PI * 46; // matches r=46 in the SVG ring
 

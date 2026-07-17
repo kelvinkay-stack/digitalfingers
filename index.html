@@ -3,22 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Digital Fingers — Can You Hear the Human?</title>
-  <meta name="description" content="A blind listening test. Short piano performances — some played by human hands, some rendered by a machine from the score. Can your ear tell which is which?">
+  <title>Digital Fingers | Can You Hear the Human?</title>
+  <meta name="description" content="A blind listening test. Can you tell the difference between a human and a computer playing piano?">
   <link rel="canonical" href="https://digital-fingers.netlify.app/">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Digital Fingers">
-  <meta property="og:title" content="Digital Fingers — Can You Hear the Human?">
-  <meta property="og:description" content="A blind listening test: human pianist or machine rendering? Ten rounds. Trust your ear.">
+  <meta property="og:title" content="Digital Fingers | Can You Hear the Human?">
+  <meta property="og:description" content="Ten rounds of piano. Human or computer? Trust your ear.">
   <meta property="og:url" content="https://digital-fingers.netlify.app/">
   <meta property="og:image" content="https://digital-fingers.netlify.app/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Digital Fingers — Can You Hear the Human?">
-  <meta name="twitter:description" content="A blind listening test: human pianist or machine rendering? Ten rounds. Trust your ear.">
+  <meta name="twitter:title" content="Digital Fingers | Can You Hear the Human?">
+  <meta name="twitter:description" content="Ten rounds of piano. Human or computer? Trust your ear.">
   <meta name="twitter:image" content="https://digital-fingers.netlify.app/assets/og-image.png">
 
   <link rel="preload" href="/fonts/cormorant-garamond-normal-600-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -37,7 +37,7 @@
       },
       {
         "@type": "Game",
-        "name": "Digital Fingers — Can You Hear the Human?",
+        "name": "Digital Fingers | Can You Hear the Human?",
         "url": "https://digital-fingers.netlify.app/",
         "description": "An interactive listening game. Hear short piano excerpts and decide whether each was played by a human pianist or rendered by a computer from the score.",
         "genre": "music listening test",
@@ -65,16 +65,16 @@
       <div class="hero">
         <span class="kicker">A blind listening test</span>
         <h1>Digital Fingers</h1>
-        <p class="premise">Some of these piano performances are human. Some are <em>machines reading the score</em>. Half a minute each — can your ear tell the difference?</p>
+        <p class="premise">Can you tell the difference between a <em>human</em> and a <em>computer</em> playing piano?</p>
         <div class="begin-row">
           <button id="begin-btn" class="btn-primary">Begin listening</button>
           <label class="hardmode">
             <input type="checkbox" id="hardmode">
             <span class="track" aria-hidden="true"></span>
-            Hard mode — only the ambiguous ones
+            Hard mode: only the tricky ones
           </label>
           <div class="training-q" role="group" aria-labelledby="training-label">
-            <p id="training-label">One question for the running experiment — do you have musical training?</p>
+            <p id="training-label">Quick question for our experiment: do you have musical training?</p>
             <div class="training-buttons">
               <button id="trained-yes" class="chip">Yes, I play or studied music</button>
               <button id="trained-no" class="chip">No formal training</button>
@@ -92,8 +92,8 @@
         </g>
       </svg>
       <div class="prose" style="text-align:center">
-        <p class="fine">No sign-up, no tracking — your score lives in your browser.<br>
-        Some pieces exist in both a human and a machine version — recognizing the tune won't save you.<br>
+        <p class="fine">No sign-up and no tracking. Your score stays in your browser.<br>
+        Many pieces are in the game as both a human and a computer version, so recognizing the tune won't save you.<br>
         New to this? <a href="/learn.html">Learn how to hear a human first.</a></p>
       </div>
     </section>
@@ -129,9 +129,9 @@
 
       <div id="reveal" class="reveal" hidden>
         <p id="verdict-mark" class="verdict-mark">Correct</p>
-        <h2 id="reveal-title">—</h2>
-        <p id="reveal-truth" class="truth">—</p>
-        <p id="reveal-explain" class="explain">—</p>
+        <h2 id="reveal-title">…</h2>
+        <p id="reveal-truth" class="truth">…</p>
+        <p id="reveal-explain" class="explain">…</p>
         <div class="reveal-actions">
           <button id="next-btn" class="btn-primary">Next round</button>
           <span class="key-hint">or press Enter</span>
@@ -143,8 +143,8 @@
     <section id="screen-results" class="screen" aria-label="Results">
       <div class="results">
         <p id="final-score" class="final-score">0<span>/8</span></p>
-        <h2 id="verdict-title" class="verdict-title">—</h2>
-        <p id="verdict-line" class="verdict-line">—</p>
+        <h2 id="verdict-title" class="verdict-title">…</h2>
+        <p id="verdict-line" class="verdict-line">…</p>
 
         <ul id="review" class="review" aria-label="Round by round review"></ul>
 
@@ -173,8 +173,8 @@
   </main>
 
   <footer class="site-footer">
-    <p>All music is public domain or Creative Commons — <a href="/about.html">credits &amp; sources</a>.</p>
-    <p>A <a href="https://kelvinkay.com">kelvinkay.com</a> project.</p>
+    <p>All music is public domain or Creative Commons. <a href="/about.html">Credits and sources</a>.</p>
+    <p>Designed by Laura Kay.</p>
   </footer>
 
   <script type="module" src="/js/main.js"></script>
