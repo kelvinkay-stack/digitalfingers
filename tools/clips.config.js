@@ -98,6 +98,37 @@ module.exports = [
     fadeOut: 2.6,
   },
 
+  {
+    id: 'clip-op28n15-m', midi: 'chopin-28-15.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 32], bpm: 72, phraseBeats: 16, pedalBeats: 2,
+    fadeOut: 2.6,
+  },
+  {
+    id: 'clip-op28n20-m', midi: 'chopin-28-20.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 24], bpm: 50, phraseBeats: 16, pedalBeats: 1,
+    fadeOut: 2.6,
+  },
+  {
+    id: 'clip-gym3', midi: 'gymnopedie3.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 39], bpm: 80, phraseBeats: 12, pedalBeats: 3,
+    fadeOut: 2.6,
+  },
+  {
+    id: 'clip-pathetique2', midi: 'pathetique2.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 25], bpm: 56, phraseBeats: 16, pedalBeats: 2,
+    fadeOut: 2.6,
+  },
+  {
+    id: 'clip-tchaik-morning', midi: 'tchaik-morning.mid', outDir: 'audio/machine',
+    tier: 'humanized', beats: [0, 36], bpm: 76, phraseBeats: 12, pedalBeats: 3,
+    fadeOut: 2.2,
+  },
+  {
+    id: 'clip-tchaik-french', midi: 'tchaik-french.mid', outDir: 'audio/machine',
+    tier: 'humanized', beats: [0, 32], bpm: 72, phraseBeats: 8, pedalBeats: 2,
+    fadeOut: 2.2,
+  },
+
   /* ---------------- Learn page: A/B demos ---------------- */
   /* Same eight-bar Gymnopédie phrase every time; one dimension per demo. */
   {

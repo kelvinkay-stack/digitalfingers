@@ -31,15 +31,21 @@ _headers              Cloudflare Pages cache/security headers
 
 ## The game
 
-- A session is 10 rounds (`STANDARD_ROUNDS` in `js/game.js`), drawn from a 29-clip
-  pool (16 machine renders, 13 human recordings) covering 26 pieces across ten
+- A session is 10 rounds (`STANDARD_ROUNDS` in `js/game.js`), drawn from a 39-clip
+  pool (22 machine renders, 17 human recordings) covering 34 pieces across ten
   composers (Bach, Petzold, Mozart, Beethoven, Chopin, Schumann, Brahms, Satie,
-  Scriabin, Debussy).
+  Scriabin, Debussy, Tchaikovsky).
 - **Twins:** clips carry a `piece` key, and some pieces exist as BOTH a human
   recording and a machine render (currently Chopin Preludes Op. 28 Nos. 4/6/7).
   The draw groups by piece, plays each piece at most once per session, and picks
-  the version at random — so on replay a familiar tune can switch sides. To twin
-  another piece, give both clips the same `piece` value.
+  the version at random — so on replay a familiar tune can switch sides. Twinned
+  so far: Chopin Preludes Op. 28 Nos. 4, 6, 7, 15, and 20. To twin another
+  piece, give both clips the same `piece` value.
+- **The training experiment:** the intro asks whether the player has musical
+  training (stored locally). Finished sessions from players who answered are
+  POSTed anonymously to `/api/stats` (a Netlify Function backed by Netlify
+  Blobs — see `netlify/functions/stats.mjs`), which keeps six counters total.
+  The results screen charts average accuracy for trained vs. untrained ears.
 - Max 2 replays per clip before answering; free relistening after the reveal.
 - **Hard mode** restricts the draw to clips flagged `"hard": true` — expressive-tier
   renders and unusually precise human playing.

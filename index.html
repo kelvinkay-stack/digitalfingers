@@ -66,9 +66,6 @@
         <span class="kicker">A blind listening test</span>
         <h1>Digital Fingers</h1>
         <p class="premise">Some of these piano performances are human. Some are <em>machines reading the score</em>. Half a minute each — can your ear tell the difference?</p>
-        <div class="hero-wave" aria-hidden="true">
-          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-        </div>
         <div class="begin-row">
           <button id="begin-btn" class="btn-primary">Begin listening</button>
           <label class="hardmode">
@@ -76,6 +73,13 @@
             <span class="track" aria-hidden="true"></span>
             Hard mode — only the ambiguous ones
           </label>
+          <div class="training-q" role="group" aria-labelledby="training-label">
+            <p id="training-label">One question for the running experiment — do you have musical training?</p>
+            <div class="training-buttons">
+              <button id="trained-yes" class="chip">Yes, I play or studied music</button>
+              <button id="trained-no" class="chip">No formal training</button>
+            </div>
+          </div>
         </div>
         <p id="lifetime-line" class="lifetime-line"></p>
       </div>
@@ -150,6 +154,12 @@
           <p id="spark-caption" class="spark-caption"></p>
         </div>
         <p id="hardest-line" class="spark-caption"></p>
+
+        <div id="crowd-block" class="crowd-block" hidden>
+          <h3>Does musical training help?</h3>
+          <div id="crowd-chart" class="crowd-chart" role="img" aria-label="Average accuracy of players with and without musical training"></div>
+          <p id="crowd-caption" class="spark-caption"></p>
+        </div>
 
         <div class="results-actions">
           <button id="again-btn" class="btn-primary">Play again</button>

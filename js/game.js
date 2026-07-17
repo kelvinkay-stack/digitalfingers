@@ -51,22 +51,22 @@ export function verdictFor(score, total) {
   const pct = total ? score / total : 0;
   if (pct === 1) return {
     title: 'Golden Ears',
-    line: `${score} out of ${total}. Not one digital finger slipped past you — not even the renders built to deceive.`,
+    line: `${score} out of ${total}. Nothing got past you — not even the renders that were built to fool people.`,
   };
   if (pct >= 0.8) return {
     title: 'The Skeptic',
-    line: `${score} of ${total}. You hear the seams — the too-even chords, the breathing that repeats itself. A machine has to earn your belief.`,
+    line: `${score} of ${total}. You caught the too-even chords and the breathing that repeats itself. A machine has to work hard to fool you.`,
   };
   if (pct >= 0.6) return {
-    title: 'A Fine Ear, Occasionally Haunted',
+    title: 'A Good Ear, Mostly',
     line: `${score} of ${total}. You caught most of them, but a few machines walked right past you wearing human clothes.`,
   };
   if (pct >= 0.4) return {
-    title: 'In the Uncanny Valley',
-    line: `${score} of ${total}. The machines fooled you about as often as chance would. That's not an insult — it's the point of the experiment.`,
+    title: 'About Even With the Coin Flip',
+    line: `${score} of ${total}. You did roughly as well as guessing. That's not an insult — it's kind of the whole point of this experiment.`,
   };
   return {
-    title: 'Thoroughly Haunted',
-    line: `${score} of ${total}. The renders convinced you and the humans sounded suspicious. Spend a few minutes with the tells and play again.`,
+    title: 'Thoroughly Fooled',
+    line: `${score} of ${total}. The machines convinced you and the humans sounded suspicious. Spend a few minutes on the Learn page and try again.`,
   };
 }

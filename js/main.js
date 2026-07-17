@@ -42,7 +42,14 @@ const els = {
   againBtn: $('#again-btn'),
   againHardBtn: $('#again-hard-btn'),
   hardestLine: $('#hardest-line'),
+  trainedYes: $('#trained-yes'),
+  trainedNo: $('#trained-no'),
+  crowdBlock: $('#crowd-block'),
+  crowdChart: $('#crowd-chart'),
+  crowdCaption: $('#crowd-caption'),
 };
+
+const TRAINED_KEY = 'digitalfingers.trained';
 
 let manifest = null;
 let session = null;
@@ -216,6 +223,7 @@ function nextRound() {
 
 function finishSession() {
   recordSession({ score: state.score, total: state.rounds.length, hard: state.hard, rounds: state.rounds });
+  submitAndRenderCrowd(state.score, state.rounds.length);
   const { title, line } = verdictFor(state.score, state.rounds.length);
 
   els.finalScore.innerHTML = `${state.score}<span>/${state.rounds.length}</span>`;
@@ -248,12 +256,65 @@ function finishSession() {
 
   const worst = hardestClip(byId);
   els.hardestLine.textContent = worst
-    ? `The clip that haunts you: ${worst.clip.title} — it has fooled you ${worst.wrong} of ${worst.seen} times.`
+    ? `Your blind spot: ${worst.clip.title} — it has fooled you ${worst.wrong} of ${worst.seen} times.`
     : '';
 
   show('results');
   announce(`Session over. You scored ${state.score} out of ${state.rounds.length}. ${title}.`);
   els.againBtn.focus({ preventScroll: true });
+}
+
+/* ---------- crowd stats (anonymous, two counters) ---------- */
+
+function getTrained() {
+  const v = localStorage.getItem(TRAINED_KEY);
+  return v === 'yes' || v === 'no' ? v : null;
+}
+
+function reflectTrainingButtons() {
+  const v = getTrained();
+  els.trainedYes.classList.toggle('is-selected', v === 'yes');
+  els.trainedNo.classList.toggle('is-selected', v === 'no');
+  els.trainedYes.setAttribute('aria-pressed', v === 'yes');
+  els.trainedNo.setAttribute('aria-pressed', v === 'no');
+}
+
+function submitAndRenderCrowd(score, total) {
+  const trained = getTrained();
+  const req = trained
+    ? fetch('/api/stats', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ trained: trained === 'yes', score, total }),
+      })
+    : fetch('/api/stats');
+  req.then(r => { if (!r.ok) throw new Error(); return r.json(); })
+    .then(renderCrowd)
+    .catch(() => { els.crowdBlock.hidden = true; });
+}
+
+function renderCrowd(agg) {
+  const rows = [
+    { label: 'Musical training', g: agg.trained, mine: getTrained() === 'yes' },
+    { label: 'No training', g: agg.untrained, mine: getTrained() === 'no' },
+  ];
+  if (!rows.some(r => r.g && r.g.total > 0)) { els.crowdBlock.hidden = true; return; }
+  els.crowdChart.innerHTML = '';
+  for (const r of rows) {
+    const pct = r.g.total ? Math.round(100 * r.g.right / r.g.total) : 0;
+    const row = document.createElement('div');
+    row.className = 'crowd-row';
+    row.innerHTML =
+      `<span class="crowd-label">${r.label}${r.mine ? ' <em>(you)</em>' : ''}</span>` +
+      `<span class="crowd-bar"><i style="width:${r.g.total ? pct : 0}%"></i></span>` +
+      `<span class="crowd-pct">${r.g.total ? pct + '%' : '—'}</span>`;
+    els.crowdChart.appendChild(row);
+  }
+  const n = (agg.trained.sessions || 0) + (agg.untrained.sessions || 0);
+  els.crowdCaption.textContent =
+    `Average accuracy across ${n} session${n === 1 ? '' : 's'} recorded on this site so far. ` +
+    (getTrained() ? 'Your sessions count toward your group.' : 'Answer the training question on the start screen to be counted.');
+  els.crowdBlock.hidden = false;
 }
 
 /* ---------- tiny formatters ---------- */
@@ -275,6 +336,18 @@ function wireIntro() {
       `Your ear so far: ${lt.pct}% over ${lt.games} session${lt.games === 1 ? '' : 's'}.`;
   }
   els.begin.addEventListener('click', () => startSession(els.hardMode.checked));
+
+  reflectTrainingButtons();
+  const setTrained = (v) => {
+    const current = getTrained();
+    try {
+      if (current === v) localStorage.removeItem(TRAINED_KEY);
+      else localStorage.setItem(TRAINED_KEY, v);
+    } catch { /* private mode */ }
+    reflectTrainingButtons();
+  };
+  els.trainedYes.addEventListener('click', () => setTrained('yes'));
+  els.trainedNo.addEventListener('click', () => setTrained('no'));
 }
 
 function wireRound() {

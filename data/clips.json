@@ -13,7 +13,7 @@
       "difficulty": 1,
       "hard": false,
       "source": "Mutopia Project typesetting (public domain)",
-      "reveal": "A machine, and a candid one. Every sixteenth note here is identical in length and identical in weight — and no human hand distributes force that evenly across five fingers. Listen again and notice what's missing: the almost imperceptible lean into each new harmony that a player makes without thinking. The notes arrive; nothing ever arrives *at* anything.",
+      "reveal": "This one's a machine, and not even trying to hide it. Every note is exactly the same length and exactly the same volume. A real person always leans into some notes more than others without even thinking about it. Once you notice how even it is, it starts to sound like a music box instead of a person.",
       "piece": "846"
     },
     {
@@ -28,7 +28,7 @@
       "difficulty": 1,
       "hard": false,
       "source": "Mutopia Project typesetting (public domain)",
-      "reveal": "Machine — a dance without a dancer. A minuet lives on lift: a slight lightness on beats two and three, a small breath before each new strain. This render gives every beat the same footfall, and the phrase endings never exhale. The melody is all there; the choreography isn't.",
+      "reveal": "Machine. A minuet is a dance, and a real player gives it a little bounce — lighter on beats two and three, a tiny pause at the end of each section, like taking a breath. This version hits every beat with exactly the same weight, so it sounds like someone typing the piece instead of dancing it.",
       "piece": "anh114"
     },
     {
@@ -43,7 +43,7 @@
       "difficulty": 2,
       "hard": false,
       "source": "Mutopia Project typesetting (public domain)",
-      "reveal": "Machine, wearing a light disguise: small random errors in timing and touch were added to every note. Here's why randomness fails — human unevenness has *direction*. A player rushes toward the middle of a phrase and settles at its end; their loud notes come slightly early, their tender ones slightly late. This wobble drifts nowhere. Jitter isn't intention.",
+      "reveal": "Machine, but a sneakier one. Small random errors were added to the timing and volume so it wouldn't sound perfect. The catch: real human errors aren't random. A person speeds up going into a phrase and settles coming out of it, so their timing drifts in a direction. This one just wobbles in place.",
       "piece": "woo59"
     },
     {
@@ -58,7 +58,7 @@
       "difficulty": 2,
       "hard": true,
       "source": "Mutopia Project typesetting (public domain)",
-      "reveal": "Machine. The give-away is in the chords: their notes land almost exactly together, every time. Pianists nearly never do this — they roll wide chords slightly, let the bass speak a hair early, tuck the melody note a whisper behind so it blooms above the rest. Sixteen bars of politely simultaneous chords is a fingerprint of software, not hands.",
+      "reveal": "Machine. Listen to the chords — all the notes in each chord land at exactly the same instant, every single time. Real pianists almost never do that. They roll big chords a little, let the bass come in early, and let the melody note land last so it sticks out on top. Sixteen bars of perfectly synchronized chords is a computer's handwriting.",
       "piece": "op28n7"
     },
     {
@@ -73,7 +73,7 @@
       "difficulty": 3,
       "hard": true,
       "source": "Mutopia Project typesetting (public domain)",
-      "reveal": "Machine — the expressive kind. This render breathes: programmed rubato, a dynamic arc over each phrase, a voiced melody, even simulated pedal. What betrays it is regularity of feeling. It breathes at the same depth every four bars, like a metronome that learned yoga. A human playing Satie hesitates unevenly — one bar floats, the next one doesn't, and you can't predict which.",
+      "reveal": "Machine — the kind built to fool you. It speeds up and slows down, the melody is louder than the background, there's even simulated pedal. But it breathes the exact same way every four bars, right on schedule. A real person playing Satie drifts unpredictably — some bars float, some don't. This one is too regular about being irregular.",
       "piece": "gym1"
     },
     {
@@ -88,7 +88,7 @@
       "difficulty": 3,
       "hard": true,
       "source": "Mutopia Project typesetting (public domain)",
-      "reveal": "Machine, doing its best impression of grief. The swells are real, the melody sings above the pulsing chords, the tempo bends — but every swell crests exactly mid-phrase and subsides on schedule. Real sorrow is less symmetrical. Listen to the repeated left-hand chords: their evenness of touch never falters, even as the 'emotion' around them rises. A human's accompaniment trembles with the melody; this one just accompanies.",
+      "reveal": "Machine, playing sad. The swells and slowdowns are programmed in, and honestly they're decent. But every swell peaks in exactly the middle of the phrase and dies down right on cue. Also listen to the repeating left-hand chords: they never waver, even while the melody is supposedly falling apart. A real player's two hands react to each other. These don't.",
       "piece": "op28n4"
     },
     {
@@ -103,7 +103,7 @@
       "difficulty": 3,
       "hard": true,
       "source": "Mutopia Project typesetting (public domain)",
-      "reveal": "Machine. These rolling arpeggios were shaped with care — rising and falling dynamics, a little push and pull. The tell is the sameness of attack: every note has the same *kind* of beginning, as if played by one perfectly rested finger. A pianist's touch varies constantly — thumb notes speak differently from fifth-finger notes, and in slow arpeggios you can usually hear the hand travel. Here nothing travels. The music moves; the body doesn't.",
+      "reveal": "Machine. The rolling arpeggios rise and fall nicely, but every note starts the exact same way, like they were all played by the same finger at the same angle. On a slow arpeggio you can usually hear a real hand moving across the keys — tiny hesitations when it has to travel. Here, nothing ever has to travel anywhere.",
       "piece": "kv397"
     },
     {
@@ -118,7 +118,7 @@
       "difficulty": 2,
       "hard": false,
       "source": "Musopen — The Complete Chopin Collection (CC0)",
-      "reveal": "Human. The evidence is everywhere, but the ornaments give it away most: decoration is where players are most themselves, and these little turns tumble out unevenly, faster at the top, relaxing into the resolution. Notice too how the left hand lays the bass down a breath before the melody answers — that tiny asynchrony is a pianist's signature, not an error.",
+      "reveal": "Human. The little ornaments give it away — those fast decorative turns come out uneven, quicker at the top and relaxing at the bottom, which is just how hands work. Also notice the left hand putting the bass down slightly before the melody answers. That tiny mismatch between the hands is something players do naturally and machines usually don't.",
       "piece": "noc92"
     },
     {
@@ -133,7 +133,7 @@
       "difficulty": 1,
       "hard": false,
       "source": "Musopen — The Complete Chopin Collection (CC0)",
-      "reveal": "Human — and almost impossible to fake. A mazurka's rubato doesn't just slow down and speed up; it changes the *shape* of the bar, leaning on the second beat, clipping the third. Listen to how the player hesitates at each harmonic turn, as if deciding something. Software can be taught to bend time, but it bends it evenly. This bends like a body dancing.",
+      "reveal": "Human, and honestly one of the easier ones. A mazurka doesn't just speed up and slow down — the whole shape of each bar bends, with a lean on the second beat. You can hear the player hesitate at the turns, like they're deciding something in the moment. Software can bend time, but it bends it evenly. This bends like someone dancing.",
       "piece": "maz174"
     },
     {
@@ -148,7 +148,7 @@
       "difficulty": 3,
       "hard": true,
       "source": "Musopen — The Complete Chopin Collection (CC0)",
-      "reveal": "Human — the kind that fools people. Fast, urgent, almost machine-even. But listen to what the crescendos do: as this player gets louder they also press *forward*, and as the wave recedes the tempo relaxes with it. Loudness and speed moving together is a correlated, bodily error — excitement, in other words. Random jitter can imitate imprecision; it can't imitate wanting.",
+      "reveal": "Human — the kind that fools people. It's fast and almost machine-even. But listen to what happens when it gets louder: it also speeds up, and when it gets quieter it relaxes. Volume and speed moving together is a body thing — it's what excitement sounds like. Random computer jitter can fake sloppiness, but it can't fake wanting to get somewhere.",
       "piece": "op28n1"
     },
     {
@@ -163,7 +163,7 @@
       "difficulty": 3,
       "hard": true,
       "source": "Musopen — The Complete Chopin Collection (CC0)",
-      "reveal": "Human. The melody is in the left hand here — the cello line under the right hand's tolling — and you can hear the player weight it unevenly, letting some notes swell and others recede, the way a string player's bow does. There's also the haze: real pedal in a real room, dampers half-lifted, harmonics accumulating and getting cleared a moment *after* the harmony changes. Renderers change pedal on the barline; humans change it when their ear tells them to.",
+      "reveal": "Human. The melody is in the left hand here, low like a cello, and the player weights it unevenly — some notes swell, some back off. There's also real pedal in a real room: the harmonies blur into each other and get cleared a beat late, when the blur gets too thick. Software changes the pedal exactly on the barline. People change it when their ear says so.",
       "piece": "op28n6"
     },
     {
@@ -178,7 +178,7 @@
       "difficulty": 1,
       "hard": false,
       "source": "Mutopia Project typesetting (public domain)",
-      "reveal": "Machine — the minor-key companion of the famous G major minuet, executed with perfect indifference. The tell is the sameness of every downbeat: a dance teacher would wince. Real dance music breathes in two-bar pairs — step and answer. Here every bar is the same size, the same weight, the same shoe.",
+      "reveal": "Machine. It's the minor-key cousin of the famous Minuet in G, played with zero opinion. Real dance music moves in two-bar pairs — a step and an answer. Here every bar has the same weight and the same footfall. Nothing lifts, nothing lands.",
       "piece": "anh115"
     },
     {
@@ -193,7 +193,7 @@
       "difficulty": 2,
       "hard": false,
       "source": "Mutopia Project typesetting (public domain)",
-      "reveal": "Machine, lightly disguised with random timing and touch errors. Schumann marked this music like a memory — it should sound as if it's being recalled, not recited. The jitter here adds fuzz but no *remembering*: the inner triplets never lean toward the melody they carry, and the pauses between phrases are all the same length. Nostalgia isn't noise.",
+      "reveal": "Machine with random errors sprinkled on top. This piece is supposed to sound like remembering something — Schumann wrote it about faraway lands. The added fuzz makes it less robotic, but the pauses between phrases are all identical and the inner notes never lean toward the melody. Noise isn't the same thing as nostalgia.",
       "piece": "kinderszenen1"
     },
     {
@@ -208,7 +208,7 @@
       "difficulty": 2,
       "hard": false,
       "source": "Mutopia Project typesetting (public domain)",
-      "reveal": "Machine. A waltz is the easiest place to hear it: the lilt. Human waltz playing stretches the first beat and lightens the other two — an inherited, bodily thing no one writes down. This render's beats are subtly randomized but *equal citizens*, and after a few bars your ear notices that nobody is dancing.",
+      "reveal": "Machine. Waltzes are where machines get caught, because of the lilt — real players stretch the first beat and lighten the other two. It's a body habit nobody writes down. This version's three beats are all equal citizens, and after a couple of bars your ear notices that nobody's dancing.",
       "piece": "brahms3915"
     },
     {
@@ -223,7 +223,7 @@
       "difficulty": 3,
       "hard": true,
       "source": "Mutopia Project typesetting (public domain)",
-      "reveal": "Machine — and this one was built to deceive. Träumerei is practically a rubato test-piece, so the render breathes deeply: long arcs, a melody that floats up to its famous high note and relaxes. What it can't do is *hesitate meaningfully*. A pianist delays that climb by a different amount every phrase, as if unsure the note will be there. This performance is sure. Dreams aren't.",
+      "reveal": "Machine, built to deceive. Träumerei is basically a rubato test, so this render got deep breathing and long, slow arcs. Here's what it can't do: hesitate differently each time. A real player delays that famous climb by a different amount every phrase, like they're not sure the top note will be there. This version is sure. Dreams aren't.",
       "piece": "traumerei"
     },
     {
@@ -238,7 +238,7 @@
       "difficulty": 3,
       "hard": true,
       "source": "Mutopia Project typesetting (public domain)",
-      "reveal": "Machine, at the hardest setting. The voicing is programmed — the top line does glow — and the tempo bends at cadences. Listen instead to the inner voices: in human Brahms they surface and recede like conversation, one alto note suddenly dear to the player, the next one let go. Here the middle of the texture has democratic, uniform manners throughout. Brahms is never that polite.",
+      "reveal": "Machine on the hardest setting. The melody is voiced, the tempo bends at the cadences, and that buys a lot of credibility. But listen to the middle of the texture. In human Brahms the inner voices come forward and fall back like people talking over each other. Here the middle stays perfectly polite the whole way through. Brahms is never that polite.",
       "piece": "brahms1182"
     },
     {
@@ -253,7 +253,7 @@
       "difficulty": 3,
       "hard": true,
       "source": "Mutopia Project typesetting (public domain)",
-      "reveal": "Machine. Scriabin's rippling figuration gets programmed rubato and arcing dynamics here, and at this speed the ear forgives a lot. The seam is in the left hand: a pianist's wide leaps cost time — you can hear the hand travel, a micro-hesitation before far-away bass notes. This render teleports. No distance is ever expensive, and that physical impossibility is the fingerprint.",
+      "reveal": "Machine. At this speed the rippling covers a lot of flaws. The seam is the left hand: real pianists need time for big jumps — you can hear a tiny catch before a faraway bass note. This render teleports. No jump ever costs it anything, and hands don't work that way.",
       "piece": "scriabin111"
     },
     {
@@ -268,7 +268,7 @@
       "difficulty": 3,
       "hard": true,
       "source": "Mutopia Project typesetting (public domain)",
-      "reveal": "Machine — rendered with rubato, hush, and simulated pedal, because deadpan Debussy fools no one. What's missing is the touch Debussy asks for: those opening thirds should be stroked, each dyad slightly rolled, the two notes melting together at fractionally different instants. Here every third is a single sealed event, arriving whole. Moonlight, but no water moving under it.",
+      "reveal": "Machine, with rubato and simulated pedal, because deadpan Debussy fools nobody. What's missing is the touch. Those opening thirds are supposed to be stroked — the two notes melting in at very slightly different moments. Here every third arrives as one sealed unit. Pretty, but airless.",
       "piece": "clairdelune"
     },
     {
@@ -283,7 +283,7 @@
       "difficulty": 3,
       "hard": false,
       "source": "Mutopia Project typesetting (public domain)",
-      "reveal": "Machine. The triplets ripple prettily — dynamics arc, tempo flexes — but two-against-three is the tell. When human hands play two notes against three, the alignment is negotiated in real time, slightly differently every bar; that friction is the charm of this piece. The render resolves the math perfectly every time. It sounds like the *idea* of an arabesque, drawn with a ruler.",
+      "reveal": "Machine. The giveaway is the two-against-three rhythm. When real hands play two notes against three, the lineup is negotiated live and comes out slightly different every bar — that friction is the charm of the piece. The render solves the math perfectly every time, like an arabesque drawn with a ruler.",
       "piece": "arabesque1"
     },
     {
@@ -298,7 +298,7 @@
       "difficulty": 3,
       "hard": true,
       "source": "Musopen — The Complete Chopin Collection (CC0)",
-      "reveal": "Human — of the machine-like kind that makes this game hard. The left hand spins a fast, glittering stream that barely wavers. But listen at the phrase turns: the stream *banks* like a swallow, easing microscopically as the harmony pivots, and the right hand's entries sit a breath behind the beat, singing over the current rather than in it. Precision that responds to the music is human; precision that ignores it is not.",
+      "reveal": "Human, even though it doesn't sound like it at first. The left hand is a fast, glittery stream that barely wavers — very machine-like. But at the phrase turns the stream banks like a bird, easing off as the harmony pivots, and the right hand sits a hair behind the beat, singing over the top. Precision that reacts to the music is human. Precision that ignores it isn't.",
       "piece": "op28n3"
     },
     {
@@ -313,7 +313,7 @@
       "difficulty": 2,
       "hard": false,
       "source": "Musopen — The Complete Chopin Collection (CC0)",
-      "reveal": "Human. The melody is played *legato cantabile* — literally, singing — and singing is the thing machines render least convincingly. Notes here are connected by weight transferred from finger to finger; each one grows out of the last one's decay. Notice also the accompaniment's deference: it dims when the tune speaks and swells into the gaps, like an attentive accompanist living inside the same two hands.",
+      "reveal": "Human. The melody is genuinely sung — each note grows out of the one before it, connected by weight moving from finger to finger, and machines still don't fake that well. Also notice how the accompaniment gets out of the way when the tune speaks and fills in during the gaps. Both hands belong to the same person, and you can hear them cooperating.",
       "piece": "noc151"
     },
     {
@@ -328,7 +328,7 @@
       "difficulty": 2,
       "hard": false,
       "source": "Musopen — The Complete Chopin Collection (CC0)",
-      "reveal": "Human. This mazurka opens with deliberately plain, folk-like oscillations — the kind of texture a machine renders perfectly — and yet the human shows through immediately: the drone chords aren't identical siblings but a family, each weighted a little differently, and the dance's second-beat lean arrives before you can name it. The body keeps time differently than a clock does.",
+      "reveal": "Human. The opening is deliberately plain — simple rocking chords a machine could nail. But even here the chords aren't identical: each one is weighted a little differently, and the dance's lean onto the second beat shows up before you can name it. A body keeps time differently than a clock does.",
       "piece": "maz242"
     },
     {
@@ -343,7 +343,7 @@
       "difficulty": 3,
       "hard": true,
       "source": "Musopen — The Complete Chopin Collection (CC0)",
-      "reveal": "Human. Those low, dark arpeggios could almost be a patch — until the melody enters and the temperature changes. Listen to how the accompaniment *reacts*: it flattens itself when the tune speaks, and the pedal clears late, letting each harmony bleed into the next like ink in water. A renderer changes pedal on the barline; this player changes it when the blur becomes too much to bear.",
+      "reveal": "Human. The low, dark arpeggios could almost be a synth patch — until the melody enters and everything changes around it. The accompaniment flattens itself to make room, and the pedal clears late, letting each harmony bleed into the next like ink in water. A render changes pedal on the barline. This player changes it when the blur gets to be too much.",
       "piece": "noc271"
     },
     {
@@ -358,7 +358,7 @@
       "difficulty": 3,
       "hard": true,
       "source": "Musopen (public domain)",
-      "reveal": "Human — Paul Pitman's public-domain recording. Fast, furious playing is a strange place to hear humanity, but it's here: the rocketing arpeggios aren't perfectly even (no live performance of this movement ever is), and the sforzando chords at the top land with the tiny savage lateness of a hand that just traveled two octaves to strike them. Risk is audible. A render never almost-misses.",
+      "reveal": "Human — Paul Pitman's public-domain recording. Strangely, fast furious playing is a good place to hear humanity. The rocketing arpeggios aren't perfectly even (nobody's are, live), and the big chords at the top land a split second late — the hand just traveled two octaves to get there. You can hear risk. A render never almost-misses.",
       "piece": "moonlight3"
     },
     {
@@ -373,7 +373,7 @@
       "difficulty": 2,
       "hard": false,
       "source": "Musopen (public domain)",
-      "reveal": "Human — Luke Faulkner, recorded for Musopen. The farewell waltz bends constantly: the opening line lingers, presses forward, thinks better of it. Notice the ends of phrases, where the last note is often placed early and left to fade — a singer's habit, breathing where the sentence ends. Machines distribute their rubato mathematically across the bar; this rubato is spent like money, extravagantly, in a few chosen places.",
+      "reveal": "Human — Luke Faulkner, recorded for Musopen. The 'Farewell' waltz bends constantly: the opening line lingers, pushes forward, then thinks better of it. Listen to the phrase endings, where the last note often comes early and just fades — a singer's habit, breathing at the end of a sentence. Machines spread their rubato out evenly. This player spends it in a few chosen places.",
       "piece": "waltz691"
     },
     {
@@ -383,13 +383,13 @@
       "composer": "Frédéric Chopin",
       "performer": "Musopen Complete Chopin Collection (public domain, CC0)",
       "src": "audio/human/clip-op28n4-h.mp3",
-      "duration": 27.0,
+      "duration": 27,
       "isHuman": true,
       "tier": null,
       "difficulty": 3,
       "hard": true,
       "source": "Musopen — The Complete Chopin Collection (CC0)",
-      "reveal": "Human — and yes, this piece also exists in this game as a machine rendering, so knowing the tune tells you nothing. What tells you everything is the left hand: those repeated chords are not even. They lean when the melody leans, thin out when it withdraws, and twice they nearly stall before the harmony finally gives way. The render's accompaniment keeps its composure. This one grieves along."
+      "reveal": "Human — and this same piece shows up in the game as a machine render too, so knowing the tune doesn't help you. The left-hand chords are the tell: they're not even. They lean when the melody leans, thin out when it pulls back, and a couple of times they almost stall before the harmony finally moves. The machine version keeps its cool the whole way through. This one doesn't, on purpose."
     },
     {
       "id": "clip-op28n7-h",
@@ -398,13 +398,13 @@
       "composer": "Frédéric Chopin",
       "performer": "Musopen Complete Chopin Collection (public domain, CC0)",
       "src": "audio/human/clip-op28n7-h.mp3",
-      "duration": 26.0,
+      "duration": 26,
       "isHuman": true,
       "tier": null,
       "difficulty": 3,
       "hard": true,
       "source": "Musopen — The Complete Chopin Collection (CC0)",
-      "reveal": "Human. Sixteen bars of chords — the exact texture that exposes a machine — and here you can hear why: almost every chord is fractionally rolled, bass first, melody blooming a whisper late on top. The dotted upbeats are unequal cousins, not photocopies. If you've met this prelude's machine twin in another round, listen again to its politely simultaneous chords and the difference will never fool you twice."
+      "reveal": "Human. Sixteen bars of plain chords — exactly the texture that exposes machines — and here's the difference: almost every chord is slightly rolled, bass first, melody landing last on top. The dotted rhythms are all a little different from each other, cousins instead of photocopies. If you've met this prelude's machine twin, its perfectly synchronized chords will never fool you again."
     },
     {
       "id": "clip-op28n6-m",
@@ -419,7 +419,7 @@
       "difficulty": 3,
       "hard": true,
       "source": "Mutopia Project typesetting (public domain)",
-      "reveal": "Machine — the twin of a human recording elsewhere in this pool. The render sings the left-hand cello line with programmed voicing and bends the tempo at the cadences, and in a blind test that buys it real credibility. What it can't counterfeit is the right hand's tolling repeated notes: a pianist re-weights each one against the melody's swell, and here they chime with democratic sameness, like a clock behind a singer."
+      "reveal": "Machine — the twin of a human recording that's also in this pool. It sings the left-hand melody with programmed voicing and slows down at the cadences, and it's honestly convincing. What it can't fake is the right hand's repeated notes: a human re-weights each one against the melody's swell. These chime with perfect sameness, like a clock ticking behind a singer."
     },
     {
       "id": "clip-aria-h",
@@ -428,13 +428,163 @@
       "composer": "J. S. Bach",
       "performer": "Kimiko Ishizaka (Open Goldberg Variations, CC0)",
       "src": "audio/human/clip-aria-h.mp3",
-      "duration": 28.0,
+      "duration": 28,
       "isHuman": true,
       "tier": null,
       "difficulty": 3,
       "hard": true,
       "source": "The Open Goldberg Variations (CC0)",
-      "reveal": "Human — Kimiko Ishizaka, from the Open Goldberg Variations, a recording crowdfunded specifically to be given away. Baroque ornament is the ultimate handwriting test: every trill here starts at its own speed, tapers unequally, and lands early or late depending on where the phrase is going. A renderer executes an ornament; a player negotiates one. Listen to the second trill especially — it hesitates before resolving, the way a comma hesitates before a clause."
+      "reveal": "Human — Kimiko Ishizaka, from the Open Goldberg Variations, a recording crowdfunded specifically so it could be given away for free. Ornaments are like handwriting: every trill here starts at its own speed, tapers unevenly, and lands early or late depending on where the phrase is headed. A machine executes an ornament. A player negotiates with it — the second trill even hesitates before it resolves."
+    },
+    {
+      "id": "clip-op28n15-m",
+      "piece": "op28n15",
+      "title": "Prelude in D-flat major, Op. 28 No. 15 'Raindrop'",
+      "composer": "Frédéric Chopin",
+      "performer": "Rendered from score (Salamander Grand samples)",
+      "src": "audio/machine/clip-op28n15-m.mp3",
+      "duration": 30.6,
+      "isHuman": false,
+      "tier": "expressive",
+      "difficulty": 3,
+      "hard": true,
+      "source": "Mutopia Project typesetting (public domain)",
+      "reveal": "Machine — and this piece has a human twin in the pool, so stay sharp. The repeated A-flat is the test: it's supposed to fall like rain, and real players make each drop a tiny bit different. These drops are shaped by a formula — the volume rises and falls in smooth, symmetrical arcs. Real rain isn't symmetrical."
+    },
+    {
+      "id": "clip-op28n15-h",
+      "piece": "op28n15",
+      "title": "Prelude in D-flat major, Op. 28 No. 15 'Raindrop'",
+      "composer": "Frédéric Chopin",
+      "performer": "Musopen Complete Chopin Collection (public domain, CC0)",
+      "src": "audio/human/clip-op28n15-h.mp3",
+      "duration": 28.0,
+      "isHuman": true,
+      "tier": null,
+      "difficulty": 3,
+      "hard": true,
+      "source": "Musopen — The Complete Chopin Collection (CC0)",
+      "reveal": "Human. That repeated note — the 'raindrop' — is the whole game here. It never repeats exactly: some drops are softer, some hang back a hair, and they follow the melody's mood instead of a pattern. Playing the same note dozens of times without sounding like a machine is weirdly one of the hardest things a pianist does. This one pulls it off."
+    },
+    {
+      "id": "clip-op28n20-m",
+      "piece": "op28n20",
+      "title": "Prelude in C minor, Op. 28 No. 20",
+      "composer": "Frédéric Chopin",
+      "performer": "Rendered from score (Salamander Grand samples)",
+      "src": "audio/machine/clip-op28n20-m.mp3",
+      "duration": 32.7,
+      "isHuman": false,
+      "tier": "expressive",
+      "difficulty": 3,
+      "hard": true,
+      "source": "Mutopia Project typesetting (public domain)",
+      "reveal": "Machine — twin of a human version elsewhere in the pool. Big slow chords sound impressive rendered, but every note inside each chord hits at the same instant with the same balance, chord after chord. A person voices each chord differently — more thumb here, more pinky there — because each one means something different. These are all the same chord wearing different notes."
+    },
+    {
+      "id": "clip-op28n20-h",
+      "piece": "op28n20",
+      "title": "Prelude in C minor, Op. 28 No. 20",
+      "composer": "Frédéric Chopin",
+      "performer": "Musopen Complete Chopin Collection (public domain, CC0)",
+      "src": "audio/human/clip-op28n20-h.mp3",
+      "duration": 27.0,
+      "isHuman": true,
+      "tier": null,
+      "difficulty": 3,
+      "hard": true,
+      "source": "Musopen — The Complete Chopin Collection (CC0)",
+      "reveal": "Human. Each of these big chords is balanced differently — sometimes the top note shines, sometimes the bass gets heavy — and they don't land perfectly together. There's a tiny roll, bass first. This prelude is basically thirteen bars of chords, and the player treats every single one like its own decision. The machine twin treats them like a stamp."
+    },
+    {
+      "id": "clip-gym3",
+      "piece": "gym3",
+      "title": "Gymnopédie No. 3",
+      "composer": "Erik Satie",
+      "performer": "Rendered from score (Salamander Grand samples)",
+      "src": "audio/machine/clip-gym3.mp3",
+      "duration": 33.3,
+      "isHuman": false,
+      "tier": "expressive",
+      "difficulty": 3,
+      "hard": true,
+      "source": "Mutopia Project typesetting (public domain)",
+      "reveal": "Machine. Same trick as the first Gymnopédie: programmed rubato, a floating melody, simulated pedal. And the same flaw — it drifts on a schedule. Every four bars it takes the same breath, the same size. A person spacing out at the piano (which is the correct way to play Satie) doesn't space out this consistently."
+    },
+    {
+      "id": "clip-pathetique2",
+      "piece": "pathetique2",
+      "title": "Pathétique Sonata, second movement (opening)",
+      "composer": "Ludwig van Beethoven",
+      "performer": "Rendered from score (Salamander Grand samples)",
+      "src": "audio/machine/clip-pathetique2.mp3",
+      "duration": 30.6,
+      "isHuman": false,
+      "tier": "expressive",
+      "difficulty": 3,
+      "hard": true,
+      "source": "Mutopia Project typesetting (public domain)",
+      "reveal": "Machine, taking on one of the most famous slow melodies ever written. The tune sits above the accompaniment and the tempo leans a little, which fools plenty of people. But try singing along and you'll feel it: the melody never stretches its arrival notes. Real players land the big notes late and make up the time afterward. This one just arrives on schedule, every time."
+    },
+    {
+      "id": "clip-tchaik-morning",
+      "piece": "tchaikmorning",
+      "title": "Album for the Young: Morning Prayer",
+      "composer": "P. I. Tchaikovsky",
+      "performer": "Rendered from score (Salamander Grand samples)",
+      "src": "audio/machine/clip-tchaik-morning.mp3",
+      "duration": 31.9,
+      "isHuman": false,
+      "tier": "humanized",
+      "difficulty": 2,
+      "hard": false,
+      "source": "Mutopia Project typesetting (public domain)",
+      "reveal": "Machine with jitter. This is a little chorale from Tchaikovsky's Album for the Young, and hymn-style chords are hard for renders because every chord needs its own balance. The randomness adds looseness but no intention — all four voices stay equally loud the whole way through, and no real pianist plays a chorale without favoring the top line."
+    },
+    {
+      "id": "clip-tchaik-french",
+      "piece": "tchaikfrench",
+      "title": "Album for the Young: Old French Song",
+      "composer": "P. I. Tchaikovsky",
+      "performer": "Rendered from score (Salamander Grand samples)",
+      "src": "audio/machine/clip-tchaik-french.mp3",
+      "duration": 30.1,
+      "isHuman": false,
+      "tier": "humanized",
+      "difficulty": 2,
+      "hard": false,
+      "source": "Mutopia Project typesetting (public domain)",
+      "reveal": "Machine. A folk-song melody over a simple accompaniment. The jitter roughs up the surface a bit, but listen to the ends of the phrases — a person telling this little story would let the ends of lines settle, even slightly. These lines all end at full walking speed, like someone reading out loud without punctuation."
+    },
+    {
+      "id": "clip-etude251-h",
+      "piece": "etude251",
+      "title": "Étude in A-flat major, Op. 25 No. 1 'Aeolian Harp'",
+      "composer": "Frédéric Chopin",
+      "performer": "Musopen Complete Chopin Collection (public domain, CC0)",
+      "src": "audio/human/clip-etude251-h.mp3",
+      "duration": 26.0,
+      "isHuman": true,
+      "tier": null,
+      "difficulty": 3,
+      "hard": true,
+      "source": "Musopen — The Complete Chopin Collection (CC0)",
+      "reveal": "Human. This étude is a blur of fast notes with a melody hiding on top, and pulling that melody out of the blur is pure hand skill — the little finger plays its note a touch stronger and longer than the thirty-odd notes swirling underneath it. The swells also push and pull the tempo with them. Blur plus intention equals human."
+    },
+    {
+      "id": "clip-berceuse-h",
+      "piece": "berceuse",
+      "title": "Berceuse in D-flat major, Op. 57",
+      "composer": "Frédéric Chopin",
+      "performer": "Musopen Complete Chopin Collection (public domain, CC0)",
+      "src": "audio/human/clip-berceuse-h.mp3",
+      "duration": 28.0,
+      "isHuman": true,
+      "tier": null,
+      "difficulty": 3,
+      "hard": true,
+      "source": "Musopen — The Complete Chopin Collection (CC0)",
+      "reveal": "Human. The left hand repeats the same rocking pattern for the entire piece — machine territory, you'd think. But it breathes: the rocking widens a little when the right hand gets fancy and settles when things calm down. Meanwhile the right hand's decorations spill out unevenly, like they're being invented on the spot. A lullaby played by a clock wouldn't put anyone to sleep."
     }
   ],
   "demos": [
