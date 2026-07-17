@@ -31,16 +31,19 @@ _headers              Cloudflare Pages cache/security headers
 
 ## The game
 
-- A session is 10 rounds (`STANDARD_ROUNDS` in `js/game.js`), drawn from a 39-clip
-  pool (22 machine renders, 17 human recordings) covering 34 pieces across ten
+- A session is 10 rounds (`STANDARD_ROUNDS` in `js/game.js`), drawn from a 48-clip
+  pool (22 machine renders, 26 human recordings) covering 34 pieces across eleven
   composers (Bach, Petzold, Mozart, Beethoven, Chopin, Schumann, Brahms, Satie,
   Scriabin, Debussy, Tchaikovsky).
 - **Twins:** clips carry a `piece` key, and some pieces exist as BOTH a human
   recording and a machine render (currently Chopin Preludes Op. 28 Nos. 4/6/7).
   The draw groups by piece, plays each piece at most once per session, and picks
-  the version at random — so on replay a familiar tune can switch sides. Twinned
-  so far: Chopin Preludes Op. 28 Nos. 4, 6, 7, 15, and 20. To twin another
-  piece, give both clips the same `piece` value.
+  the version at random — so on replay a familiar tune can switch sides. 14 of
+  the 34 pieces are twinned. To twin another piece, give both clips the same
+  `piece` value. Vetting rules for found recordings: verify the key by chroma
+  analysis, and read the source page — reject anything whose provenance says
+  MuseScore/Sibelius (MIDI renders masquerading as recordings), YouTube rips,
+  or has no named performer/provenance at all.
 - **The training experiment:** the intro asks whether the player has musical
   training (stored locally). Finished sessions from players who answered are
   POSTed anonymously to `/api/stats` (a Netlify Function backed by Netlify
@@ -177,7 +180,10 @@ If you re-render a clip in place, bump its filename (or the manifest `version`)
 ## Licensing
 
 - Compositions: all public domain (composers deceased 100+ years).
-- Human recordings: Musopen Complete Chopin Collection, CC0.
+- Human recordings: Musopen (CC0/PD), the Open Goldberg Variations and Open
+  Well-Tempered Clavier (Kimiko Ishizaka, CC0/PD), and three Wikimedia Commons
+  performances (CC BY-SA 4.0 — Prati, Han, eldüendesüarez; those three clips
+  remain CC BY-SA).
 - Machine renders: generated from Mutopia Project typesettings (public domain);
   the renders themselves are dedicated to the public domain.
 - Salamander Grand Piano samples: Alexander Holm, CC-BY 3.0 (credited on /about).
