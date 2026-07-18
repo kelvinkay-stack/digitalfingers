@@ -632,6 +632,7 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
 .ab-btn .dot { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: currentColor; opacity: 0.55; flex: none; }
 .ab-progress { height: 2px; background: var(--line); border-radius: 2px; margin-top: 0.85rem; overflow: hidden; }
 .ab-progress i { display: block; height: 100%; width: 0; background: var(--brass); }
+.ab-demo .ab-listen { font-size: 0.85rem; font-style: italic; color: var(--muted); margin: 0.8rem 0 0; }
 
 /* credits table-ish list */
 .credits li { margin: 0.7em 0; color: var(--ivory-dim); }
