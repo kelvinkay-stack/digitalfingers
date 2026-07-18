@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Results | Digital Fingers</title>
+  <meta name="description" content="What thousands of ears have taught us so far: live, anonymous results from the Digital Fingers listening experiment.">
+  <link rel="canonical" href="https://digital-fingers.netlify.app/results.html">
+  <link rel="icon" href="/assets/favicon.svg?v=3" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#243141">
+  <link rel="apple-touch-icon" href="/assets/icon-180.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Digital Fingers">
+  <meta property="og:title" content="Results | Digital Fingers">
+  <meta property="og:description" content="What thousands of ears have taught us so far. Live results from the listening experiment.">
+  <meta property="og:url" content="https://digital-fingers.netlify.app/results.html">
+  <meta property="og:image" content="https://digital-fingers.netlify.app/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preload" href="/fonts/cormorant-garamond-normal-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/fonts/fonts.css">
+  <link rel="stylesheet" href="./css/style.css?v=20260717-3">
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="/">Digital Fingers</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="/learn.html">Learn the tells</a>
+      <a href="/results.html" aria-current="page">Results</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <noscript>
+      <p class="noscript-note">The live numbers need JavaScript to fetch. The experiment itself is described on the <a href="/about.html">About page</a>.</p>
+    </noscript>
+    <article class="prose">
+      <header class="page-head">
+        <span class="kicker">The experiment so far</span>
+        <h1>What the Ears Report</h1>
+        <p class="lede">Every finished session adds a few anonymous tallies to the counters below. No names, no accounts, no identifiers &mdash; just running totals of who heard what, and whether they were fooled. This page describes; it does not conclude.</p>
+      </header>
+
+      <p id="results-loading" class="results-state" role="status">Counting the crowd&rsquo;s answers&hellip;</p>
+      <p id="results-error" class="results-state" hidden>The counters didn&rsquo;t answer just now. <a href="/results.html">Try again.</a></p>
+
+      <div id="results-body" hidden>
+        <div class="stat-row">
+          <p class="stat"><b id="stat-sessions">0</b><span>sessions played</span></p>
+          <p class="stat"><b id="stat-judgments">0</b><span>individual judgments</span></p>
+        </div>
+
+        <h2>The coin-flip test</h2>
+        <p id="overall-line"></p>
+        <div id="overall-chart" class="crowd-chart"></div>
+
+        <h2>Does musical training help?</h2>
+        <p>Players may tell us whether they have musical training before a session begins. Their scores accumulate into two piles.</p>
+        <div id="training-chart" class="crowd-chart"></div>
+        <p id="training-note" class="fine"></p>
+
+        <h2>The three tiers of the machine</h2>
+        <p>Machine clips come in three tiers of realism &mdash; <strong>deadpan</strong> (the score executed exactly), <strong>humanized</strong> (small random variations), and <strong>expressive</strong> (programmed rubato, dynamics, voicing, and pedal). The bars show how often each tier passed for human.</p>
+        <div id="tier-chart" class="crowd-chart"></div>
+        <p id="tier-note" class="fine"></p>
+
+        <h2>The hall of deception</h2>
+        <p>The five clips that fool the most ears, and the five most reliably caught. No audio is embedded here on purpose: these are live game clips, and naming <em>and</em> playing them would hand future players the answers.</p>
+        <h3>Most deceptive</h3>
+        <ul id="hall-fooling" class="hall"></ul>
+        <h3>Most reliably caught</h3>
+        <ul id="hall-caught" class="hall"></ul>
+
+        <div id="you-block" hidden>
+          <h2>You against everyone</h2>
+          <p id="you-line"></p>
+          <p class="fine">Your history lives only in this browser. Nothing personal was sent to compute this line.</p>
+        </div>
+
+        <h2>Methods, briefly</h2>
+        <p>Counters begin at the site&rsquo;s launch and only ever go up. Percentages are rounded to whole numbers; any breakdown with fewer than <span id="min-n">30</span> judgments stays unpublished until enough listeners weigh in. These are plain counters on a server &mdash; no per-player data exists, and none can be added. How clips are made, paired, and loudness-matched is on the <a href="/about.html">About page</a>.</p>
+
+        <div class="results-actions" style="margin-top:2.5rem">
+          <a class="btn-primary" href="/" style="text-decoration:none">Add your ears to the data</a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>All music is public domain or Creative Commons. <a href="/about.html">Credits and sources</a>.</p>
+    <p>Designed by Laura Kay.</p>
+    <p id="install-line" hidden><a id="install-link" href="#">Add Digital Fingers to your home screen.</a></p>
+  </footer>
+
+  <script type="module" src="/js/results.js"></script>
+  <script type="module" src="/js/pwa.js"></script>
+</body>
+</html>

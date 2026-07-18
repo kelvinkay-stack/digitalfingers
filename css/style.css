@@ -721,6 +721,50 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
 .crowd-bar i { display: block; height: 100%; background: var(--brass); }
 .crowd-pct { color: var(--ivory); font-variant-numeric: tabular-nums; text-align: right; }
 
+/* ---------- results page ---------- */
+
+.results-state { margin: 2.4rem 0; font-style: italic; color: var(--muted); }
+.stat-row { display: flex; gap: 3rem; margin: 0.4rem 0 1.6rem; }
+.stat { margin: 0; }
+.stat b {
+  display: block;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 2.7rem;
+  line-height: 1.05;
+  color: var(--plum);
+}
+.stat span { font-size: 0.85rem; color: var(--muted); letter-spacing: 0.03em; }
+.prose .crowd-chart { max-width: 30rem; margin: 1.2rem 0 1.6rem; }
+.crowd-bar { position: relative; }
+.coin-tick {
+  position: absolute;
+  left: 50%;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  background: var(--ivory-dim);
+  opacity: 0.55;
+}
+.crowd-row .crowd-detail {
+  grid-column: 2 / 4;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: -0.35rem;
+}
+.hall { list-style: none; padding: 0; margin: 0.6rem 0 1.8rem; max-width: 34rem; }
+.hall li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed var(--line);
+}
+.hall b { color: var(--ivory); font-weight: 500; }
+.hall span { font-size: 0.85rem; color: var(--muted); }
+
 /* ---------- playful sketchbook layer ---------- */
 
 .site-header {
