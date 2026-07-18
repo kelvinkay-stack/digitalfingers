@@ -14,9 +14,19 @@ const els = {
     results: $('#screen-results'),
   },
   begin: $('#begin-btn'),
+  instrumentChoices: [...document.querySelectorAll('.instrument-choice')],
+  premise: $('#premise'),
+  heroNote: $('#hero-note'),
+  heroArt: $('#hero-art'),
+  previewInstrument: $('#preview-instrument'),
+  previewPlay: $('#preview-play-btn'),
+  keysRule: $('.keys-rule'),
+  stringsRule: $('#strings-rule'),
   hardMode: $('#hardmode'),
+  hardModeWrap: $('#hardmode-wrap'),
   lifetimeLine: $('#lifetime-line'),
   roundLabel: $('#round-label'),
+  roundInstrument: $('#round-instrument'),
   scoreLabel: $('#score-label'),
   playBtn: $('#play-btn'),
   progressArc: $('#progress-arc'),
@@ -66,6 +76,7 @@ const state = {
   answered: false,
   listened: false,
   hard: false,
+  instrument: 'piano',
   rounds: [], // {id, correct, guessedHuman}
   preloaded: new Map(),
 };
@@ -109,12 +120,13 @@ async function loadManifest() {
 function currentClip() { return session[state.index]; }
 
 function startSession(hard) {
-  state.hard = hard;
+  state.hard = state.instrument === 'piano' && hard;
   state.index = 0;
   state.score = 0;
   state.rounds = [];
   state.preloaded.clear();
-  session = drawSession(manifest.clips, { hard });
+  const instrumentClips = manifest.clips.filter(c => (c.instrument || 'piano') === state.instrument);
+  session = drawSession(instrumentClips, { hard: state.hard });
   if (!session.length) { toast('No clips available.'); return; }
   show('round');
   startRound();
@@ -126,12 +138,16 @@ function startRound() {
   state.answered = false;
   state.listened = false;
 
+  els.roundInstrument.textContent = state.instrument === 'violin' ? 'Violin' : 'Piano';
   els.roundLabel.textContent = `Round ${state.index + 1} of ${session.length}`;
   const answeredSoFar = state.rounds.length;
   els.scoreLabel.textContent = answeredSoFar ? `${state.score}/${answeredSoFar}` : '';
   els.listenHint.textContent = 'Press play, then decide.';
   els.playBtn.disabled = false;
   els.playBtn.classList.add('is-idle');
+  els.screens.round.classList.remove('is-listening', 'is-revealed', 'is-correct', 'is-wrong');
+  els.answerHuman.classList.remove('is-selected', 'is-truth', 'is-wrong');
+  els.answerMachine.classList.remove('is-selected', 'is-truth', 'is-wrong');
   setAnswersEnabled(false);
   els.reveal.classList.remove('is-shown');
   els.reveal.setAttribute('hidden', '');
@@ -151,6 +167,7 @@ function startRound() {
 
 function onPlayerState(ev) {
   if (ev === 'play') {
+    els.screens.round.classList.add('is-listening');
     els.playBtn.classList.remove('is-idle');
     els.playBtn.disabled = true;
     wave.startTicking();
@@ -162,6 +179,7 @@ function onPlayerState(ev) {
     }
     renderReplays();
   } else if (ev === 'ended') {
+    els.screens.round.classList.remove('is-listening');
     const replaysLeft = MAX_REPLAYS - state.replaysUsed;
     if (state.answered) {
       els.playBtn.disabled = false;
@@ -173,6 +191,7 @@ function onPlayerState(ev) {
       els.listenHint.textContent = 'No replays left. Trust your ear.';
     }
   } else if (ev === 'error') {
+    els.screens.round.classList.remove('is-listening');
     skipBrokenClip();
   }
 }
@@ -192,6 +211,14 @@ function answer(guessedHuman) {
   const correct = guessedHuman === clip.isHuman;
   if (correct) state.score += 1;
   state.rounds.push({ id: clip.id, correct, guessedHuman });
+
+  els.screens.round.classList.remove('is-listening');
+  els.screens.round.classList.add('is-revealed', correct ? 'is-correct' : 'is-wrong');
+  const chosenButton = guessedHuman ? els.answerHuman : els.answerMachine;
+  const truthButton = clip.isHuman ? els.answerHuman : els.answerMachine;
+  chosenButton.classList.add('is-selected');
+  truthButton.classList.add('is-truth');
+  if (!correct) chosenButton.classList.add('is-wrong');
 
   setAnswersEnabled(false);
   els.scoreLabel.textContent = `${state.score}/${state.rounds.length}`;
@@ -236,7 +263,13 @@ function nextRound() {
 }
 
 function finishSession() {
-  recordSession({ score: state.score, total: state.rounds.length, hard: state.hard, rounds: state.rounds });
+  recordSession({
+    score: state.score,
+    total: state.rounds.length,
+    hard: state.hard,
+    instrument: state.instrument,
+    rounds: state.rounds,
+  });
   submitAndRenderCrowd(state.score, state.rounds.length);
   const { title, line } = verdictFor(state.score, state.rounds.length);
 
@@ -272,6 +305,8 @@ function finishSession() {
   els.hardestLine.textContent = worst
     ? `Your blind spot: ${worst.clip.title}. It has fooled you ${worst.wrong} of ${worst.seen} times.`
     : '';
+
+  els.againHardBtn.hidden = state.instrument !== 'piano';
 
   show('results');
   announce(`Session over. You scored ${state.score} out of ${state.rounds.length}. ${title}.`);
@@ -352,7 +387,50 @@ function wireIntro() {
     els.lifetimeLine.textContent =
       `Your ear so far: ${lt.pct}% over ${lt.games} session${lt.games === 1 ? '' : 's'}.`;
   }
-  els.begin.addEventListener('click', () => startSession(els.hardMode.checked));
+  const selectInstrument = (instrument) => {
+    state.instrument = instrument === 'violin' ? 'violin' : 'piano';
+    const violin = state.instrument === 'violin';
+    for (const button of els.instrumentChoices) {
+      const selected = button.dataset.instrument === state.instrument;
+      button.classList.toggle('is-selected', selected);
+      button.setAttribute('aria-pressed', selected);
+    }
+    els.premise.innerHTML = violin
+      ? 'Can you tell the difference between <em>human</em> players and <em>computer</em> strings?'
+      : 'Can you tell the difference between a <em>human</em> and a <em>computer</em> playing piano?';
+    els.heroNote.textContent = violin
+      ? 'Five bowed-string mysteries, from Vivaldi to Beethoven.'
+      : 'Five tiny piano mysteries for curious ears.';
+    els.heroArt.src = violin
+      ? '/assets/robot-human-violinists.jpg'
+      : '/assets/robot-human-pianists.webp';
+    els.heroArt.alt = violin
+      ? 'An old-fashioned robot and a human violinist facing each other with violins and bows'
+      : 'An old-fashioned robot and a human pianist seated across from each other at a grand piano';
+    els.previewInstrument.textContent = `${violin ? 'Violin' : 'Piano'} · listen closely`;
+    els.previewPlay.setAttribute('aria-label', `Start a ${violin ? 'violin' : 'piano'} game and play the first clip`);
+    els.hardModeWrap.hidden = violin;
+    if (violin) els.hardMode.checked = false;
+    els.keysRule.hidden = violin;
+    els.stringsRule.hidden = !violin;
+    announce(`${violin ? 'Violin' : 'Piano'} selected. Five rounds.`);
+  };
+  for (const button of els.instrumentChoices) {
+    button.addEventListener('click', () => selectInstrument(button.dataset.instrument));
+  }
+  const violinArt = new Image();
+  violinArt.src = '/assets/robot-human-violinists.jpg';
+
+  const startFromIntro = (autoplay = false) => {
+    if (!manifest) {
+      toast('The music is still loading. Try again in a moment.');
+      return;
+    }
+    startSession(els.hardMode.checked);
+    if (autoplay && session && session.length) player.play();
+  };
+  els.begin.addEventListener('click', () => startFromIntro(false));
+  els.previewPlay.addEventListener('click', () => startFromIntro(true));
 
   reflectTrainingButtons();
   const setTrained = (v) => {
@@ -383,7 +461,8 @@ function wireResults() {
 
 async function shareScore() {
   const total = state.rounds.length;
-  const text = `I scored ${state.score}/${total} telling humans from computers at the piano. Can you? https://digital-fingers.netlify.app`;
+  const instrument = state.instrument === 'violin' ? 'violin' : 'piano';
+  const text = `I scored ${state.score}/${total} telling humans from computers on ${instrument}. Can you? https://digital-fingers.netlify.app`;
   if (navigator.share) {
     try { await navigator.share({ text }); return; } catch { /* user cancelled; fall through */ }
   }

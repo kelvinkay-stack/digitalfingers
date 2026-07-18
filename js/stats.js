@@ -18,9 +18,9 @@ function write(data) {
 }
 
 /** Record a finished session. rounds: [{id, correct}] */
-export function recordSession({ score, total, hard, rounds }) {
+export function recordSession({ score, total, hard, instrument = 'piano', rounds }) {
   const data = read();
-  data.sessions.push({ t: Date.now(), score, total, hard, rounds });
+  data.sessions.push({ t: Date.now(), score, total, hard, instrument, rounds });
   if (data.sessions.length > 200) data.sessions = data.sessions.slice(-200);
   write(data);
   return data;

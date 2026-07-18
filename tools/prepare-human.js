@@ -47,6 +47,7 @@ const trimChain = [
   `silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.2`,
   start > 0 ? `atrim=start=${start}` : null,
   `atrim=duration=${dur}`,
+  `asetpts=PTS-STARTPTS`,
   `afade=t=in:st=0:d=0.15:curve=hsin`,
   `afade=t=out:st=${dur - FADE_OUT}:d=${FADE_OUT}:curve=hsin`,
 ].filter(Boolean).join(',');

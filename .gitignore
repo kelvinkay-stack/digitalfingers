@@ -4,6 +4,9 @@
 # Salamander samples — fetched by the loop in the README, ~4 MB, not ours to commit
 tools/samples/*.mp3
 
+# General MIDI soundfont used for offline violin renders
+tools/soundfonts/
+
 # Full-length source recordings for the human excerpts (archive.org URLs in README)
 tools/source-human/
 
@@ -12,6 +15,10 @@ audio/**/*.wav
 
 # Local Netlify folder
 .netlify
+
+# Local browser-test artifacts
+.playwright-cli/
+output/
 
 # Function dependencies (installed at deploy time from netlify/functions/package.json)
 netlify/functions/node_modules

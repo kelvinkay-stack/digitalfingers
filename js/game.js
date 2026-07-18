@@ -1,6 +1,6 @@
 /* game.js - session drawing and verdicts. Pure logic, no DOM. */
 
-export const STANDARD_ROUNDS = 10;  // drawn from a 25-clip pool
+export const STANDARD_ROUNDS = 5;  // drawn from the selected instrument's paired pool
 export const MAX_REPLAYS = 2;       // replays after the first listen
 
 /** Fisher–Yates on a copy. */
