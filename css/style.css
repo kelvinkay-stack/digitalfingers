@@ -188,6 +188,14 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
   }
 }
 
+.offline-note {
+  margin: 0.9rem auto 0;
+  text-align: center;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--muted);
+}
+
 .noscript-note {
   max-width: 36rem;
   margin: 1.2rem auto 0;

@@ -9,6 +9,14 @@
 /assets/*
   Cache-Control: public, max-age=604800
 
+# The service worker and manifest must never be served stale, or updates
+# would take an extra visit to land.
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/manifest.webmanifest
+  Cache-Control: public, max-age=0, must-revalidate
+
 # Code and data revalidate on every visit (ETag makes this cheap), so game
 # updates propagate immediately. Only fingerprint-stable assets cache long.
 /css/*

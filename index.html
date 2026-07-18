@@ -64,6 +64,7 @@
     <noscript>
       <p class="noscript-note">Digital Fingers needs JavaScript to play its clips and keep score. Enable it and refresh, and the music will be waiting.</p>
     </noscript>
+    <p id="offline-note" class="offline-note" hidden>Offline &mdash; playing from your cached clips.</p>
     <p id="live-region" class="visually-hidden" role="status" aria-live="polite"></p>
 
     <!-- ============ intro ============ -->
@@ -223,8 +224,10 @@
   <footer class="site-footer">
     <p>All music is public domain or Creative Commons. <a href="/about.html">Credits and sources</a>.</p>
     <p>Designed by Laura Kay.</p>
+      <p id="install-line" hidden><a id="install-link" href="#">Add Digital Fingers to your home screen.</a></p>
   </footer>
 
   <script type="module" src="/js/main.js"></script>
+  <script type="module" src="/js/pwa.js"></script>
 </body>
 </html>
