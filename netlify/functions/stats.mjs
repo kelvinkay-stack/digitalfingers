@@ -15,6 +15,7 @@
 import { getStore } from '@netlify/blobs';
 
 const EMPTY = {
+  all: { sessions: 0, right: 0, total: 0 },
   trained: { sessions: 0, right: 0, total: 0 },
   untrained: { sessions: 0, right: 0, total: 0 },
   clips: {},
@@ -40,6 +41,14 @@ export default async (req) => {
 
     const agg = (await store.get('aggregate', { type: 'json' })) || structuredClone(EMPTY);
     agg.clips = agg.clips || {};
+
+    // every finished session counts here, whether or not the training
+    // question was answered (the group counters below only cover those who
+    // answered) - still plain totals, nothing per-player
+    agg.all = agg.all || { sessions: 0, right: 0, total: 0 };
+    agg.all.sessions += 1;
+    agg.all.right += score;
+    agg.all.total += total;
 
     if (typeof trained === 'boolean') {
       const group = trained ? agg.trained : agg.untrained;
