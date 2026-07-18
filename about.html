@@ -28,6 +28,7 @@
     <a class="wordmark" href="/">Digital Fingers</a>
     <nav class="site-nav" aria-label="Site">
       <a href="/learn.html">Learn the tells</a>
+      <a href="/results.html">Results</a>
       <a href="/about.html" aria-current="page">About</a>
     </nav>
   </header>
@@ -65,7 +66,7 @@
       <p>The whole game plays from the keyboard: Space plays the clip, H and M answer, Enter moves on. Screen readers hear each round and reveal announced as it happens, the Learn page's demos say which version they're playing, and every animation stands still if your system asks for reduced motion. One limit we won't paper over: this is a test of hearing, and without audio there is no game — so the site isn't accessible to deaf visitors, and pretending otherwise would help no one. If something here doesn't work for you and should, please get in touch and it will be fixed.</p>
 
       <h2>Your data</h2>
-      <p>Almost none. Your scores and session history live in your own browser via <code>localStorage</code>. No analytics, no cookies, no accounts. The one exception: finished sessions add to anonymous running totals. A right/wrong counter for each clip (that's how the reveal can say how many players a clip has fooled), and if you answered the musical-training question, your session score joins your group's total so the end-of-session chart can compare trained and untrained ears. These are plain counters on a server, with no identifiers of any kind attached. Nothing about you is stored, and nothing can be.</p>
+      <p>Almost none. Your scores and session history live in your own browser via <code>localStorage</code>. No analytics, no cookies, no accounts. The one exception: finished sessions add to anonymous running totals. A right/wrong counter for each clip (that's how the reveal can say how many players a clip has fooled), and if you answered the musical-training question, your session score joins your group's total so the end-of-session chart and the public <a href="/results.html">results page</a> can compare trained and untrained ears. These are plain counters on a server, with no identifiers of any kind attached. Nothing about you is stored, and nothing can be.</p>
 
       <h2>Colophon</h2>
       <p>Hand-built with plain HTML, CSS, and JavaScript. No frameworks, no build step. The piano pipeline parses MIDI, applies an expression model, and mixes samples offline; the violin pipeline renders licensed ensemble scores through a General MIDI soundfont. Both finish with the same trim, fade, loudness, sample-rate, and encoding chain, so the site serves plain audio files and playback is identical on every device. Source pieces, tiers, and the full methodology are documented in the project README.</p>

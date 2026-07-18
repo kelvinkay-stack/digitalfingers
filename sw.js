@@ -10,7 +10,7 @@
  *   df-stats-v1   last good /api/stats aggregate, network-first fallback.
  */
 
-const VERSION = 'v1';
+const VERSION = 'v2';
 const SHELL_CACHE = `df-shell-${VERSION}`;
 const AUDIO_CACHE = 'df-audio-v1';
 const STATS_CACHE = 'df-stats-v1';
@@ -20,6 +20,7 @@ const SHELL = [
   '/',
   '/learn.html',
   '/about.html',
+  '/results.html',
   '/css/style.css?v=20260717-3',
   '/fonts/fonts.css',
   '/fonts/cormorant-garamond-normal-500-latin.woff2',
@@ -34,6 +35,7 @@ const SHELL = [
   '/js/stats.js',
   '/js/waveform.js',
   '/js/learn.js',
+  '/js/results.js',
   '/js/pwa.js',
   '/data/clips.json',
   '/assets/favicon.svg?v=3',
@@ -115,7 +117,7 @@ self.addEventListener('fetch', (e) => {
     e.respondWith(pageNetworkFirst(e.request));
   } else if (url.pathname.startsWith('/audio/')) {
     e.respondWith(audioCacheFirst(e.request));
-  } else if (url.pathname === '/api/stats') {
+  } else if (url.pathname === '/api/stats' || url.pathname === '/api/results') {
     e.respondWith(statsNetworkFirst(e.request));
   } else {
     e.respondWith(staleWhileRevalidate(e.request));
