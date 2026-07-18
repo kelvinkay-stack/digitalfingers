@@ -57,8 +57,6 @@ _headers              Cloudflare Pages cache/security headers
   the results screen charts trained vs. untrained accuracy and offers a
   share-your-score button.
 - Max 2 replays per clip before answering; free relistening after the reveal.
-- **Hard mode** is available for the larger piano pool and restricts the draw to
-  clips flagged `"hard": true` — expressive-tier renders and unusually precise human playing.
 - Keyboard: `Space`/`P` play · `H`/`←` human · `M`/`→` machine · `Enter`/`N` next.
 - Stats live in `localStorage` (`digitalfingers.v1`): per-session history, lifetime
   accuracy, the visitor's most-fooling clip, and a sparkline after 3+ sessions.
