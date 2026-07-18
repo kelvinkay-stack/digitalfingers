@@ -117,12 +117,77 @@ async function loadManifest() {
 
 function currentClip() { return session[state.index]; }
 
-function startSession() {
+/* ---------- offline clips ----------
+ * The same cache the service worker fills as clips are played
+ * (AUDIO_CACHE in sw.js). */
+const AUDIO_CACHE = 'df-audio-v1';
+const OFFLINE_PACK_KEY = 'digitalfingers.offlinePack.'; // + instrument
+
+function groupByPiece(clips) {
+  const byPiece = new Map();
+  for (const c of clips) {
+    const key = c.piece || c.id;
+    if (!byPiece.has(key)) byPiece.set(key, []);
+    byPiece.get(key).push(c);
+  }
+  return byPiece;
+}
+
+/* While online, quietly download enough pairs for one full offline session.
+ * Both versions of every chosen piece are cached, so offline play keeps the
+ * fairness guarantees: a piece appears once, and its side stays a coin flip. */
+async function ensureOfflinePack(instrument) {
+  if (!('caches' in window) || !manifest || !navigator.onLine) return;
+  try {
+    const clips = manifest.clips.filter(c => (c.instrument || 'piano') === instrument);
+    const pairs = [...groupByPiece(clips).values()].filter(v => v.length >= 2);
+    if (!pairs.length) return;
+
+    // reuse the same pack between visits so nothing is downloaded twice
+    let ids = [];
+    try { ids = JSON.parse(localStorage.getItem(OFFLINE_PACK_KEY + instrument)) || []; } catch { /* fresh */ }
+    const byId = new Map(clips.map(c => [c.id, c]));
+    let pack = ids.map(id => byId.get(id)).filter(Boolean);
+    if (pack.length < Math.min(5, pairs.length) * 2) {
+      for (let i = pairs.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pairs[i], pairs[j]] = [pairs[j], pairs[i]];
+      }
+      pack = pairs.slice(0, 5).flat();
+      try { localStorage.setItem(OFFLINE_PACK_KEY + instrument, JSON.stringify(pack.map(c => c.id))); } catch { /* best effort */ }
+    }
+
+    const cache = await caches.open(AUDIO_CACHE);
+    for (const c of pack) {
+      if (!(await cache.match(c.src))) await cache.add(c.src);
+    }
+  } catch { /* the offline pack is a bonus; never let it break the game */ }
+}
+
+/* Offline, only pieces with BOTH versions cached are playable. Requiring the
+ * full pair means the cache's contents can never correlate with the answer. */
+async function cachedPairs(clips) {
+  if (!('caches' in window)) return [];
+  const cache = await caches.open(AUDIO_CACHE);
+  const present = (await Promise.all(
+    clips.map(async c => (await cache.match(c.src)) ? c : null)
+  )).filter(Boolean);
+  return [...groupByPiece(present).values()].filter(v => v.length >= 2).flat();
+}
+
+async function startSession() {
   state.index = 0;
   state.score = 0;
   state.rounds = [];
   state.preloaded.clear();
-  const instrumentClips = manifest.clips.filter(c => (c.instrument || 'piano') === state.instrument);
+  let instrumentClips = manifest.clips.filter(c => (c.instrument || 'piano') === state.instrument);
+  if (!navigator.onLine) {
+    instrumentClips = await cachedPairs(instrumentClips);
+    if (!instrumentClips.length) {
+      toast('No clips are saved for offline play yet. Listen once while connected and they will be.');
+      return;
+    }
+  }
   session = drawSession(instrumentClips);
   if (!session.length) { toast('No clips available.'); return; }
   show('round');
@@ -417,6 +482,7 @@ function wireIntro() {
     els.keysRule.hidden = violin;
     els.stringsRule.hidden = !violin;
     announce(`${violin ? 'Violin' : 'Piano'} selected. Five rounds.`);
+    ensureOfflinePack(state.instrument);
   };
   for (const button of els.instrumentChoices) {
     button.addEventListener('click', () => selectInstrument(button.dataset.instrument));
@@ -424,13 +490,13 @@ function wireIntro() {
   const violinArt = new Image();
   violinArt.src = '/assets/robot-human-violinists.jpg';
 
-  const startFromIntro = (autoplay = false) => {
+  const startFromIntro = async (autoplay = false) => {
     if (!manifest) {
       toast('The music is still loading. Try again in a moment.');
       return;
     }
-    startSession();
-    if (autoplay && session && session.length) player.play();
+    await startSession();
+    if (autoplay && session && session.length && els.screens.round.classList.contains('is-active')) player.play();
   };
   els.begin.addEventListener('click', () => startFromIntro(false));
   els.previewPlay.addEventListener('click', () => startFromIntro(true));
@@ -508,6 +574,7 @@ async function init() {
   wireKeyboard();
   try {
     await loadManifest();
+    ensureOfflinePack(state.instrument);
   } catch {
     toast('Could not load the clip list. Refresh to try again.');
     els.begin.disabled = true;
