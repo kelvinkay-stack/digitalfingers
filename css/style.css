@@ -1020,8 +1020,7 @@ main { max-width: 70rem; }
 .game-preview-answers span:last-child { background: var(--sky-soft); }
 
 .keys-rule {
-  opacity: 1;
-  filter: none;
+  display: none !important;
 }
 .keys-rule .white { fill: #fff; stroke: #111; }
 .keys-rule .black { fill: #111; stroke: #111; }
