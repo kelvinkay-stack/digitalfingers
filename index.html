@@ -71,18 +71,6 @@
         </div>
         <div class="hero-actions">
           <div class="begin-row">
-            <div class="instrument-picker" role="group" aria-label="Choose an instrument">
-              <button class="instrument-choice is-selected" data-instrument="piano" aria-pressed="true">
-                <span aria-hidden="true">♬</span>
-                <b>Piano</b>
-                <small>38 paired pieces</small>
-              </button>
-              <button class="instrument-choice" data-instrument="violin" aria-pressed="false">
-                <span aria-hidden="true">♩</span>
-                <b>Violin</b>
-                <small>8 paired pieces</small>
-              </button>
-            </div>
             <button id="begin-btn" class="btn-primary">Begin listening</button>
             <div class="training-q" role="group" aria-labelledby="training-label">
               <p id="training-label">Quick question for our experiment: do you have musical training?</p>
@@ -95,6 +83,18 @@
           <p id="lifetime-line" class="lifetime-line"></p>
         </div>
         <div class="hero-visual">
+          <div class="instrument-picker" role="group" aria-label="Choose an instrument">
+            <button class="instrument-choice is-selected" data-instrument="piano" aria-pressed="true">
+              <span aria-hidden="true">♬</span>
+              <b>Piano</b>
+              <small>38 paired pieces</small>
+            </button>
+            <button class="instrument-choice" data-instrument="violin" aria-pressed="false">
+              <span aria-hidden="true">♩</span>
+              <b>Violin</b>
+              <small>8 paired pieces</small>
+            </button>
+          </div>
           <figure class="robot-pianist">
             <img id="hero-art" src="/assets/robot-human-pianists.webp" width="1200" height="800" alt="An old-fashioned robot and a human pianist seated across from each other at a grand piano" decoding="async">
           </figure>

@@ -840,6 +840,10 @@ main { max-width: 70rem; }
   align-self: center;
   padding: 0.6rem 0 1.35rem;
 }
+.hero-visual .instrument-picker {
+  width: 100%;
+  margin-bottom: 1rem;
+}
 .hero-note {
   margin: 0 0 1.65rem;
   color: var(--muted);
