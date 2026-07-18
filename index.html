@@ -65,9 +65,11 @@
       <div class="hero">
         <div class="hero-copy">
           <span class="kicker">A blind listening test</span>
-          <h1>Digital Fingers</h1>
+          <h1><span>Digital</span> <span>Fingers</span></h1>
           <p id="premise" class="premise">Can you tell the difference between a <em>human</em> and a <em>computer</em> playing piano?</p>
           <p id="hero-note" class="hero-note">Five tiny piano mysteries for curious ears.</p>
+        </div>
+        <div class="hero-actions">
           <div class="begin-row">
             <div class="instrument-picker" role="group" aria-label="Choose an instrument">
               <button class="instrument-choice is-selected" data-instrument="piano" aria-pressed="true">
@@ -97,26 +99,29 @@
           </div>
           <p id="lifetime-line" class="lifetime-line"></p>
         </div>
-        <figure class="robot-pianist">
-          <img id="hero-art" src="/assets/robot-human-pianists.webp" width="1200" height="800" alt="An old-fashioned robot and a human pianist seated across from each other at a grand piano" decoding="async">
-        </figure>
-      </div>
-      <div class="game-preview">
-        <div class="game-preview-meta">
-          <span>Round 1 of 5</span>
-          <span id="preview-instrument">Piano · listen closely</span>
-        </div>
-        <div class="game-preview-body">
-          <button id="preview-play-btn" class="game-preview-play" type="button" aria-label="Start a piano game and play the first clip">
-            <svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg>
-          </button>
-          <div class="game-preview-wave" aria-hidden="true">
-            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        <div class="hero-visual">
+          <figure class="robot-pianist">
+            <img id="hero-art" src="/assets/robot-human-pianists.webp" width="1200" height="800" alt="An old-fashioned robot and a human pianist seated across from each other at a grand piano" decoding="async">
+            <figcaption>Human touch <span>×</span> machine precision</figcaption>
+          </figure>
+          <div class="game-preview">
+            <div class="game-preview-meta">
+              <span>Round 1 of 5</span>
+              <span id="preview-instrument">Piano · listen closely</span>
+            </div>
+            <div class="game-preview-body">
+              <button id="preview-play-btn" class="game-preview-play" type="button" aria-label="Start a piano game and play the first clip">
+                <svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg>
+              </button>
+              <div class="game-preview-wave" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+            </div>
+            <div class="game-preview-answers" aria-hidden="true">
+              <span>Human</span>
+              <span>Machine</span>
+            </div>
           </div>
-        </div>
-        <div class="game-preview-answers" aria-hidden="true">
-          <span>Human</span>
-          <span>Machine</span>
         </div>
       </div>
       <svg class="keys-rule" viewBox="0 0 337 44" aria-hidden="true">
