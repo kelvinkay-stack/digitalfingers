@@ -59,6 +59,7 @@ const els = {
 };
 
 const TRAINED_KEY = 'digitalfingers.trained';
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
 let manifest = null;
 let session = null;
@@ -250,7 +251,7 @@ function answer(guessedHuman) {
   els.reveal.removeAttribute('hidden');
   requestAnimationFrame(() => {
     els.reveal.classList.add('is-shown');
-    els.reveal.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    els.reveal.scrollIntoView({ behavior: reducedMotion.matches ? 'instant' : 'smooth', block: 'nearest' });
   });
 
   els.playBtn.disabled = player.playing;
