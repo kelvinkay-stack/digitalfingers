@@ -723,6 +723,17 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
 
 /* ---------- results page ---------- */
 
+.linklike {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--brass);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
 .results-state { margin: 2.4rem 0; font-style: italic; color: var(--muted); }
 .stat-row { display: flex; gap: 3rem; margin: 0.4rem 0 1.6rem; }
 .stat { margin: 0; }

@@ -94,6 +94,24 @@ function render(data) {
   fillHall($('#hall-fooling'), data.mostFooling, true);
   fillHall($('#hall-caught'), data.mostCaught, false);
 
+  // live Elo leaderboard (ships empty until clips pass 20 rated judgments)
+  const live = $('#hall-live');
+  if (data.liveDeceptive && data.liveDeceptive.length) {
+    for (const r of data.liveDeceptive) {
+      const li = document.createElement('li');
+      const title = document.createElement('b');
+      title.textContent = r.title;
+      const note = document.createElement('span');
+      note.textContent = `rated ${fmt(r.rating)} after ${fmt(r.n)} rated judgments`;
+      li.append(title, note);
+      live.appendChild(li);
+    }
+  } else {
+    const li = document.createElement('li');
+    li.textContent = SUPPRESSED;
+    live.appendChild(li);
+  }
+
   // personal layer, computed entirely from this browser's localStorage
   const you = lifetime();
   if (you.games >= 1 && o.total >= minN) {

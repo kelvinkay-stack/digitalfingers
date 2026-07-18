@@ -60,7 +60,7 @@ function writeQueue(q) {
 
 export function queueStats(body) {
   const q = readQueue();
-  q.push({ key: `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`, body });
+  q.push({ key: body.key || `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`, body });
   writeQueue(q.slice(-20));
 }
 

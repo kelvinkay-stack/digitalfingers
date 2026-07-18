@@ -5,6 +5,7 @@ import { Waveform } from './waveform.js';
 import { drawSession, verdictFor, MAX_REPLAYS } from './game.js';
 import { recordSession, getSessions, lifetime, hardestClip, renderSparkline } from './stats.js';
 import { queueStats } from './pwa.js';
+import { getRating, updateRating, bandFor, difficultyPhrase } from './rating.js';
 
 const $ = (sel) => document.querySelector(sel);
 
@@ -44,6 +45,7 @@ const els = {
   finalScore: $('#final-score'),
   verdictTitle: $('#verdict-title'),
   verdictLine: $('#verdict-line'),
+  ratingLine: $('#rating-line'),
   review: $('#review'),
   sparkBlock: $('#spark-block'),
   sparkline: $('#sparkline'),
@@ -75,6 +77,7 @@ const state = {
   answered: false,
   listened: false,
   retriedId: null,
+  firstPlayAt: 0,
   instrument: 'piano',
   rounds: [], // {id, correct, guessedHuman}
   preloaded: new Map(),
@@ -189,7 +192,10 @@ async function startSession() {
       return;
     }
   }
-  session = drawSession(instrumentClips);
+  session = drawSession(instrumentClips, {
+    playerRating: getRating().r,
+    ratings: (crowdData && crowdData.elo) || {},
+  });
   if (!session.length) { toast('No clips available.'); return; }
   show('round');
   startRound();
@@ -200,6 +206,7 @@ function startRound() {
   state.replaysUsed = 0;
   state.answered = false;
   state.listened = false;
+  state.firstPlayAt = 0;
 
   els.roundInstrument.textContent = state.instrument === 'violin' ? 'Violin' : 'Piano';
   els.roundLabel.textContent = `Round ${state.index + 1} of ${session.length}`;
@@ -236,6 +243,7 @@ function onPlayerState(ev) {
     wave.startTicking();
     if (!state.answered) {
       if (state.listened) state.replaysUsed += 1;
+      if (!state.listened) state.firstPlayAt = performance.now();
       state.listened = true;
       setAnswersEnabled(true);
       els.listenHint.textContent = 'Human or machine?';
@@ -283,7 +291,12 @@ function answer(guessedHuman) {
   const clip = currentClip();
   const correct = guessedHuman === clip.isHuman;
   if (correct) state.score += 1;
-  state.rounds.push({ id: clip.id, correct, guessedHuman });
+  // an answer under a second after first play means nobody was listening -
+  // it still plays out normally, but counts toward no rating or counter
+  const tooFast = performance.now() - state.firstPlayAt < 1000;
+  state.rounds.push({ id: clip.id, correct, guessedHuman, tooFast });
+  const clipElo = crowdData && crowdData.elo && crowdData.elo[clip.id];
+  if (!tooFast) updateRating(correct, (clipElo && clipElo.r) || 1500);
 
   els.screens.round.classList.remove('is-listening');
   els.screens.round.classList.add('is-revealed', correct ? 'is-correct' : 'is-wrong');
@@ -306,13 +319,14 @@ function answer(guessedHuman) {
 
   // how the crowd did on this exact clip
   const cs = crowdData && crowdData.clips && crowdData.clips[clip.id];
+  const phrase = difficultyPhrase(clipElo);
+  const crowdBits = [];
+  if (phrase) crowdBits.push(phrase);
   if (cs && cs.total >= 5) {
-    const pct = Math.round(100 * cs.right / cs.total);
-    els.revealCrowd.textContent = `${pct}% of players have called this one correctly.`;
-    els.revealCrowd.hidden = false;
-  } else {
-    els.revealCrowd.hidden = true;
+    crowdBits.push(`${Math.round(100 * cs.right / cs.total)}% of players have called this one correctly.`);
   }
+  els.revealCrowd.textContent = crowdBits.join(' ');
+  els.revealCrowd.hidden = !crowdBits.length;
 
   els.reveal.removeAttribute('hidden');
   requestAnimationFrame(() => {
@@ -345,6 +359,21 @@ function finishSession() {
   });
   submitAndRenderCrowd(state.score, state.rounds.length);
   const { title, line } = verdictFor(state.score, state.rounds.length);
+
+  const me = getRating();
+  if (me.n > 0) {
+    els.ratingLine.innerHTML = '';
+    els.ratingLine.append(`Your ear rating: ${bandFor(me.r)}. `);
+    const peek = document.createElement('button');
+    peek.type = 'button';
+    peek.className = 'linklike';
+    peek.textContent = 'show the number';
+    peek.addEventListener('click', () => {
+      peek.replaceWith(`${Math.round(me.r)}`);
+    }, { once: true });
+    els.ratingLine.appendChild(peek);
+    els.ratingLine.hidden = false;
+  }
 
   els.finalScore.innerHTML = `${state.score}<span>/${state.rounds.length}</span>`;
   els.verdictTitle.textContent = title;
@@ -402,10 +431,11 @@ function reflectTrainingButtons() {
 function submitAndRenderCrowd(score, total) {
   const trained = getTrained();
   const body = {
+    key: `s-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`,
     trained: trained ? trained === 'yes' : null,
     score,
     total,
-    rounds: state.rounds.map(r => ({ id: r.id, correct: r.correct })),
+    rounds: state.rounds.filter(r => !r.tooFast).map(r => ({ id: r.id, correct: r.correct })),
   };
   if (!navigator.onLine) {
     queueStats(body); // counted when connectivity returns
