@@ -246,3 +246,28 @@ module.exports = [
     fadeOut: 2.4,
   },
 ];
+
+/* ---------------- Learn page: expression mixer ----------------
+ * All 16 combinations of the four expression layers over the same eight
+ * bars as the A/B demos. File names use a 4-bit scheme, mixer-<t><d><p><a>:
+ *   t = micro-timing/rubato   d = dynamics + voicing
+ *   p = pedal                 a = articulation
+ * (mixer-0000 = deadpan, mixer-1111 = every layer). Each layer's parameters
+ * are identical to its matching demo above, so the mixer and the essays
+ * teach the same sounds; every file exits through the same loudness chain
+ * as the rest of the pool, so level never hints at which layers are on. */
+for (let mask = 15; mask >= 0; mask--) {
+  const t = !!(mask & 8), d = !!(mask & 4), p = !!(mask & 2), a = !!(mask & 1);
+  module.exports.push({
+    id: `mixer-${t ? 1 : 0}${d ? 1 : 0}${p ? 1 : 0}${a ? 1 : 0}`,
+    midi: 'gymnopedie1.mid', outDir: 'audio/mixer',
+    tier: 'deadpan', beats: [12, 36], bpm: 76, phraseBeats: 12,
+    ...(p ? { pedalBeats: 3 } : {}),
+    override: {
+      ...(t ? { rubato: 0.10, timeJitter: 0.010, endRit: 0.30 } : {}),
+      ...(d ? { arc: 0.18, voicing: 0.17 } : {}),
+      ...(a ? { artic: 'shaped' } : {}),
+    },
+    fadeOut: p ? 2.4 : 2.0,
+  });
+}
