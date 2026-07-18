@@ -1,3 +1,15 @@
 [build]
   publish = "."
   functions = "netlify/functions"
+
+# The .html URLs are canonical (nav links, canonicals, and the sitemap all
+# use them); fold the extensionless variants into them.
+[[redirects]]
+  from = "/learn"
+  to = "/learn.html"
+  status = 301
+
+[[redirects]]
+  from = "/about"
+  to = "/about.html"
+  status = 301
