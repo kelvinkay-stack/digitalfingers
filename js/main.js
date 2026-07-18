@@ -22,8 +22,6 @@ const els = {
   previewPlay: $('#preview-play-btn'),
   keysRule: $('.keys-rule'),
   stringsRule: $('#strings-rule'),
-  hardMode: $('#hardmode'),
-  hardModeWrap: $('#hardmode-wrap'),
   lifetimeLine: $('#lifetime-line'),
   roundLabel: $('#round-label'),
   roundInstrument: $('#round-instrument'),
@@ -50,7 +48,6 @@ const els = {
   sparkline: $('#sparkline'),
   sparkCaption: $('#spark-caption'),
   againBtn: $('#again-btn'),
-  againHardBtn: $('#again-hard-btn'),
   hardestLine: $('#hardest-line'),
   trainedYes: $('#trained-yes'),
   trainedNo: $('#trained-no'),
@@ -75,7 +72,6 @@ const state = {
   replaysUsed: 0,
   answered: false,
   listened: false,
-  hard: false,
   instrument: 'piano',
   rounds: [], // {id, correct, guessedHuman}
   preloaded: new Map(),
@@ -119,14 +115,13 @@ async function loadManifest() {
 
 function currentClip() { return session[state.index]; }
 
-function startSession(hard) {
-  state.hard = state.instrument === 'piano' && hard;
+function startSession() {
   state.index = 0;
   state.score = 0;
   state.rounds = [];
   state.preloaded.clear();
   const instrumentClips = manifest.clips.filter(c => (c.instrument || 'piano') === state.instrument);
-  session = drawSession(instrumentClips, { hard: state.hard });
+  session = drawSession(instrumentClips);
   if (!session.length) { toast('No clips available.'); return; }
   show('round');
   startRound();
@@ -266,7 +261,7 @@ function finishSession() {
   recordSession({
     score: state.score,
     total: state.rounds.length,
-    hard: state.hard,
+    hard: false,
     instrument: state.instrument,
     rounds: state.rounds,
   });
@@ -305,8 +300,6 @@ function finishSession() {
   els.hardestLine.textContent = worst
     ? `Your blind spot: ${worst.clip.title}. It has fooled you ${worst.wrong} of ${worst.seen} times.`
     : '';
-
-  els.againHardBtn.hidden = state.instrument !== 'piano';
 
   show('results');
   announce(`Session over. You scored ${state.score} out of ${state.rounds.length}. ${title}.`);
@@ -409,8 +402,6 @@ function wireIntro() {
       : 'An old-fashioned robot and a human pianist seated across from each other at a grand piano';
     els.previewInstrument.textContent = `${violin ? 'Violin' : 'Piano'} · listen closely`;
     els.previewPlay.setAttribute('aria-label', `Start a ${violin ? 'violin' : 'piano'} game and play the first clip`);
-    els.hardModeWrap.hidden = violin;
-    if (violin) els.hardMode.checked = false;
     els.keysRule.hidden = violin;
     els.stringsRule.hidden = !violin;
     announce(`${violin ? 'Violin' : 'Piano'} selected. Five rounds.`);
@@ -426,7 +417,7 @@ function wireIntro() {
       toast('The music is still loading. Try again in a moment.');
       return;
     }
-    startSession(els.hardMode.checked);
+    startSession();
     if (autoplay && session && session.length) player.play();
   };
   els.begin.addEventListener('click', () => startFromIntro(false));
@@ -454,8 +445,7 @@ function wireRound() {
 }
 
 function wireResults() {
-  els.againBtn.addEventListener('click', () => startSession(state.hard));
-  els.againHardBtn.addEventListener('click', () => startSession(true));
+  els.againBtn.addEventListener('click', startSession);
   els.shareBtn.addEventListener('click', shareScore);
 }
 
