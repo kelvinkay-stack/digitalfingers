@@ -138,7 +138,7 @@ function startRound() {
   els.roundLabel.textContent = `Round ${state.index + 1} of ${session.length}`;
   const answeredSoFar = state.rounds.length;
   els.scoreLabel.textContent = answeredSoFar ? `${state.score}/${answeredSoFar}` : '';
-  els.listenHint.textContent = 'Press play, then decide.';
+  els.listenHint.textContent = 'Press play (or Space), then decide.';
   els.playBtn.disabled = false;
   els.playBtn.classList.add('is-idle');
   els.screens.round.classList.remove('is-listening', 'is-revealed', 'is-correct', 'is-wrong');
@@ -478,8 +478,9 @@ async function shareScore() {
 function wireKeyboard() {
   document.addEventListener('keydown', (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
-    const tag = document.activeElement && document.activeElement.tagName;
-    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    const active = document.activeElement;
+    const tag = active && active.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || (active && active.isContentEditable)) return;
 
     if (els.screens.round.classList.contains('is-active')) {
       if (e.key === ' ' || e.key === 'p' || e.key === 'P') {
