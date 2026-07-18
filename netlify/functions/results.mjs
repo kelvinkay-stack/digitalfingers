@@ -58,6 +58,20 @@ export default async () => {
     groups.trained.sessions + groups.untrained.sessions,
   );
 
+  // live difficulty ratings: the five highest-rated (most deceptive) clips,
+  // counted only once a clip has 20 rated judgments
+  const liveDeceptive = Object.entries(agg.elo || {})
+    .map(([id, e]) => ({ clip: byId.get(id), e }))
+    .filter(x => x.clip && x.e && Number.isFinite(x.e.r) && (x.e.n || 0) >= 20)
+    .sort((a, b) => b.e.r - a.e.r)
+    .slice(0, 5)
+    .map(x => ({
+      title: x.clip.title,
+      side: x.clip.isHuman ? 'human' : 'machine',
+      rating: Math.round(x.e.r),
+      n: x.e.n,
+    }));
+
   return Response.json({
     minN: MIN_N,
     sessions,
@@ -67,6 +81,7 @@ export default async () => {
     tiers,
     mostFooling: ranked.slice(0, 5),
     mostCaught: ranked.slice(-5).reverse(),
+    liveDeceptive,
   }, {
     headers: {
       'cache-control': 'public, max-age=0, must-revalidate',
