@@ -73,6 +73,7 @@
 
       <h2>Colophon</h2>
       <p>Hand-built with plain HTML, CSS, and JavaScript. No frameworks, no build step. The piano pipeline parses MIDI, applies an expression model, and mixes samples offline; the violin pipeline renders licensed ensemble scores through a General MIDI soundfont. Both finish with the same trim, fade, loudness, sample-rate, and encoding chain, so the site serves plain audio files and playback is identical on every device. Source pieces, tiers, and the full methodology are documented in the project README.</p>
+      <p>The Learn page's expression mixer is sixteen pre-rendered combinations of four expression layers &mdash; no live audio processing in the browser; each switch simply crossfades to the matching file, loudness-matched like everything else, and cached for offline like the rest of the pool.</p>
       <p>The site is also an installable app that works offline. A small hand-written service worker keeps the pages, type, and artwork on your device, quietly saves enough clip pairs for a full session while you're connected, and holds any finished session's anonymous counters until the connection returns. Same rules offline as on: a piece plays once, and which side you get stays a coin flip.</p>
 
       <div class="results-actions" style="margin-top:2.5rem">

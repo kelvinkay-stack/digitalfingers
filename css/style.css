@@ -642,6 +642,65 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
 .ab-progress i { display: block; height: 100%; width: 0; background: var(--brass); }
 .ab-demo .ab-listen { font-size: 0.85rem; font-style: italic; color: var(--muted); margin: 0.8rem 0 0; }
 
+/* Learn page: expression mixer */
+.mixer {
+  margin: 2rem 0 2.4rem;
+  padding: 1.3rem 1.4rem 1.5rem;
+  background: #faf6ed;
+  border: 1.5px solid var(--line);
+  border-radius: 18px 18px 7px 18px;
+  box-shadow: 4px 5px 0 var(--sky-soft);
+}
+.mixer .ab-title { font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 0 0 0.5rem; }
+.mixer-lede { margin: 0 0 1rem; color: var(--ivory-dim); }
+.mixer-toggles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.7rem; }
+.mixer-toggle {
+  padding: 0.85rem 0.95rem;
+  font-size: 0.95rem;
+  font-weight: 650;
+  color: var(--plum);
+  text-align: left;
+  background: #fffdf7;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.mixer-toggle::before { content: '○  '; color: var(--brass-dim); }
+.mixer-toggle:hover { border-color: var(--brass-dim); }
+.mixer-toggle.is-on { background: var(--sky-soft); border-color: var(--sky); }
+.mixer-toggle.is-on::before { content: '●  '; color: var(--brass); }
+.mixer-caption { margin: 0.9rem 0 0; font-style: italic; font-size: 0.9rem; color: var(--muted); }
+.mixer-controls { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; margin-top: 1.1rem; }
+.mixer-play {
+  min-width: 6.5rem;
+  padding: 0.7rem 1.2rem;
+  font-weight: 700;
+  color: #fffdf7;
+  background: var(--brass);
+  border: 1.5px solid #fffaf0;
+  border-radius: 999px;
+  box-shadow: 3px 3px 0 var(--plum);
+  transition: transform 0.12s ease;
+}
+.mixer-play:hover { transform: translate(-1px, -1px); }
+.mixer-preset {
+  padding: 0.6rem 0.95rem;
+  font-size: 0.88rem;
+  font-weight: 650;
+  color: var(--plum);
+  background: #fffdf7;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  transition: border-color 0.15s ease;
+}
+.mixer-preset:hover { border-color: var(--brass-dim); }
+.mixer .ab-progress { margin-top: 1.1rem; }
+
+.ab-details { margin: 1.6rem 0 2.4rem; }
+.ab-details summary { cursor: pointer; color: var(--brass); font-weight: 650; width: fit-content; }
+.ab-details summary:hover { color: var(--brass-bright); }
+.ab-details .ab-demo { margin: 0.8rem 0 0; }
+
 /* credits table-ish list */
 .credits li { margin: 0.7em 0; color: var(--ivory-dim); }
 .credits b { color: var(--ivory); font-weight: 500; }

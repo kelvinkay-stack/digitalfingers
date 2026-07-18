@@ -10,7 +10,7 @@
  *   df-stats-v1   last good /api/stats aggregate, network-first fallback.
  */
 
-const VERSION = 'v3';
+const VERSION = 'v4';
 const SHELL_CACHE = `df-shell-${VERSION}`;
 const AUDIO_CACHE = 'df-audio-v1';
 const STATS_CACHE = 'df-stats-v1';
@@ -37,6 +37,7 @@ const SHELL = [
   '/js/learn.js',
   '/js/results.js',
   '/js/rating.js',
+  '/js/mixer.js',
   '/js/pwa.js',
   '/data/clips.json',
   '/assets/favicon.svg?v=3',

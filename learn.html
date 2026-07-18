@@ -55,14 +55,35 @@
         <p class="lede">A piano key doesn't know who pressed it. A hammer hits a string at some speed, at some moment, and that's all the instrument ever knows. Everything we call <em>expression</em> comes down to two numbers, when and how hard, repeated a few thousand times. So everything human about a performance is hiding in those two numbers. Here's where to listen for it.</p>
       </header>
 
-      <p>Each section below ends with two recordings of the same eight bars of Satie's first Gymnopédie. The first is a deadpan render, meaning the score played exactly as written with nothing added. The second adds back one human skill, and only that one. Listen to them back to back and you'll hear what each skill actually does.</p>
+      <div id="mixer" class="mixer" role="group" aria-label="Expression mixer: build the illusion layer by layer">
+        <p class="ab-title">The expression mixer</p>
+        <p class="mixer-lede">Four human skills, one eight-bar phrase of Satie's first Gymnopédie. Start deadpan, add the skills back one at a time, and hear the illusion assemble.</p>
+        <div class="mixer-toggles">
+          <button class="mixer-toggle" data-layer="t" aria-pressed="false">Micro-timing &amp; rubato</button>
+          <button class="mixer-toggle" data-layer="d" aria-pressed="false">Dynamics &amp; voicing</button>
+          <button class="mixer-toggle" data-layer="p" aria-pressed="false">Pedal</button>
+          <button class="mixer-toggle" data-layer="a" aria-pressed="false">Articulation</button>
+        </div>
+        <p id="mixer-caption" class="mixer-caption" hidden></p>
+        <div class="mixer-controls">
+          <button id="mixer-play" class="mixer-play" aria-pressed="false">Play</button>
+          <button id="mixer-deadpan" class="mixer-preset">Deadpan</button>
+          <button id="mixer-full" class="mixer-preset">The full illusion</button>
+        </div>
+        <div class="ab-progress" aria-hidden="true"><i></i></div>
+        <p id="mixer-state" class="visually-hidden" role="status" aria-live="polite"></p>
+      </div>
+
+      <p>Each section below ends with the same eight bars again, tucked behind a small toggle: a deadpan render against the section's one skill, isolated. The mixer above plays the very same recordings, so the essay and the panel teach the same sounds.</p>
 
       <hr class="staff-rule" aria-hidden="true">
 
       <h2><span class="num">i.</span> Micro-timing and rubato</h2>
       <p>Nobody plays perfectly in time. Not even professionals who think they do. Measure a real pianist against a grid and their notes land early and late by small amounts, but the misses aren't random. A player leans into the start of a phrase, pushes through the middle, and relaxes at the end, the same way a sentence has a shape when you say it out loud. Musicians call this <strong>rubato</strong>, which means stolen time. You steal a little here and pay it back there.</p>
       <p>Computers fail at this in a funny way. Software can shake up the timing randomly, and the result sounds like a nervous robot, not a person. That's because human timing errors point somewhere. So when you're deciding human or machine, don't ask whether the timing is imperfect. Ask whether the imperfections are going anywhere.</p>
-      <div class="ab-demo" role="group" aria-label="Listening demo: micro-timing and rubato">
+      <details class="ab-details">
+        <summary>Hear this skill in isolation</summary>
+        <div class="ab-demo" role="group" aria-label="Listening demo: micro-timing and rubato">
         <p class="ab-title">The same phrase, twice</p>
         <div class="ab-buttons">
           <button class="ab-btn" aria-pressed="false" data-src="audio/demos/demo-deadpan.mp3"><span class="dot" aria-hidden="true"></span>Deadpan</button>
@@ -71,11 +92,14 @@
         <div class="ab-progress" aria-hidden="true"><i></i></div>
         <p class="ab-listen">Listen for: whether the imperfections are going anywhere.</p>
       </div>
+      </details>
 
       <h2><span class="num">ii.</span> Dynamic phrasing and voicing</h2>
       <p>Hit every note at the same volume and a piano turns into a typewriter. Real players shape volume at two levels at once. Across a phrase, the sound rises and falls in an arc, swelling toward the note that matters and settling after it. And inside a single chord, a pianist plays the melody note a little stronger than its neighbors so the tune stands out from the background. That trick is called <strong>voicing</strong>.</p>
       <p>Voicing is the harder thing to fake, because it means knowing which note matters, and that's a musical judgment, not a math problem. If a recording gets louder and softer but still feels strangely flat, this is usually why. Everything is getting louder and softer <em>together</em>, and no single line ever steps forward.</p>
-      <div class="ab-demo" role="group" aria-label="Listening demo: dynamic phrasing and voicing">
+      <details class="ab-details">
+        <summary>Hear this skill in isolation</summary>
+        <div class="ab-demo" role="group" aria-label="Listening demo: dynamic phrasing and voicing">
         <p class="ab-title">The same phrase, twice</p>
         <div class="ab-buttons">
           <button class="ab-btn" aria-pressed="false" data-src="audio/demos/demo-deadpan.mp3"><span class="dot" aria-hidden="true"></span>Deadpan</button>
@@ -84,11 +108,14 @@
         <div class="ab-progress" aria-hidden="true"><i></i></div>
         <p class="ab-listen">Listen for: whether any single line steps forward from the rest.</p>
       </div>
+      </details>
 
       <h2><span class="num">iii.</span> The pedal and its haze</h2>
       <p>The sustain pedal is the piano's breath. Press it and the dampers lift off every string, so strings you never played start humming along with the ones you did. A real performance carries that <strong>haze</strong>. The sound builds up, blurs, and then clears when the player changes the pedal, usually a split second <em>after</em> the harmony changes, because it sounds better when the new chord blooms into the old one's fade.</p>
       <p>Renders usually treat the pedal like a light switch flipped exactly on the beat. Clean, punctual, and airless. Listen for the space around the notes. If every chord sits in its own sealed room, be suspicious. There's also plain old noise. A real pedal thumps, felt shifts, dampers brush against strings. Total silence between notes is a clue all by itself.</p>
-      <div class="ab-demo" role="group" aria-label="Listening demo: the pedal">
+      <details class="ab-details">
+        <summary>Hear this skill in isolation</summary>
+        <div class="ab-demo" role="group" aria-label="Listening demo: the pedal">
         <p class="ab-title">The same phrase, twice</p>
         <div class="ab-buttons">
           <button class="ab-btn" aria-pressed="false" data-src="audio/demos/demo-deadpan.mp3"><span class="dot" aria-hidden="true"></span>Deadpan (dry)</button>
@@ -97,11 +124,14 @@
         <div class="ab-progress" aria-hidden="true"><i></i></div>
         <p class="ab-listen">Listen for: the space around the notes.</p>
       </div>
+      </details>
 
       <h2><span class="num">iv.</span> Articulation, the space between notes</h2>
       <p>Two notes can be the same length on paper and feel completely different depending on how they end. A pianist lets some notes go early so there's daylight between them, melts others into the next one, and clips repeated notes so they bounce. Melodies usually get the connected, singing treatment while the accompaniment stays lighter and more detached, so the texture has <strong>layers</strong>.</p>
       <p>A quantized render holds every note for exactly its written length. The effect is subtle but it's everywhere. The music feels laminated, with each note the same distance from its neighbors. Once you hear it, you can't unhear it.</p>
-      <div class="ab-demo" role="group" aria-label="Listening demo: articulation">
+      <details class="ab-details">
+        <summary>Hear this skill in isolation</summary>
+        <div class="ab-demo" role="group" aria-label="Listening demo: articulation">
         <p class="ab-title">The same phrase, twice</p>
         <div class="ab-buttons">
           <button class="ab-btn" aria-pressed="false" data-src="audio/demos/demo-deadpan.mp3"><span class="dot" aria-hidden="true"></span>Uniform</button>
@@ -110,11 +140,14 @@
         <div class="ab-progress" aria-hidden="true"><i></i></div>
         <p class="ab-listen">Listen for: whether every note sits the same distance from its neighbors.</p>
       </div>
+      </details>
 
       <h2><span class="num">v.</span> Imperfection as signature</h2>
       <p>Here's the uncomfortable part: everything above can be programmed. Rubato curves, volume arcs, voicing, pedal models. The renders in this game use all of them, and the good ones are genuinely hard to catch. What still gives the machine away isn't a lack of imperfection. It's a lack of <strong>risk</strong>. A live performance is a body solving a physical problem in real time. Fingers travel, hands have habits, and the fourth finger is weaker than the second and always will be. Human flaws form a consistent personal pattern, like a signature. Machine flaws form a statistic.</p>
       <p>So the final skill isn't spotting mistakes. It's asking whether the performance sounds like it could have gone <em>differently</em>. Whether anything was ever at stake. Perfection can be rendered. Almost losing it, so far, can't.</p>
-      <div class="ab-demo" role="group" aria-label="Listening demo: the full illusion">
+      <details class="ab-details">
+        <summary>Hear this skill in isolation</summary>
+        <div class="ab-demo" role="group" aria-label="Listening demo: the full illusion">
         <p class="ab-title">Deadpan against everything at once</p>
         <div class="ab-buttons">
           <button class="ab-btn" aria-pressed="false" data-src="audio/demos/demo-deadpan.mp3"><span class="dot" aria-hidden="true"></span>Deadpan</button>
@@ -123,6 +156,7 @@
         <div class="ab-progress" aria-hidden="true"><i></i></div>
         <p class="ab-listen">Listen for: whether the performance sounds like it could have gone differently.</p>
       </div>
+      </details>
 
       <hr class="staff-rule" aria-hidden="true">
 
@@ -153,6 +187,7 @@
   </footer>
 
   <script type="module" src="/js/learn.js"></script>
+  <script type="module" src="/js/mixer.js"></script>
   <script type="module" src="/js/pwa.js"></script>
 </body>
 </html>
