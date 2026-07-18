@@ -19,6 +19,10 @@
   --sky-soft: #dfe6dc;
   --sun: #c4a25b;            /* antique gold */
   --plum: #243141;
+  --button-ink: #172331;
+  --button-paper: #fffaf0;
+  --button-selected: #e1c574;
+  --wordmark-fill: #b8c9bd;
   --serif: 'Cormorant Garamond', 'Palatino Linotype', Palatino, Georgia, serif;
   --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --measure: 38rem;
@@ -708,15 +712,16 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
 .wordmark {
   display: inline-block;
   padding: 0.28rem 0.8rem 0.34rem;
-  color: var(--plum);
-  background: var(--sun);
+  color: var(--button-ink);
+  background: var(--wordmark-fill);
   border: 2px solid var(--plum);
   border-radius: 999px 999px 999px 12px;
   box-shadow: 3px 3px 0 var(--plum);
   transform: rotate(-1.5deg);
 }
 .wordmark:hover {
-  color: var(--plum);
+  color: var(--button-ink);
+  background: #c9d8ce;
   transform: rotate(1deg) translateY(-1px);
 }
 
@@ -853,29 +858,31 @@ main { max-width: 70rem; }
   gap: 0 0.55rem;
   min-width: 0;
   padding: 0.62rem 0.78rem;
-  color: var(--ivory-dim);
+  color: var(--button-ink);
   text-align: left;
-  background: rgba(255, 253, 247, 0.78);
-  border: 2px solid var(--line);
+  background: var(--button-paper);
+  border: 2px solid var(--plum);
   border-radius: 16px 16px 7px 16px;
   transition: transform 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
 }
 .instrument-choice > span {
   grid-row: 1 / 3;
-  color: var(--brass);
+  color: var(--button-ink);
   font-family: var(--serif);
   font-size: 1.75rem;
   line-height: 1;
 }
-.instrument-choice b { color: var(--plum); font-size: 1rem; }
-.instrument-choice small { color: var(--muted); font-size: 0.72rem; white-space: nowrap; }
+.instrument-choice b { color: var(--button-ink); font-size: 1rem; }
+.instrument-choice small { color: var(--button-ink); font-size: 0.72rem; font-weight: 650; white-space: nowrap; }
 .instrument-choice:hover {
-  color: var(--plum);
+  color: var(--button-ink);
+  background: #f4ead5;
   border-color: var(--plum);
   transform: translateY(-1px);
 }
 .instrument-choice.is-selected {
-  background: var(--sun);
+  color: var(--button-ink);
+  background: var(--button-selected);
   border-color: var(--plum);
   box-shadow: 3px 3px 0 var(--plum);
   transform: translate(-1px, -1px);
