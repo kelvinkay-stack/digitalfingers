@@ -58,6 +58,9 @@
   </header>
 
   <main>
+    <noscript>
+      <p class="noscript-note">Digital Fingers needs JavaScript to play its clips and keep score. Enable it and refresh, and the music will be waiting.</p>
+    </noscript>
     <p id="live-region" class="visually-hidden" role="status" aria-live="polite"></p>
 
     <!-- ============ intro ============ -->
@@ -169,9 +172,9 @@
 
       <div id="reveal" class="reveal" hidden>
         <p id="verdict-mark" class="verdict-mark">Correct</p>
-        <h2 id="reveal-title">…</h2>
-        <p id="reveal-truth" class="truth">…</p>
-        <p id="reveal-explain" class="explain">…</p>
+        <h2 id="reveal-title"></h2>
+        <p id="reveal-truth" class="truth"></p>
+        <p id="reveal-explain" class="explain"></p>
         <p id="reveal-crowd" class="reveal-crowd" hidden></p>
         <div class="reveal-actions">
           <button id="next-btn" class="btn-primary">Next round</button>
@@ -184,8 +187,8 @@
     <section id="screen-results" class="screen" aria-label="Results">
       <div class="results">
         <p id="final-score" class="final-score">0<span>/5</span></p>
-        <h2 id="verdict-title" class="verdict-title">…</h2>
-        <p id="verdict-line" class="verdict-line">…</p>
+        <h2 id="verdict-title" class="verdict-title"></h2>
+        <p id="verdict-line" class="verdict-line"></p>
 
         <ul id="review" class="review" aria-label="Round by round review"></ul>
 

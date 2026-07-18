@@ -72,6 +72,7 @@ const state = {
   replaysUsed: 0,
   answered: false,
   listened: false,
+  retriedId: null,
   instrument: 'piano',
   rounds: [], // {id, correct, guessedHuman}
   preloaded: new Map(),
@@ -187,7 +188,17 @@ function onPlayerState(ev) {
     }
   } else if (ev === 'error') {
     els.screens.round.classList.remove('is-listening');
-    skipBrokenClip();
+    const clip = currentClip();
+    if (clip && state.retriedId !== clip.id) {
+      // give a stumbling clip one more chance before giving up on it
+      state.retriedId = clip.id;
+      player.load(clip.src);
+      els.playBtn.disabled = false;
+      els.playBtn.classList.add('is-idle');
+      els.listenHint.textContent = 'That clip stumbled. Press play to try again.';
+    } else {
+      skipBrokenClip();
+    }
   }
 }
 
@@ -498,6 +509,8 @@ async function init() {
   } catch {
     toast('Could not load the clip list. Refresh to try again.');
     els.begin.disabled = true;
+    els.previewPlay.disabled = true;
+    els.heroNote.textContent = 'The clip list didn’t load. Check your connection and refresh to try again.';
   }
   // per-clip crowd numbers for the reveals; the game works fine without them
   fetch('/api/stats')

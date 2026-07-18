@@ -188,6 +188,17 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
   }
 }
 
+.noscript-note {
+  max-width: 36rem;
+  margin: 1.2rem auto 0;
+  padding: 0.8rem 1.1rem;
+  text-align: center;
+  color: var(--ivory-dim);
+  background: var(--sky-soft);
+  border: 1px solid #a7b4a6;
+  border-radius: 12px;
+}
+
 /* intro / hero */
 .hero {
   text-align: center;
