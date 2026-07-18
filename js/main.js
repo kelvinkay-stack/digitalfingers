@@ -4,6 +4,7 @@ import { ArcPlayer, preload } from './player.js';
 import { Waveform } from './waveform.js';
 import { drawSession, verdictFor, MAX_REPLAYS } from './game.js';
 import { recordSession, getSessions, lifetime, hardestClip, renderSparkline } from './stats.js';
+import { queueStats } from './pwa.js';
 
 const $ = (sel) => document.querySelector(sel);
 
@@ -400,19 +401,29 @@ function reflectTrainingButtons() {
 
 function submitAndRenderCrowd(score, total) {
   const trained = getTrained();
+  const body = {
+    trained: trained ? trained === 'yes' : null,
+    score,
+    total,
+    rounds: state.rounds.map(r => ({ id: r.id, correct: r.correct })),
+  };
+  if (!navigator.onLine) {
+    queueStats(body); // counted when connectivity returns
+    els.crowdBlock.hidden = true;
+    return;
+  }
   fetch('/api/stats', {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      trained: trained ? trained === 'yes' : null,
-      score,
-      total,
-      rounds: state.rounds.map(r => ({ id: r.id, correct: r.correct })),
-    }),
+    body: JSON.stringify(body),
   })
     .then(r => { if (!r.ok) throw new Error(); return r.json(); })
     .then(agg => { crowdData = agg; renderCrowd(agg); })
-    .catch(() => { els.crowdBlock.hidden = true; });
+    .catch((err) => {
+      els.crowdBlock.hidden = true;
+      // a TypeError is a network failure, not a server verdict - keep the result
+      if (err instanceof TypeError) queueStats(body);
+    });
 }
 
 function renderCrowd(agg) {
