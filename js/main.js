@@ -19,6 +19,7 @@ const els = {
   heroNote: $('#hero-note'),
   heroArt: $('#hero-art'),
   previewInstrument: $('#preview-instrument'),
+  previewPlay: $('#preview-play-btn'),
   keysRule: $('.keys-rule'),
   stringsRule: $('#strings-rule'),
   hardMode: $('#hardmode'),
@@ -398,7 +399,7 @@ function wireIntro() {
       ? 'Can you tell the difference between <em>human</em> players and <em>computer</em> strings?'
       : 'Can you tell the difference between a <em>human</em> and a <em>computer</em> playing piano?';
     els.heroNote.textContent = violin
-      ? 'Five bowed-string mysteries, from Vivaldi to Bach.'
+      ? 'Five bowed-string mysteries, from Vivaldi to Beethoven.'
       : 'Five tiny piano mysteries for curious ears.';
     els.heroArt.src = violin
       ? '/assets/robot-human-violinists.jpg'
@@ -407,6 +408,7 @@ function wireIntro() {
       ? 'An old-fashioned robot and a human violinist facing each other with violins and bows'
       : 'An old-fashioned robot and a human pianist seated across from each other at a grand piano';
     els.previewInstrument.textContent = `${violin ? 'Violin' : 'Piano'} · listen closely`;
+    els.previewPlay.setAttribute('aria-label', `Start a ${violin ? 'violin' : 'piano'} game and play the first clip`);
     els.hardModeWrap.hidden = violin;
     if (violin) els.hardMode.checked = false;
     els.keysRule.hidden = violin;
@@ -419,7 +421,16 @@ function wireIntro() {
   const violinArt = new Image();
   violinArt.src = '/assets/robot-human-violinists.jpg';
 
-  els.begin.addEventListener('click', () => startSession(els.hardMode.checked));
+  const startFromIntro = (autoplay = false) => {
+    if (!manifest) {
+      toast('The music is still loading. Try again in a moment.');
+      return;
+    }
+    startSession(els.hardMode.checked);
+    if (autoplay && session && session.length) player.play();
+  };
+  els.begin.addEventListener('click', () => startFromIntro(false));
+  els.previewPlay.addEventListener('click', () => startFromIntro(true));
 
   reflectTrainingButtons();
   const setTrained = (v) => {

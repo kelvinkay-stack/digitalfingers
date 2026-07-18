@@ -292,6 +292,11 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
   margin: 0.75rem 0;
 }
 .game-preview-play {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
   display: grid;
   place-items: center;
   width: 3.2rem;
@@ -302,6 +307,8 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
   box-shadow: 0 0 24px rgba(200, 162, 75, 0.08);
   flex: none;
 }
+.game-preview-play:hover { transform: translateY(-1px) scale(1.04); }
+.game-preview-play:focus-visible { outline: 3px solid var(--brass-bright); outline-offset: 4px; }
 .game-preview-play svg { width: 1.1rem; fill: var(--brass-bright); margin-left: 0.15rem; }
 .game-preview-wave {
   width: min(68%, 20rem);

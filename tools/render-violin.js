@@ -45,11 +45,59 @@ function run(command, args, opts = {}) {
   return res;
 }
 
+/** Replace General MIDI program changes in-place without changing note data. */
+function patchPrograms(input, output, programs) {
+  const data = fs.readFileSync(input);
+  const readVar = (offset) => {
+    let value = 0;
+    do { value = (value << 7) | (data[offset] & 0x7f); } while (data[offset++] & 0x80);
+    return offset;
+  };
+  let chunk = 14;
+  while (chunk + 8 <= data.length) {
+    const type = data.toString('ascii', chunk, chunk + 4);
+    const size = data.readUInt32BE(chunk + 4);
+    let pos = chunk + 8;
+    const end = pos + size;
+    if (type === 'MTrk') {
+      let running = null;
+      while (pos < end) {
+        pos = readVar(pos);
+        let status = data[pos];
+        if (status & 0x80) { pos += 1; running = status; }
+        else status = running;
+        if (status === 0xff) {
+          pos += 1;
+          const lengthStart = pos;
+          pos = readVar(pos);
+          let length = 0;
+          for (let i = lengthStart; i < pos; i++) length = (length << 7) | (data[i] & 0x7f);
+          pos += length;
+        } else if (status === 0xf0 || status === 0xf7) {
+          const lengthStart = pos;
+          pos = readVar(pos);
+          let length = 0;
+          for (let i = lengthStart; i < pos; i++) length = (length << 7) | (data[i] & 0x7f);
+          pos += length;
+        } else {
+          const kind = status & 0xf0;
+          const channel = status & 0x0f;
+          if (kind === 0xc0 && Object.prototype.hasOwnProperty.call(programs, channel)) data[pos] = programs[channel];
+          pos += kind === 0xc0 || kind === 0xd0 ? 1 : 2;
+        }
+      }
+    }
+    chunk = end;
+  }
+  fs.writeFileSync(output, data);
+}
+
 function renderClip(cfg) {
   const midi = path.join(__dirname, 'midi', cfg.midi);
   const outDir = path.join(ROOT, 'audio', 'machine');
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), `digital-fingers-${cfg.id}-`));
   const raw = path.join(tmpDir, 'raw.wav');
+  const renderMidi = cfg.programs ? path.join(tmpDir, 'patched.mid') : midi;
   const trimmed = path.join(tmpDir, 'trimmed.wav');
   const normalized = path.join(tmpDir, 'normalized.wav');
   const out = path.join(outDir, `${cfg.id}.mp3`);
@@ -59,8 +107,9 @@ function renderClip(cfg) {
 
   try {
     console.log(`Rendering ${cfg.id}...`);
+    if (cfg.programs) patchPrograms(midi, renderMidi, cfg.programs);
     run('fluidsynth', [
-      '-ni', '-g', '0.7', '-F', raw, '-r', '44100', soundfont, midi,
+      '-ni', '-g', '0.7', '-F', raw, '-r', '44100', soundfont, renderMidi,
     ], { stdio: 'inherit' });
 
     const fadeOut = 2.2;

@@ -37,8 +37,8 @@ _headers              Cloudflare Pages cache/security headers
 - A session is 5 rounds (`STANDARD_ROUNDS` in `js/game.js`). The piano game draws
   from a 76-clip pool (38 machine renders, 38 human recordings) covering 38 pieces across eleven
   composers (Bach, Petzold, Mozart, Beethoven, Chopin, Schumann, Brahms, Satie,
-  Scriabin, Debussy, Tchaikovsky). The violin game adds ten clips: human and
-  machine versions of Vivaldi's Four Seasons and Bach's Chaconne. Every piece is twinned.
+  Scriabin, Debussy, Tchaikovsky). The violin game adds sixteen clips: human and
+  machine versions of eight works by Vivaldi, Bach, Schubert, and Beethoven. Every piece is twinned.
 - **Twins:** clips carry a `piece` key, and every piece exists as BOTH a human
   recording and a machine render.
   The draw groups by piece, plays each piece at most once per session, and picks
@@ -213,6 +213,9 @@ If you re-render a clip in place, bump its filename (or the manifest `version`)
   Chamber Orchestra's public-domain Four Seasons and Ben Goldstein's CC BY-SA
   3.0 Chaconne. Each is public domain,
   CC0, or under the Creative Commons license named on the source and About page.
+  The expanded violin pool also includes Robert Gayler's 1920 Bach Air (Public
+  Domain Mark), Katy Adelson's Schubert Ave Maria (CC BY 3.0), and the United
+  States Marine Band's Beethoven Violin Concerto (U.S. government public domain).
 - Machine renders: generated from licensed Mutopia, Knute Snortum, Bernd Krueger,
   MAESTRO v3, and Tirol's MIDI Works note data. The rendered excerpts preserve
   all applicable attribution, noncommercial, and share-alike terms.

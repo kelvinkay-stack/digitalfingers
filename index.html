@@ -78,7 +78,7 @@
               <button class="instrument-choice" data-instrument="violin" aria-pressed="false">
                 <span aria-hidden="true">♩</span>
                 <b>Violin</b>
-                <small>5 paired pieces</small>
+                <small>8 paired pieces</small>
               </button>
             </div>
             <button id="begin-btn" class="btn-primary">Begin listening</button>
@@ -101,20 +101,20 @@
           <img id="hero-art" src="/assets/robot-human-pianists.webp" width="1200" height="800" alt="An old-fashioned robot and a human pianist seated across from each other at a grand piano" decoding="async">
         </figure>
       </div>
-      <div class="game-preview" aria-hidden="true">
+      <div class="game-preview">
         <div class="game-preview-meta">
           <span>Round 1 of 5</span>
           <span id="preview-instrument">Piano · listen closely</span>
         </div>
         <div class="game-preview-body">
-          <span class="game-preview-play">
+          <button id="preview-play-btn" class="game-preview-play" type="button" aria-label="Start a piano game and play the first clip">
             <svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg>
-          </span>
-          <div class="game-preview-wave">
+          </button>
+          <div class="game-preview-wave" aria-hidden="true">
             <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
           </div>
         </div>
-        <div class="game-preview-answers">
+        <div class="game-preview-answers" aria-hidden="true">
           <span>Human</span>
           <span>Machine</span>
         </div>
