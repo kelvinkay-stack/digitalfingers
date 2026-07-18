@@ -12,7 +12,10 @@ let raf = null;
 function stop() {
   audio.pause();
   cancelAnimationFrame(raf);
-  if (activeBtn) activeBtn.classList.remove('is-playing');
+  if (activeBtn) {
+    activeBtn.classList.remove('is-playing');
+    activeBtn.setAttribute('aria-pressed', 'false');
+  }
   if (activeBar) activeBar.style.width = '0';
   activeBtn = null;
   activeBar = null;
@@ -47,6 +50,7 @@ for (const btn of document.querySelectorAll('.ab-btn')) {
     audio.src = src;
     audio.play().then(() => {
       btn.classList.add('is-playing');
+      btn.setAttribute('aria-pressed', 'true');
       raf = requestAnimationFrame(tick);
     }).catch(stop);
   });
