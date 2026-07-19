@@ -3,7 +3,7 @@
 import { ArcPlayer, preload } from './player.js';
 import { Waveform } from './waveform.js';
 import { drawSession, verdictFor, MAX_REPLAYS } from './game.js';
-import { recordSession, getSessions, lifetime, hardestClip, renderSparkline } from './stats.js';
+import { recordSession, getSessions, lifetime, hardestClip, calibration, renderSparkline } from './stats.js';
 import { queueStats } from './pwa.js';
 import { getRating, updateRating, bandFor, difficultyPhrase } from './rating.js';
 
@@ -55,6 +55,8 @@ const els = {
   sparkCaption: $('#spark-caption'),
   againBtn: $('#again-btn'),
   hardestLine: $('#hardest-line'),
+  boldestLine: $('#boldest-line'),
+  calibrationLine: $('#calibration-line'),
   trainingChoices: [...document.querySelectorAll('.training-choice')],
   crowdBlock: $('#crowd-block'),
   crowdChart: $('#crowd-chart'),
@@ -435,6 +437,29 @@ function finishSession() {
   els.hardestLine.textContent = worst
     ? `Your blind spot: ${worst.clip.title}. It has fooled you ${worst.wrong} of ${worst.seen} times.`
     : '';
+
+  // this session's boldest miss: answered "certain," and wrong
+  const certainMisses = state.rounds.filter(r => !r.correct && r.conf === 3 && !r.tooFast);
+  if (certainMisses.length) {
+    const c = byId[certainMisses[0].id];
+    els.boldestLine.textContent = certainMisses.length === 1
+      ? `Boldest miss: ${c.title}. You were certain it was ${certainMisses[0].guessedHuman ? 'human' : 'machine'}.`
+      : `You were certain and wrong ${certainMisses.length} times this session, including ${c.title}.`;
+  } else {
+    els.boldestLine.textContent = '';
+  }
+
+  // lifetime calibration: does feeling certain actually buy accuracy?
+  const cal = calibration();
+  const rest = { right: cal[1].right + cal[2].right, total: cal[1].total + cal[2].total };
+  const pct = b => Math.round(100 * b.right / b.total);
+  if (cal[3].total >= 5) {
+    els.calibrationLine.textContent = rest.total >= 5
+      ? `When you say “certain,” you're right ${pct(cal[3])}% of the time — when you're less sure, ${pct(rest)}%.`
+      : `When you say “certain,” you're right ${pct(cal[3])}% of the time.`;
+  } else {
+    els.calibrationLine.textContent = '';
+  }
 
   show('results');
   announce(`Session over. You scored ${state.score} out of ${state.rounds.length}. ${title}.`);

@@ -60,6 +60,23 @@ export function hardestClip(clipsById) {
 }
 
 /**
+ * Lifetime accuracy at each stated confidence (1 guessing / 2 fairly sure /
+ * 3 certain). Too-fast rounds and rounds recorded before confidence existed
+ * are skipped, same as the crowd counters.
+ */
+export function calibration() {
+  const buckets = { 1: { right: 0, total: 0 }, 2: { right: 0, total: 0 }, 3: { right: 0, total: 0 } };
+  for (const s of getSessions()) {
+    for (const r of s.rounds || []) {
+      if (r.tooFast || !buckets[r.conf]) continue;
+      buckets[r.conf].total += 1;
+      if (r.correct) buckets[r.conf].right += 1;
+    }
+  }
+  return buckets;
+}
+
+/**
  * Render a per-session accuracy sparkline into an <svg class="sparkline">.
  * Shown only when 3+ sessions exist.
  */
