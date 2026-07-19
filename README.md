@@ -242,10 +242,15 @@ Everything should sit within ±0.4 LU of −16.
 
 Deployed at `https://digital-fingers.netlify.app`.
 
+- Continuous deploys (preferred): Netlify → the `digitalfingers` project →
+  Site configuration → Build & deploy → Link repository → this repo.
+  No build command, publish directory `/`, and enable branch deploys for
+  all branches so every pushed branch gets a preview URL
+  (`<branch-with-dashes>--digital-fingers.netlify.app`). The root
+  `package.json` exists solely so CI installs `@netlify/blobs` and the
+  stats function bundles; the site itself has no build step.
 - CLI deploy: `netlify deploy --prod --dir .` (the repo is linked to the
-  `digitalfingers` project).
-- Or wire continuous deploys: Netlify → Import from Git → this repo,
-  no build command, publish directory `/`.
+  `digitalfingers` project). `netlify deploy --dir .` gives a draft URL.
 - `_headers` ships long-lived immutable caching for `/audio/*` and `/fonts/*`
   (Netlify and Cloudflare Pages share this file format).
 

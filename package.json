@@ -1,0 +1,8 @@
+{
+  "name": "digital-fingers",
+  "private": true,
+  "description": "Dependencies for Netlify Functions only — the site itself has no build step. Netlify's CI installs from this root manifest so the stats function's imports bundle correctly on Git-linked deploys.",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}

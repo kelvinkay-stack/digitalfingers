@@ -13,5 +13,7 @@ audio/**/*.wav
 # Local Netlify folder
 .netlify
 
-# Function dependencies (installed at deploy time from netlify/functions/package.json)
+# Function dependencies (installed at deploy time from the root package.json;
+# netlify/functions/package.json remains for local CLI workflows)
+node_modules
 netlify/functions/node_modules
