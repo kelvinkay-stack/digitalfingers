@@ -72,6 +72,12 @@ export default async () => {
       n: x.e.n,
     }));
 
+  const EMPTY_CONF = { c1: { right: 0, total: 0 }, c2: { right: 0, total: 0 }, c3: { right: 0, total: 0 } };
+  const confidence = {
+    trained: (agg.confidence && agg.confidence.trained) || EMPTY_CONF,
+    untrained: (agg.confidence && agg.confidence.untrained) || EMPTY_CONF,
+  };
+
   return Response.json({
     minN: MIN_N,
     sessions,
@@ -79,6 +85,7 @@ export default async () => {
     overall: { right, total },
     groups,
     tiers,
+    confidence,
     mostFooling: ranked.slice(0, 5),
     mostCaught: ranked.slice(-5).reverse(),
     liveDeceptive,

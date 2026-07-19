@@ -77,6 +77,22 @@ function render(data) {
     $('#training-note').textContent = 'Groups appear once they pass ' + minN + ' judgments.';
   }
 
+  // calibration: accuracy at each stated confidence, per training group
+  if (data.confidence) {
+    const confLabels = [['c3', 'certain'], ['c2', 'fairly sure'], ['c1', 'just guessing']];
+    for (const [groupKey, groupLabel] of [['trained', 'Musical training'], ['untrained', 'No training']]) {
+      const g = data.confidence[groupKey];
+      for (const [cell, confLabel] of confLabels) {
+        const c = (g && g[cell]) || { right: 0, total: 0 };
+        $('#confidence-chart').append(
+          c.total >= minN
+            ? bar(`${groupLabel} · ${confLabel}`, pct(c.right, c.total), `${fmt(c.total)} judgments`)
+            : bar(`${groupLabel} · ${confLabel}`, null)
+        );
+      }
+    }
+  }
+
   // (d) fool rate by machine tier - the central finding, now with numbers
   const tierLabels = [['deadpan', 'Deadpan'], ['humanized', 'Humanized'], ['expressive', 'Expressive']];
   for (const [key, label] of tierLabels) {

@@ -81,7 +81,7 @@
           <div class="begin-row">
             <button id="begin-btn" class="btn-primary">Begin listening</button>
             <div class="training-q" role="group" aria-labelledby="training-label">
-              <p id="training-label">Quick question for our experiment: do you have musical training?</p>
+              <p id="training-label">Before you begin, the one question our experiment needs: do you have musical training?</p>
               <div class="training-buttons">
                 <button id="trained-yes" class="chip">Yes, I play or studied music</button>
                 <button id="trained-no" class="chip">No formal training</button>
@@ -173,6 +173,15 @@
         <div class="answers" role="group" aria-label="Your answer">
           <button id="answer-human" class="answer-btn" disabled>Human<small>H key</small></button>
           <button id="answer-machine" class="answer-btn" disabled>Machine<small>M key</small></button>
+        </div>
+
+        <div id="confidence" class="confidence" role="group" aria-labelledby="confidence-label" hidden>
+          <p id="confidence-label" class="confidence-label">How sure are you?</p>
+          <div class="confidence-buttons">
+            <button class="chip confidence-btn" data-conf="1">Just guessing<small>1 key</small></button>
+            <button class="chip confidence-btn" data-conf="2">Fairly sure<small>2 key</small></button>
+            <button class="chip confidence-btn" data-conf="3">Certain<small>3 key</small></button>
+          </div>
         </div>
       </div>
 

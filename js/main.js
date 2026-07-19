@@ -34,6 +34,9 @@ const els = {
   listenHint: $('#listen-hint'),
   answerHuman: $('#answer-human'),
   answerMachine: $('#answer-machine'),
+  confidence: $('#confidence'),
+  confidenceButtons: [...document.querySelectorAll('.confidence-btn')],
+  trainingQ: document.querySelector('.training-q'),
   reveal: $('#reveal'),
   verdictMark: $('#verdict-mark'),
   revealTitle: $('#reveal-title'),
@@ -78,6 +81,8 @@ const state = {
   listened: false,
   retriedId: null,
   firstPlayAt: 0,
+  pendingGuess: null,
+  pendingTooFast: false,
   instrument: 'piano',
   rounds: [], // {id, correct, guessedHuman}
   preloaded: new Map(),
@@ -207,6 +212,8 @@ function startRound() {
   state.answered = false;
   state.listened = false;
   state.firstPlayAt = 0;
+  state.pendingGuess = null;
+  els.confidence.hidden = true;
 
   els.roundInstrument.textContent = state.instrument === 'violin' ? 'Violin' : 'Piano';
   els.roundLabel.textContent = `Round ${state.index + 1} of ${session.length}`;
@@ -252,7 +259,9 @@ function onPlayerState(ev) {
   } else if (ev === 'ended') {
     els.screens.round.classList.remove('is-listening');
     const replaysLeft = MAX_REPLAYS - state.replaysUsed;
-    if (state.answered) {
+    if (state.pendingGuess !== null) {
+      els.playBtn.disabled = true; // committed to a side; confidence comes first
+    } else if (state.answered) {
       els.playBtn.disabled = false;
     } else if (replaysLeft > 0) {
       els.playBtn.disabled = false;
@@ -286,15 +295,35 @@ function skipBrokenClip() {
 }
 
 function answer(guessedHuman) {
-  if (state.answered || !state.listened) return;
+  if (state.answered || !state.listened || state.pendingGuess !== null) return;
+  // stage one: commit to a side. The reveal waits until the player says how
+  // sure they were - confidence stated before the truth is honest; stated
+  // after, it would be hindsight.
+  state.pendingGuess = guessedHuman;
+  // a pick under a second after first play means nobody was listening -
+  // the round still plays out, but counts toward no rating or counter
+  state.pendingTooFast = performance.now() - state.firstPlayAt < 1000;
+  (guessedHuman ? els.answerHuman : els.answerMachine).classList.add('is-selected');
+  setAnswersEnabled(false);
+  els.playBtn.disabled = true;
+  els.listenHint.textContent = 'How sure are you?';
+  els.confidence.hidden = false;
+  announce(`You chose ${guessedHuman ? 'human' : 'machine'}. How sure are you? Just guessing, fairly sure, or certain.`);
+  els.confidenceButtons[0].focus({ preventScroll: true });
+}
+
+function confirmAnswer(conf) {
+  if (state.answered || state.pendingGuess === null) return;
+  const guessedHuman = state.pendingGuess;
+  const tooFast = state.pendingTooFast;
+  state.pendingGuess = null;
   state.answered = true;
+  els.confidence.hidden = true;
+
   const clip = currentClip();
   const correct = guessedHuman === clip.isHuman;
   if (correct) state.score += 1;
-  // an answer under a second after first play means nobody was listening -
-  // it still plays out normally, but counts toward no rating or counter
-  const tooFast = performance.now() - state.firstPlayAt < 1000;
-  state.rounds.push({ id: clip.id, correct, guessedHuman, tooFast });
+  state.rounds.push({ id: clip.id, correct, guessedHuman, conf, tooFast });
   const clipElo = crowdData && crowdData.elo && crowdData.elo[clip.id];
   if (!tooFast) updateRating(correct, (clipElo && clipElo.r) || 1500);
 
@@ -302,7 +331,6 @@ function answer(guessedHuman) {
   els.screens.round.classList.add('is-revealed', correct ? 'is-correct' : 'is-wrong');
   const chosenButton = guessedHuman ? els.answerHuman : els.answerMachine;
   const truthButton = clip.isHuman ? els.answerHuman : els.answerMachine;
-  chosenButton.classList.add('is-selected');
   truthButton.classList.add('is-truth');
   if (!correct) chosenButton.classList.add('is-wrong');
 
@@ -435,7 +463,7 @@ function submitAndRenderCrowd(score, total) {
     trained: trained ? trained === 'yes' : null,
     score,
     total,
-    rounds: state.rounds.filter(r => !r.tooFast).map(r => ({ id: r.id, correct: r.correct })),
+    rounds: state.rounds.filter(r => !r.tooFast).map(r => ({ id: r.id, correct: r.correct, conf: r.conf })),
   };
   if (!navigator.onLine) {
     queueStats(body); // counted when connectivity returns
@@ -536,6 +564,15 @@ function wireIntro() {
       toast('The music is still loading. Try again in a moment.');
       return;
     }
+    if (!getTrained()) {
+      // the experiment needs every session in one of the two piles
+      toast('One thing first: the musical-training question, just below.');
+      announce('Please answer the musical training question before beginning.');
+      els.trainingQ.classList.add('is-nudged');
+      setTimeout(() => els.trainingQ.classList.remove('is-nudged'), 2000);
+      els.trainedYes.focus({ preventScroll: true });
+      return;
+    }
     await startSession();
     if (autoplay && session && session.length && els.screens.round.classList.contains('is-active')) player.play();
   };
@@ -560,6 +597,9 @@ function wireRound() {
   wave = new Waveform(document.querySelector('#waveform'));
   els.answerHuman.addEventListener('click', () => answer(true));
   els.answerMachine.addEventListener('click', () => answer(false));
+  for (const btn of els.confidenceButtons) {
+    btn.addEventListener('click', () => confirmAnswer(Number(btn.dataset.conf)));
+  }
   els.nextBtn.addEventListener('click', nextRound);
 }
 
@@ -598,6 +638,8 @@ function wireKeyboard() {
         if (!els.answerHuman.disabled) { e.preventDefault(); answer(true); }
       } else if (e.key === 'm' || e.key === 'M' || e.key === 'ArrowRight') {
         if (!els.answerMachine.disabled) { e.preventDefault(); answer(false); }
+      } else if ((e.key === '1' || e.key === '2' || e.key === '3') && state.pendingGuess !== null) {
+        e.preventDefault(); confirmAnswer(Number(e.key));
       } else if ((e.key === 'n' || e.key === 'N') && state.answered) {
         e.preventDefault(); nextRound();
       } else if (e.key === 'Enter' && state.answered && document.activeElement !== els.nextBtn) {

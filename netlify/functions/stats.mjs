@@ -13,7 +13,9 @@
  * POST /api/stats {trained, score, total, rounds, key} → record one session
  *   trained: true | false | null (null = player didn't answer the question;
  *            group counters are skipped, per-clip counters still update)
- *   rounds:  [{id, correct}] for per-clip counters and ratings
+ *   rounds:  [{id, correct, conf?}] for per-clip counters and ratings;
+ *            conf 1-3 = stated confidence (guessing / fairly sure / certain),
+ *            tallied per training group for the calibration chart
  *   key:     idempotency key; a session key already seen counts nothing,
  *            so offline-queue retries can't inflate any counter or rating
  */
@@ -53,7 +55,8 @@ export default async (req) => {
       && total >= 3 && total <= 20 && score >= 0 && score <= total;
     const okRounds = rounds === undefined || (Array.isArray(rounds) && rounds.length <= 20
       && rounds.every(r => r && typeof r.correct === 'boolean'
-        && typeof r.id === 'string' && CLIP_ID.test(r.id)));
+        && typeof r.id === 'string' && CLIP_ID.test(r.id)
+        && (r.conf === undefined || (Number.isInteger(r.conf) && r.conf >= 1 && r.conf <= 3))));
     const okKey = key === undefined || (typeof key === 'string' && key.length >= 1 && key.length <= 64);
     if (!okSession || !okRounds || !okKey) return new Response('bad request', { status: 400 });
 
@@ -82,7 +85,17 @@ export default async (req) => {
       group.right += score;
       group.total += total;
     }
+    // stated confidence, tallied per training group: the calibration data
+    const groupKey = trained === true ? 'trained' : trained === false ? 'untrained' : 'unknown';
+    agg.confidence = agg.confidence || {};
+    const confGroup = agg.confidence[groupKey] = agg.confidence[groupKey]
+      || { c1: { right: 0, total: 0 }, c2: { right: 0, total: 0 }, c3: { right: 0, total: 0 } };
     for (const r of rounds || []) {
+      if (r.conf >= 1 && r.conf <= 3) {
+        const cell = confGroup['c' + r.conf];
+        cell.total += 1;
+        if (r.correct) cell.right += 1;
+      }
       const fresh = !agg.clips[r.id] && !agg.elo[r.id];
       if (fresh && Object.keys(agg.clips).length >= MAX_CLIP_KEYS) continue;
       const c = agg.clips[r.id] = agg.clips[r.id] || { right: 0, total: 0 };
