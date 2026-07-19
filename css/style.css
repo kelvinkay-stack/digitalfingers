@@ -552,10 +552,46 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
 }
 
 
-/* ---------- training question ---------- */
+/* ---------- training question (floating box on first Begin) ---------- */
 
-.training-q { margin-top: 1.6rem; text-align: center; }
-.training-q p { font-size: 0.85rem; color: var(--muted); margin: 0 0 0.7rem; }
+.training-dialog {
+  background: var(--black-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--ivory);
+  max-width: 24rem;
+  width: calc(100% - 2 * var(--pad));
+  padding: 1.8rem 1.6rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+}
+.training-dialog::backdrop { background: rgba(11, 10, 9, 0.72); }
+.training-kicker {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin: 0 0 0.9rem;
+}
+.training-question {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 0 0 0.5rem;
+}
+.training-fine { font-size: 0.8rem; color: var(--muted); margin: 0 0 1.3rem; }
+.training-skip {
+  background: none;
+  border: 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin-top: 1.2rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.training-skip:hover { color: var(--ivory-dim); }
+
 .training-buttons { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
 .chip {
   background: none;
@@ -567,11 +603,6 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
   transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
 .chip:hover { border-color: var(--brass-dim); color: var(--ivory); }
-.chip.is-selected {
-  border-color: var(--brass);
-  color: var(--brass-bright);
-  background: rgba(200, 162, 75, 0.08);
-}
 
 /* ---------- crowd chart ---------- */
 

@@ -71,13 +71,6 @@
             <span class="track" aria-hidden="true"></span>
             Hard mode: only the tricky ones
           </label>
-          <div class="training-q" role="group" aria-labelledby="training-label">
-            <p id="training-label">Quick question for our experiment: do you have musical training?</p>
-            <div class="training-buttons">
-              <button id="trained-yes" class="chip">Yes, I play or studied music</button>
-              <button id="trained-no" class="chip">No formal training</button>
-            </div>
-          </div>
         </div>
         <p id="pool-note" class="pool-note" hidden>The violin pool is still being recorded — human performances and machine
           renders are being prepared so both sides get a fair fight. Until it opens,
@@ -174,6 +167,18 @@
     </section>
 
     <div id="toast" class="toast" role="status"></div>
+
+    <!-- training question, asked as a floating box the first time Begin is pressed -->
+    <dialog id="training-dialog" class="training-dialog" aria-labelledby="training-label">
+      <p class="training-kicker">Before you listen</p>
+      <p id="training-label" class="training-question">Quick question for our experiment: do you have musical training?</p>
+      <p class="training-fine">Anonymous — it only feeds the trained-vs-untrained chart on the results screen.</p>
+      <div class="training-buttons">
+        <button id="trained-yes" class="chip">Yes, I play or studied music</button>
+        <button id="trained-no" class="chip">No formal training</button>
+      </div>
+      <button id="trained-skip" class="training-skip">Skip and start listening</button>
+    </dialog>
   </main>
 
   <footer class="site-footer">

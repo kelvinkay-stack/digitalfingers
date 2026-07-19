@@ -57,6 +57,8 @@ const els = {
   hardestLine: $('#hardest-line'),
   trainedYes: $('#trained-yes'),
   trainedNo: $('#trained-no'),
+  trainedSkip: $('#trained-skip'),
+  trainingDialog: $('#training-dialog'),
   crowdBlock: $('#crowd-block'),
   crowdChart: $('#crowd-chart'),
   crowdCaption: $('#crowd-caption'),
@@ -298,14 +300,6 @@ function getTrained() {
   return v === 'yes' || v === 'no' ? v : null;
 }
 
-function reflectTrainingButtons() {
-  const v = getTrained();
-  els.trainedYes.classList.toggle('is-selected', v === 'yes');
-  els.trainedNo.classList.toggle('is-selected', v === 'no');
-  els.trainedYes.setAttribute('aria-pressed', v === 'yes');
-  els.trainedNo.setAttribute('aria-pressed', v === 'no');
-}
-
 function submitAndRenderCrowd(score, total) {
   const trained = getTrained();
   fetch(STATS_URL, {
@@ -343,7 +337,7 @@ function renderCrowd(agg) {
   const n = (agg.trained.sessions || 0) + (agg.untrained.sessions || 0);
   els.crowdCaption.textContent =
     `Average accuracy across ${n} session${n === 1 ? '' : 's'} recorded on this site so far. ` +
-    (getTrained() ? 'Your sessions count toward your group.' : 'Answer the training question on the start screen to be counted.');
+    (getTrained() ? 'Your sessions count toward your group.' : 'Answer the training question when you begin a session to be counted.');
   els.crowdBlock.hidden = false;
 }
 
@@ -365,19 +359,28 @@ function wireIntro() {
     els.lifetimeLine.textContent =
       `Your ear so far: ${lt.pct}% over ${lt.games} session${lt.games === 1 ? '' : 's'}.`;
   }
-  els.begin.addEventListener('click', () => startSession(els.hardMode.checked));
+  // The training question gates Begin as a floating box. An answer persists
+  // in localStorage and is never asked again; Skip waives it for this visit.
+  // Closing the box any other way (Esc) just returns to the intro.
+  let skippedThisLoad = false;
+  const canAsk = els.trainingDialog && typeof els.trainingDialog.showModal === 'function';
+  els.begin.addEventListener('click', () => {
+    if (!getTrained() && !skippedThisLoad && canAsk) els.trainingDialog.showModal();
+    else startSession(els.hardMode.checked);
+  });
 
-  reflectTrainingButtons();
-  const setTrained = (v) => {
-    const current = getTrained();
-    try {
-      if (current === v) localStorage.removeItem(TRAINED_KEY);
-      else localStorage.setItem(TRAINED_KEY, v);
-    } catch { /* private mode */ }
-    reflectTrainingButtons();
+  const chooseTrained = (v) => {
+    try { localStorage.setItem(TRAINED_KEY, v); } catch { /* private mode */ }
+    els.trainingDialog.close();
+    startSession(els.hardMode.checked);
   };
-  els.trainedYes.addEventListener('click', () => setTrained('yes'));
-  els.trainedNo.addEventListener('click', () => setTrained('no'));
+  els.trainedYes.addEventListener('click', () => chooseTrained('yes'));
+  els.trainedNo.addEventListener('click', () => chooseTrained('no'));
+  els.trainedSkip.addEventListener('click', () => {
+    skippedThisLoad = true;
+    els.trainingDialog.close();
+    startSession(els.hardMode.checked);
+  });
 }
 
 function wireRound() {
