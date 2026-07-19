@@ -35,9 +35,9 @@ _headers              Cloudflare Pages cache/security headers
 ## The game
 
 - A session is 5 rounds (`STANDARD_ROUNDS` in `js/game.js`). The piano game draws
-  from a 76-clip pool (38 machine renders, 38 human recordings) covering 38 pieces across eleven
+  from an 80-clip pool (40 machine renders, 40 human recordings) covering 40 pieces across twelve
   composers (Bach, Petzold, Mozart, Beethoven, Chopin, Schumann, Brahms, Satie,
-  Scriabin, Debussy, Tchaikovsky). The violin game adds sixteen clips: human and
+  Scriabin, Debussy, Tchaikovsky, Grieg). The violin game adds sixteen clips: human and
   machine versions of eight works by Vivaldi, Bach, Schubert, and Beethoven. Every piece is twinned.
 - **Twins:** clips carry a `piece` key, and every piece exists as BOTH a human
   recording and a machine render.

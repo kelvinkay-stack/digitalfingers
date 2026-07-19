@@ -155,6 +155,16 @@ module.exports = [
     fadeOut: 2.4,
   },
   {
+    id: 'clip-k545-m', midi: 'k545.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 58], bpm: 126, phraseBeats: 8, pedalBeats: 2,
+    fadeOut: 2.2,
+  },
+  {
+    id: 'clip-grieg127-m', midi: 'grieg-12-3.mid', outDir: 'audio/machine',
+    tier: 'expressive', beats: [0, 56], bpm: 108, phraseBeats: 8, pedalBeats: 2,
+    fadeOut: 2.6,
+  },
+  {
     id: 'clip-noc92-m', midi: 'chopin-9-2.mid', outDir: 'audio/machine',
     tier: 'expressive', beats: [0, 25], bpm: 66, phraseBeats: 12, pedalBeats: 3,
     fadeOut: 2.6,
