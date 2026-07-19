@@ -9,8 +9,23 @@ const fmt = (n) => Number(n).toLocaleString('en-US');
 
 const SUPPRESSED = 'not enough listeners yet — help us find out';
 
-/* One labeled horizontal bar, matching the game's crowd chart. */
-function bar(label, value, detail) {
+/* 95% Wilson score interval - honest whiskers without claiming significance */
+function wilson(right, total, z = 1.96) {
+  if (!total) return null;
+  const p = right / total;
+  const z2 = z * z;
+  const denom = 1 + z2 / total;
+  const center = (p + z2 / (2 * total)) / denom;
+  const half = z * Math.sqrt(p * (1 - p) / total + z2 / (4 * total * total)) / denom;
+  return { lo: Math.max(0, center - half) * 100, hi: Math.min(1, center + half) * 100 };
+}
+
+/* One labeled horizontal bar, matching the game's crowd chart. Takes raw
+   counts so it can draw the interval whisker; pass right = null to render
+   the suppressed state. */
+function bar(label, right, total, detail) {
+  const suppressed = right === null;
+  const value = suppressed ? null : pct(right, total);
   const row = document.createElement('div');
   row.className = 'crowd-row';
 
@@ -21,25 +36,39 @@ function bar(label, value, detail) {
   const track = document.createElement('span');
   track.className = 'crowd-bar';
   const fill = document.createElement('i');
-  fill.style.width = `${value === null ? 0 : value}%`;
+  fill.style.width = `${suppressed ? 0 : value}%`;
   track.appendChild(fill);
   const tick = document.createElement('u');
   tick.className = 'coin-tick';
   tick.title = 'coin flip (50%)';
   track.appendChild(tick);
 
+  let ciText = '';
+  if (!suppressed) {
+    const ci = wilson(right, total);
+    if (ci) {
+      const w = document.createElement('u');
+      w.className = 'ci-whisker';
+      w.style.left = `${ci.lo}%`;
+      w.style.width = `${Math.max(0.5, ci.hi - ci.lo)}%`;
+      w.title = `95% interval: ${Math.round(ci.lo)}–${Math.round(ci.hi)}%`;
+      track.appendChild(w);
+      ciText = `, plausibly ${Math.round(ci.lo)} to ${Math.round(ci.hi)} percent`;
+    }
+  }
+
   const num = document.createElement('span');
   num.className = 'crowd-pct';
-  num.textContent = value === null ? '–' : `${value}%`;
+  num.textContent = suppressed ? '–' : `${value}%`;
 
   row.append(name, track, num);
   row.setAttribute('aria-label',
-    value === null ? `${label}: ${SUPPRESSED}` : `${label}: ${value}%${detail ? `, ${detail}` : ''}`);
+    suppressed ? `${label}: ${SUPPRESSED}` : `${label}: ${value}%${ciText}${detail ? `, ${detail}` : ''}`);
 
-  if (detail || value === null) {
+  if (detail || suppressed) {
     const note = document.createElement('span');
     note.className = 'crowd-detail';
-    note.textContent = value === null ? SUPPRESSED : detail;
+    note.textContent = suppressed ? SUPPRESSED : detail;
     row.appendChild(note);
   }
   return row;
@@ -57,24 +86,29 @@ function render(data) {
     $('#overall-line').textContent =
       `Across ${fmt(o.total)} judgments, players told human from machine ${pct(o.right, o.total)}% of the time. ` +
       `Guessing at random would get 50. The notch on the bar marks the coin.`;
-    $('#overall-chart').append(bar('Everyone', pct(o.right, o.total), `${fmt(o.total)} judgments`));
+    $('#overall-chart').append(bar('Everyone', o.right, o.total, `${fmt(o.total)} judgments`));
   } else {
     $('#overall-line').textContent = `${SUPPRESSED[0].toUpperCase()}${SUPPRESSED.slice(1)}.`;
   }
 
-  // (c) trained vs untrained
-  for (const [key, label] of [['trained', 'Musical training'], ['untrained', 'No training']]) {
-    const g = data.groups[key];
+  // (c) the dose-response chart: accuracy by graded training level
+  const levelLabels = [['lots', 'Five-plus years'], ['some', 'A few years'], ['none', 'No training']];
+  for (const [key, label] of levelLabels) {
+    const g = (data.levels && data.levels[key]) || { sessions: 0, right: 0, total: 0 };
     $('#training-chart').append(
       g.total >= minN
-        ? bar(label, pct(g.right, g.total), `${fmt(g.total)} judgments across ${fmt(g.sessions)} sessions`)
-        : bar(label, null)
+        ? bar(label, g.right, g.total, `${fmt(g.total)} judgments across ${fmt(g.sessions)} sessions`)
+        : bar(label, null, 0)
     );
   }
-  if (data.groups.trained.total >= minN && data.groups.untrained.total >= minN) {
-    $('#training-note').textContent = 'Two piles, no verdict: this page reports the counts and leaves the arguing to you.';
+  const coarse = data.groups;
+  if (coarse.trained.total >= minN && coarse.untrained.total >= minN) {
+    $('#training-note').textContent =
+      `The two coarse piles, all sessions counted: musical training ${pct(coarse.trained.right, coarse.trained.total)}% of ` +
+      `${fmt(coarse.trained.total)} · no training ${pct(coarse.untrained.right, coarse.untrained.total)}% of ${fmt(coarse.untrained.total)}. ` +
+      'No verdict either way: this page reports the counts and leaves the arguing to you.';
   } else {
-    $('#training-note').textContent = 'Groups appear once they pass ' + minN + ' judgments.';
+    $('#training-note').textContent = 'Levels appear once they pass ' + minN + ' judgments.';
   }
 
   // calibration: accuracy at each stated confidence, per training group
@@ -86,8 +120,8 @@ function render(data) {
         const c = (g && g[cell]) || { right: 0, total: 0 };
         $('#confidence-chart').append(
           c.total >= minN
-            ? bar(`${groupLabel} · ${confLabel}`, pct(c.right, c.total), `${fmt(c.total)} judgments`)
-            : bar(`${groupLabel} · ${confLabel}`, null)
+            ? bar(`${groupLabel} · ${confLabel}`, c.right, c.total, `${fmt(c.total)} judgments`)
+            : bar(`${groupLabel} · ${confLabel}`, null, 0)
         );
       }
     }
@@ -100,8 +134,8 @@ function render(data) {
     // fooled = judged human when it was a render
     $('#tier-chart').append(
       t.total >= minN
-        ? bar(label, pct(t.total - t.right, t.total), `mistaken for human · ${fmt(t.total)} judgments`)
-        : bar(label, null)
+        ? bar(label, t.total - t.right, t.total, `mistaken for human · ${fmt(t.total)} judgments`)
+        : bar(label, null, 0)
     );
   }
   $('#tier-note').textContent = 'Each bar is the share of judgments where a render of that tier was called human.';

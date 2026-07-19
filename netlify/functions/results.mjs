@@ -72,6 +72,13 @@ export default async () => {
       n: x.e.n,
     }));
 
+  const EMPTY_GROUP = { sessions: 0, right: 0, total: 0 };
+  const levels = {
+    none: (agg.levels && agg.levels.none) || EMPTY_GROUP,
+    some: (agg.levels && agg.levels.some) || EMPTY_GROUP,
+    lots: (agg.levels && agg.levels.lots) || EMPTY_GROUP,
+  };
+
   const EMPTY_CONF = { c1: { right: 0, total: 0 }, c2: { right: 0, total: 0 }, c3: { right: 0, total: 0 } };
   const confidence = {
     trained: (agg.confidence && agg.confidence.trained) || EMPTY_CONF,
@@ -84,6 +91,7 @@ export default async () => {
     judgments: total,
     overall: { right, total },
     groups,
+    levels,
     tiers,
     confidence,
     mostFooling: ranked.slice(0, 5),

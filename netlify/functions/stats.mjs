@@ -49,8 +49,9 @@ export default async (req) => {
   if (req.method === 'POST') {
     let body;
     try { body = await req.json(); } catch { return new Response('bad json', { status: 400 }); }
-    const { trained, score, total, rounds, key } = body || {};
+    const { trained, training, score, total, rounds, key } = body || {};
     const okSession = (trained === null || typeof trained === 'boolean')
+      && (training === undefined || ['none', 'some', 'lots'].includes(training))
       && Number.isInteger(score) && Number.isInteger(total)
       && total >= 3 && total <= 20 && score >= 0 && score <= total;
     const okRounds = rounds === undefined || (Array.isArray(rounds) && rounds.length <= 20
@@ -84,6 +85,16 @@ export default async (req) => {
       group.sessions += 1;
       group.right += score;
       group.total += total;
+    }
+
+    // graded training level (none / a few years / five-plus) - the
+    // dose-response counters behind the results page's training chart
+    if (training) {
+      agg.levels = agg.levels || {};
+      const level = agg.levels[training] = agg.levels[training] || { sessions: 0, right: 0, total: 0 };
+      level.sessions += 1;
+      level.right += score;
+      level.total += total;
     }
     // stated confidence, tallied per training group: the calibration data
     const groupKey = trained === true ? 'trained' : trained === false ? 'untrained' : 'unknown';

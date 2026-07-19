@@ -816,6 +816,15 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
 .stat span { font-size: 0.85rem; color: var(--muted); letter-spacing: 0.03em; }
 .prose .crowd-chart { max-width: 30rem; margin: 1.2rem 0 1.6rem; }
 .crowd-bar { position: relative; }
+.ci-whisker {
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  border-left: 1.5px solid rgba(36, 49, 65, 0.65);
+  border-right: 1.5px solid rgba(36, 49, 65, 0.65);
+  background: linear-gradient(rgba(36, 49, 65, 0.45), rgba(36, 49, 65, 0.45)) center / 100% 1.5px no-repeat;
+  pointer-events: auto;
+}
 .coin-tick {
   position: absolute;
   left: 50%;

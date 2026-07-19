@@ -55,8 +55,7 @@ const els = {
   sparkCaption: $('#spark-caption'),
   againBtn: $('#again-btn'),
   hardestLine: $('#hardest-line'),
-  trainedYes: $('#trained-yes'),
-  trainedNo: $('#trained-no'),
+  trainingChoices: [...document.querySelectorAll('.training-choice')],
   crowdBlock: $('#crowd-block'),
   crowdChart: $('#crowd-chart'),
   crowdCaption: $('#crowd-caption'),
@@ -64,7 +63,8 @@ const els = {
   shareBtn: $('#share-btn'),
 };
 
-const TRAINED_KEY = 'digitalfingers.trained';
+const TRAINED_KEY = 'digitalfingers.trained';   // legacy yes/no
+const TRAINING_KEY = 'digitalfingers.training'; // none | some | lots
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
 let manifest = null;
@@ -443,17 +443,33 @@ function finishSession() {
 
 /* ---------- crowd stats (anonymous, two counters) ---------- */
 
+/* Graded training level. Legacy 'no' answers migrate to 'none'; legacy
+   'yes' can't tell a few years from a lifetime, so those players are asked
+   once more and the better answer replaces the coarse one. */
+function getTraining() {
+  try {
+    const v = localStorage.getItem(TRAINING_KEY);
+    if (v === 'none' || v === 'some' || v === 'lots') return v;
+    if (localStorage.getItem(TRAINED_KEY) === 'no') {
+      localStorage.setItem(TRAINING_KEY, 'none');
+      return 'none';
+    }
+  } catch { /* private mode */ }
+  return null;
+}
+
 function getTrained() {
-  const v = localStorage.getItem(TRAINED_KEY);
-  return v === 'yes' || v === 'no' ? v : null;
+  const level = getTraining();
+  return level === null ? null : level === 'none' ? 'no' : 'yes';
 }
 
 function reflectTrainingButtons() {
-  const v = getTrained();
-  els.trainedYes.classList.toggle('is-selected', v === 'yes');
-  els.trainedNo.classList.toggle('is-selected', v === 'no');
-  els.trainedYes.setAttribute('aria-pressed', v === 'yes');
-  els.trainedNo.setAttribute('aria-pressed', v === 'no');
+  const v = getTraining();
+  for (const btn of els.trainingChoices) {
+    const on = btn.dataset.level === v;
+    btn.classList.toggle('is-selected', on);
+    btn.setAttribute('aria-pressed', String(on));
+  }
 }
 
 function submitAndRenderCrowd(score, total) {
@@ -461,6 +477,7 @@ function submitAndRenderCrowd(score, total) {
   const body = {
     key: `s-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`,
     trained: trained ? trained === 'yes' : null,
+    training: getTraining() || undefined,
     score,
     total,
     rounds: state.rounds.filter(r => !r.tooFast).map(r => ({ id: r.id, correct: r.correct, conf: r.conf })),
@@ -570,7 +587,7 @@ function wireIntro() {
       announce('Please answer the musical training question before beginning.');
       els.trainingQ.classList.add('is-nudged');
       setTimeout(() => els.trainingQ.classList.remove('is-nudged'), 2000);
-      els.trainedYes.focus({ preventScroll: true });
+      els.trainingChoices[0].focus({ preventScroll: true });
       return;
     }
     await startSession();
@@ -580,16 +597,21 @@ function wireIntro() {
   els.previewPlay.addEventListener('click', () => startFromIntro(true));
 
   reflectTrainingButtons();
-  const setTrained = (v) => {
-    const current = getTrained();
+  const setTraining = (level) => {
     try {
-      if (current === v) localStorage.removeItem(TRAINED_KEY);
-      else localStorage.setItem(TRAINED_KEY, v);
+      if (getTraining() === level) {
+        localStorage.removeItem(TRAINING_KEY);
+        localStorage.removeItem(TRAINED_KEY);
+      } else {
+        localStorage.setItem(TRAINING_KEY, level);
+        localStorage.setItem(TRAINED_KEY, level === 'none' ? 'no' : 'yes'); // keep legacy key coherent
+      }
     } catch { /* private mode */ }
     reflectTrainingButtons();
   };
-  els.trainedYes.addEventListener('click', () => setTrained('yes'));
-  els.trainedNo.addEventListener('click', () => setTrained('no'));
+  for (const btn of els.trainingChoices) {
+    btn.addEventListener('click', () => setTraining(btn.dataset.level));
+  }
 }
 
 function wireRound() {
