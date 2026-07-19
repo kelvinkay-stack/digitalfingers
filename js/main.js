@@ -3,7 +3,7 @@
 import { ArcPlayer, preload } from './player.js';
 import { Waveform } from './waveform.js';
 import { drawSession, verdictFor, MAX_REPLAYS } from './game.js';
-import { initStats, recordSession, getSessions, lifetime, hardestClip, renderSparkline } from './stats.js';
+import { initStats, recordSession, getSessions, lifetime, hardestClip, calibration, renderSparkline } from './stats.js';
 
 const $ = (sel) => document.querySelector(sel);
 
@@ -35,8 +35,13 @@ const els = {
   progressArc: $('#progress-arc'),
   replays: $('#replays'),
   listenHint: $('#listen-hint'),
-  answerHuman: $('#answer-human'),
-  answerMachine: $('#answer-machine'),
+  // the four-point answer scale: direction + how sure (2 = definitely, 1 = leaning)
+  answerBtns: [
+    { el: $('#answer-human-sure'), human: true, confidence: 2 },
+    { el: $('#answer-human-lean'), human: true, confidence: 1 },
+    { el: $('#answer-machine-lean'), human: false, confidence: 1 },
+    { el: $('#answer-machine-sure'), human: false, confidence: 2 },
+  ],
   reveal: $('#reveal'),
   verdictMark: $('#verdict-mark'),
   revealTitle: $('#reveal-title'),
@@ -55,6 +60,8 @@ const els = {
   againBtn: $('#again-btn'),
   againHardBtn: $('#again-hard-btn'),
   hardestLine: $('#hardest-line'),
+  boldestLine: $('#boldest-line'),
+  calibrationLine: $('#calibration-line'),
   trainedYes: $('#trained-yes'),
   trainedNo: $('#trained-no'),
   trainedSkip: $('#trained-skip'),
@@ -103,8 +110,7 @@ function toast(text) {
 }
 
 function setAnswersEnabled(on) {
-  els.answerHuman.disabled = !on;
-  els.answerMachine.disabled = !on;
+  for (const b of els.answerBtns) b.el.disabled = !on;
 }
 
 function renderReplays() {
@@ -200,19 +206,21 @@ function skipBrokenClip() {
   else { show('intro'); toast('No clips could be loaded. Check your connection and try again.'); }
 }
 
-function answer(guessedHuman) {
+function answer(guessedHuman, confidence) {
   if (state.answered || !state.listened) return;
   state.answered = true;
   const clip = currentClip();
   const correct = guessedHuman === clip.isHuman;
   if (correct) state.score += 1;
-  state.rounds.push({ id: clip.id, correct, guessedHuman });
+  state.rounds.push({ id: clip.id, correct, guessedHuman, confidence });
 
   setAnswersEnabled(false);
   els.scoreLabel.textContent = `${state.score}/${state.rounds.length}`;
 
-  // the reveal
-  els.verdictMark.textContent = correct ? 'Correct' : 'Not this time';
+  // the reveal — a confident answer earns confident copy either way
+  els.verdictMark.textContent = correct
+    ? (confidence === 2 ? 'Correct — and you were sure' : 'Correct')
+    : (confidence === 2 ? 'Not this time — and you were certain' : 'Not this time');
   els.verdictMark.classList.toggle('wrong', !correct);
   els.revealTitle.textContent = clip.title;
   els.revealTruth.innerHTML =
@@ -223,7 +231,11 @@ function answer(guessedHuman) {
   const cs = crowdData && crowdData.clips && crowdData.clips[clip.id];
   if (cs && cs.total >= 5) {
     const pct = Math.round(100 * cs.right / cs.total);
-    els.revealCrowd.textContent = `${pct}% of players have called this one correctly.`;
+    let line = `${pct}% of players have called this one correctly.`;
+    if (cs.sureTotal >= 5) {
+      line += ` Among those who answered “definitely,” ${Math.round(100 * (cs.sureRight || 0) / cs.sureTotal)}% were right.`;
+    }
+    els.revealCrowd.textContent = line;
     els.revealCrowd.hidden = false;
   } else {
     els.revealCrowd.hidden = true;
@@ -288,6 +300,28 @@ function finishSession() {
     ? `Your blind spot: ${worst.clip.title}. It has fooled you ${worst.wrong} of ${worst.seen} times.`
     : '';
 
+  // the rounds this session where certainty met reality
+  const certainMisses = state.rounds.filter(r => !r.correct && r.confidence === 2);
+  if (certainMisses.length) {
+    const c = byId[certainMisses[0].id];
+    els.boldestLine.textContent = certainMisses.length === 1
+      ? `Boldest miss: ${c.title}. You were certain it was ${certainMisses[0].guessedHuman ? 'human' : 'machine'}.`
+      : `You were certain and wrong ${certainMisses.length} times, including ${c.title}.`;
+  } else {
+    els.boldestLine.textContent = '';
+  }
+
+  // lifetime calibration: does certainty actually buy accuracy?
+  const cal = calibration();
+  if (cal.sure.total >= 5) {
+    const surePct = Math.round(100 * cal.sure.right / cal.sure.total);
+    els.calibrationLine.textContent = cal.lean.total >= 5
+      ? `When you answer “definitely,” you're right ${surePct}% of the time — when you're only leaning, ${Math.round(100 * cal.lean.right / cal.lean.total)}%.`
+      : `When you answer “definitely,” you're right ${surePct}% of the time.`;
+  } else {
+    els.calibrationLine.textContent = '';
+  }
+
   show('results');
   announce(`Session over. You scored ${state.score} out of ${state.rounds.length}. ${title}.`);
   els.againBtn.focus({ preventScroll: true });
@@ -309,7 +343,7 @@ function submitAndRenderCrowd(score, total) {
       trained: trained ? trained === 'yes' : null,
       score,
       total,
-      rounds: state.rounds.map(r => ({ id: r.id, correct: r.correct })),
+      rounds: state.rounds.map(r => ({ id: r.id, correct: r.correct, confidence: r.confidence })),
     }),
   })
     .then(r => { if (!r.ok) throw new Error(); return r.json(); })
@@ -386,8 +420,7 @@ function wireIntro() {
 function wireRound() {
   player = new ArcPlayer({ button: els.playBtn, progress: els.progressArc, onState: onPlayerState });
   wave = new Waveform(document.querySelector('#waveform'));
-  els.answerHuman.addEventListener('click', () => answer(true));
-  els.answerMachine.addEventListener('click', () => answer(false));
+  for (const b of els.answerBtns) b.el.addEventListener('click', () => answer(b.human, b.confidence));
   els.nextBtn.addEventListener('click', nextRound);
 }
 
@@ -418,13 +451,16 @@ function wireKeyboard() {
     if (tag === 'INPUT' || tag === 'TEXTAREA') return;
 
     if (els.screens.round.classList.contains('is-active')) {
+      // 1–4 run across the scale; lowercase h/m lean, Shift+H/M mean definitely
+      const answersOn = !els.answerBtns[0].el.disabled;
+      const scale = { 1: [true, 2], 2: [true, 1], 3: [false, 1], 4: [false, 2],
+        H: [true, 2], h: [true, 1], ArrowLeft: [true, 1],
+        M: [false, 2], m: [false, 1], ArrowRight: [false, 1] }[e.key];
       if (e.key === ' ' || e.key === 'p' || e.key === 'P') {
         e.preventDefault();
         if (!els.playBtn.disabled) player.play();
-      } else if (e.key === 'h' || e.key === 'H' || e.key === 'ArrowLeft') {
-        if (!els.answerHuman.disabled) { e.preventDefault(); answer(true); }
-      } else if (e.key === 'm' || e.key === 'M' || e.key === 'ArrowRight') {
-        if (!els.answerMachine.disabled) { e.preventDefault(); answer(false); }
+      } else if (scale) {
+        if (answersOn) { e.preventDefault(); answer(scale[0], scale[1]); }
       } else if ((e.key === 'n' || e.key === 'N') && state.answered) {
         e.preventDefault(); nextRound();
       } else if (e.key === 'Enter' && state.answered && document.activeElement !== els.nextBtn) {

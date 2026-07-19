@@ -65,6 +65,23 @@ export function hardestClip(clipsById) {
 }
 
 /**
+ * Lifetime accuracy bucketed by answer confidence (2 = definitely, 1 = leaning).
+ * Rounds recorded before the confidence scale existed are skipped.
+ */
+export function calibration() {
+  const buckets = { sure: { right: 0, total: 0 }, lean: { right: 0, total: 0 } };
+  for (const s of getSessions()) {
+    for (const r of s.rounds || []) {
+      const b = r.confidence === 2 ? buckets.sure : r.confidence === 1 ? buckets.lean : null;
+      if (!b) continue;
+      b.total += 1;
+      if (r.correct) b.right += 1;
+    }
+  }
+  return buckets;
+}
+
+/**
  * Render a per-session accuracy sparkline into an <svg class="sparkline">.
  * Shown only when 3+ sessions exist.
  */

@@ -116,9 +116,11 @@
         <div id="replays" class="replays" aria-hidden="true"><i></i><i></i></div>
         <p id="listen-hint" class="listen-hint">Press play, then decide.</p>
 
-        <div class="answers" role="group" aria-label="Your answer">
-          <button id="answer-human" class="answer-btn" disabled>Human<small>H key</small></button>
-          <button id="answer-machine" class="answer-btn" disabled>Machine<small>M key</small></button>
+        <div class="answers answers-scale" role="group" aria-label="Your answer, and how sure you are">
+          <button id="answer-human-sure" class="answer-btn" disabled>Definitely human<small>1</small></button>
+          <button id="answer-human-lean" class="answer-btn" disabled>Leaning human<small>2 · H</small></button>
+          <button id="answer-machine-lean" class="answer-btn" disabled>Leaning machine<small>3 · M</small></button>
+          <button id="answer-machine-sure" class="answer-btn" disabled>Definitely machine<small>4</small></button>
         </div>
       </div>
 
@@ -150,6 +152,8 @@
           <p id="spark-caption" class="spark-caption"></p>
         </div>
         <p id="hardest-line" class="spark-caption"></p>
+        <p id="boldest-line" class="spark-caption"></p>
+        <p id="calibration-line" class="spark-caption"></p>
 
         <div id="crowd-block" class="crowd-block" hidden>
           <h3>Does musical training help?</h3>

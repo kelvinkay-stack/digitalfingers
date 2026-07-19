@@ -9,7 +9,9 @@
  * POST /api/stats {trained, score, total, rounds} → record one finished session
  *   trained: true | false | null (null = player didn't answer the question;
  *            group counters are skipped, per-clip counters still update)
- *   rounds:  [{id, correct}] for per-clip counters
+ *   rounds:  [{id, correct, confidence?}] for per-clip counters; confidence
+ *            2 ("definitely") also feeds the clip's sureRight/sureTotal
+ *            calibration counters, 1 ("leaning") only the plain ones
  *
  * Each instrument pool keeps its own aggregate: ?pool=violin reads/writes the
  * violin counters; no pool param (or ?pool=piano) is the original piano pool.
@@ -44,7 +46,8 @@ export default async (req) => {
       && total >= 3 && total <= 20 && score >= 0 && score <= total;
     const okRounds = rounds === undefined || (Array.isArray(rounds) && rounds.length <= 20
       && rounds.every(r => r && typeof r.correct === 'boolean'
-        && typeof r.id === 'string' && CLIP_ID.test(r.id)));
+        && typeof r.id === 'string' && CLIP_ID.test(r.id)
+        && (r.confidence === undefined || r.confidence === 1 || r.confidence === 2)));
     if (!okSession || !okRounds) return new Response('bad request', { status: 400 });
 
     const agg = (await store.get(aggKey, { type: 'json' })) || structuredClone(EMPTY);
@@ -61,6 +64,10 @@ export default async (req) => {
       const c = agg.clips[r.id] = agg.clips[r.id] || { right: 0, total: 0 };
       c.total += 1;
       if (r.correct) c.right += 1;
+      if (r.confidence === 2) {
+        c.sureTotal = (c.sureTotal || 0) + 1;
+        if (r.correct) c.sureRight = (c.sureRight || 0) + 1;
+      }
     }
     await store.setJSON(aggKey, agg);
     return Response.json(agg, { headers: { 'cache-control': 'no-store' } });

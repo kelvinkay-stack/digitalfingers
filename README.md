@@ -55,15 +55,27 @@ _headers              Cloudflare Pages cache/security headers
 - **The training experiment and crowd stats:** the intro asks whether the
   player has musical training (stored locally). Every finished session POSTs
   anonymously to `/api/stats` (a Netlify Function backed by Netlify Blobs, see
-  `netlify/functions/stats.mjs`): per-clip right/wrong counters always, plus
-  the trained/untrained group totals when the question was answered. Reveals
+  `netlify/functions/stats.mjs`): per-clip right/wrong counters always
+  (plus `sureRight`/`sureTotal` for "definitely" answers), and the
+  trained/untrained group totals when the question was answered. Reveals
   show "NN% of players called this one correctly" once a clip has 5+ answers;
   the results screen charts trained vs. untrained accuracy and offers a
   share-your-score button.
+- **Answers carry confidence:** the round screen offers a four-point scale —
+  Definitely human · Leaning human · Leaning machine · Definitely machine.
+  Direction decides right/wrong (the score stays x/10); strength is recorded as
+  `confidence: 2|1` per round. Results show a lifetime calibration line
+  ("when you answer definitely, you're right NN% of the time") once 5+
+  confident answers exist, plus this session's boldest miss. Reveals add the
+  crowd's certainty ("among those who answered definitely, NN% were right")
+  once a clip has 5+ confident answers. Rounds recorded before the scale
+  existed simply lack the field and are skipped by the calibration math.
 - Max 2 replays per clip before answering; free relistening after the reveal.
 - **Hard mode** restricts the draw to clips flagged `"hard": true` — expressive-tier
   renders and unusually precise human playing.
-- Keyboard: `Space`/`P` play · `H`/`←` human · `M`/`→` machine · `Enter`/`N` next.
+- Keyboard: `Space`/`P` play · `1`–`4` across the answer scale (1 = definitely
+  human … 4 = definitely machine) · `H`/`←` leaning human, `M`/`→` leaning
+  machine, `Shift+H`/`Shift+M` definitely · `Enter`/`N` next.
 - Stats live in `localStorage` (`digitalfingers.v1`): per-session history, lifetime
   accuracy, the visitor's most-fooling clip, and a sparkline after 3+ sessions.
 - A clip that fails to load is skipped gracefully and doesn't count against the score.
