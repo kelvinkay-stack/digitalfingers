@@ -1,6 +1,9 @@
 [build]
   publish = "."
   functions = "netlify/functions"
+  # The functions keep their own deps (no root package.json in this repo);
+  # CI must install them or the deployed bundle lacks @netlify/blobs.
+  command = "npm --prefix netlify/functions ci"
 
 # The .html URLs are canonical (nav links, canonicals, and the sitemap all
 # use them); fold the extensionless variants into them.
