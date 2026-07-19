@@ -642,22 +642,6 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
 .ab-progress i { display: block; height: 100%; width: 0; background: var(--brass); }
 .ab-demo .ab-listen { font-size: 0.85rem; font-style: italic; color: var(--muted); margin: 0.8rem 0 0; }
 
-/* confidence question between answer and reveal */
-.confidence { margin-top: 1.15rem; text-align: center; }
-.confidence-label { margin: 0 0 0.6rem; color: var(--ivory-dim); font-weight: 650; }
-.confidence-buttons { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
-.confidence-btn small { display: block; font-size: 0.68rem; font-weight: 650; opacity: 0.75; margin-top: 0.1rem; }
-
-/* Begin holds back until the training question is answered */
-.btn-primary.is-waiting {
-  opacity: 0.55;
-  box-shadow: none;
-  transform: none;
-}
-
-/* gentle spotlight when the required training question is skipped */
-.training-q.is-nudged { outline: 3px solid var(--sun); outline-offset: 5px; border-radius: 10px; }
-
 /* Learn page: expression mixer */
 .mixer {
   margin: 2rem 0 2.4rem;
@@ -1273,7 +1257,7 @@ main { max-width: 70rem; }
   background: var(--sun);
   box-shadow: 4px 5px 0 var(--plum);
 }
-/* the committed side stays visible while the confidence question is up */
+/* the chosen button stays visible against the dimmed row at reveal */
 #screen-round:not(.is-revealed) .answer-btn.is-selected {
   opacity: 1;
   color: var(--plum);
@@ -1443,3 +1427,54 @@ main > .prose .kicker { margin-bottom: 1.2rem; }
     box-shadow: 5px 6px 0 rgba(196, 162, 91, 0.65);
   }
 }
+
+/* ---------- four-point answer scale ---------- */
+/* one row across the certainty spectrum on desktop, 2x2 on phones with the
+   human pair on top; the machine side keeps its sage tint via .side-machine */
+.answers-scale { grid-template-columns: repeat(4, 1fr); max-width: 46rem; gap: 0.7rem; }
+.answers-scale .answer-btn { font-size: 1.02rem; padding: 0.85rem 0.4rem 0.8rem; line-height: 1.25; }
+.answers-scale .answer-btn small { font-size: 0.6rem; margin-top: 0.3rem; }
+.answers-scale .answer-btn.side-machine { background: var(--sky-soft); }
+.answers-scale .answer-btn.side-machine:hover:not([disabled]) { background: var(--sun); }
+.screen.is-revealed .answers-scale .answer-btn.side-machine.is-truth { background: var(--sun); }
+.screen.is-revealed .answers-scale .answer-btn.is-selected.is-wrong { background: var(--wrong); }
+
+@media (max-width: 560px) {
+  .answers-scale { grid-template-columns: 1fr 1fr; }
+  .answers-scale .answer-btn { font-size: 0.98rem; padding: 0.85rem 0.4rem 0.8rem; }
+  .answers-scale .answer-btn small { display: none; }
+}
+
+/* ---------- training question as a floating box ---------- */
+/* same card language as the reveal: dashed frame, gold drop, navy ink */
+.training-dialog {
+  width: min(92vw, 30rem);
+  padding: 1.5rem 1.4rem 1.35rem;
+  color: var(--plum);
+  background: #faf6ed;
+  border: 2px dashed #bd9f8d;
+  border-radius: 20px 20px 7px 20px;
+  box-shadow: 5px 6px 0 var(--sun);
+  text-align: center;
+}
+.training-dialog::backdrop { background: rgba(36, 49, 65, 0.5); }
+.training-kicker {
+  margin: 0 0 0.7rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+/* the inner block loses its own card frame inside the dialog */
+.training-dialog .training-q { width: 100%; padding: 0; background: none; border: 0; }
+.training-dialog .training-q p {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--plum);
+  margin: 0 0 0.9rem;
+}
+.training-fine { font-size: 0.8rem; color: var(--muted); margin: 1rem 0 0; }
+.training-fine a { color: var(--muted); }

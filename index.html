@@ -79,14 +79,6 @@
         </div>
         <div class="hero-actions">
           <div class="begin-row">
-            <div class="training-q" role="group" aria-labelledby="training-label">
-              <p id="training-label">First, the one question our experiment needs: how much musical training do you have?</p>
-              <div class="training-buttons">
-                <button class="chip training-choice" data-level="none" aria-pressed="false">No formal training</button>
-                <button class="chip training-choice" data-level="some" aria-pressed="false">A few years of lessons</button>
-                <button class="chip training-choice" data-level="lots" aria-pressed="false">Five-plus years, or still playing</button>
-              </div>
-            </div>
             <button id="begin-btn" class="btn-primary">Begin listening</button>
           </div>
           <p id="lifetime-line" class="lifetime-line"></p>
@@ -171,18 +163,11 @@
         <div id="replays" class="replays" aria-hidden="true"><i></i><i></i></div>
         <p id="listen-hint" class="listen-hint">Press play, then decide.</p>
 
-        <div class="answers" role="group" aria-label="Your answer">
-          <button id="answer-human" class="answer-btn" disabled>Human<small>H key</small></button>
-          <button id="answer-machine" class="answer-btn" disabled>Machine<small>M key</small></button>
-        </div>
-
-        <div id="confidence" class="confidence" role="group" aria-labelledby="confidence-label" hidden>
-          <p id="confidence-label" class="confidence-label">How sure are you?</p>
-          <div class="confidence-buttons">
-            <button class="chip confidence-btn" data-conf="1">Just guessing<small>1 key</small></button>
-            <button class="chip confidence-btn" data-conf="2">Fairly sure<small>2 key</small></button>
-            <button class="chip confidence-btn" data-conf="3">Certain<small>3 key</small></button>
-          </div>
+        <div class="answers answers-scale" role="group" aria-label="Your answer, and how sure you are">
+          <button id="answer-human-sure" class="answer-btn" disabled>Definitely human<small>1</small></button>
+          <button id="answer-human-lean" class="answer-btn" disabled>Leaning human<small>2 · H</small></button>
+          <button id="answer-machine-lean" class="answer-btn side-machine" disabled>Leaning machine<small>3 · M</small></button>
+          <button id="answer-machine-sure" class="answer-btn side-machine" disabled>Definitely machine<small>4</small></button>
         </div>
       </div>
 
@@ -234,6 +219,20 @@
     </section>
 
     <div id="toast" class="toast" role="status"></div>
+
+    <!-- the training question, asked as a floating box the first time Begin is pressed -->
+    <dialog id="training-dialog" class="training-dialog" aria-labelledby="training-label">
+      <p class="training-kicker">Before you listen</p>
+      <div class="training-q" role="group" aria-labelledby="training-label">
+        <p id="training-label">First, the one question our experiment needs: how much musical training do you have?</p>
+        <div class="training-buttons">
+          <button class="chip training-choice" data-level="none">No formal training</button>
+          <button class="chip training-choice" data-level="some">A few years of lessons</button>
+          <button class="chip training-choice" data-level="lots">Five-plus years, or still playing</button>
+        </div>
+      </div>
+      <p class="training-fine">Anonymous — it sorts your sessions into the training groups on the <a href="/results.html">results page</a>.</p>
+    </dialog>
   </main>
 
   <footer class="site-footer">

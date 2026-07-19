@@ -32,11 +32,14 @@ const els = {
   progressArc: $('#progress-arc'),
   replays: $('#replays'),
   listenHint: $('#listen-hint'),
-  answerHuman: $('#answer-human'),
-  answerMachine: $('#answer-machine'),
-  confidence: $('#confidence'),
-  confidenceButtons: [...document.querySelectorAll('.confidence-btn')],
-  trainingQ: document.querySelector('.training-q'),
+  // the four-point answer scale: side + how sure (3 = definitely, 2 = leaning)
+  answerBtns: [
+    { el: $('#answer-human-sure'), human: true, conf: 3 },
+    { el: $('#answer-human-lean'), human: true, conf: 2 },
+    { el: $('#answer-machine-lean'), human: false, conf: 2 },
+    { el: $('#answer-machine-sure'), human: false, conf: 3 },
+  ],
+  trainingDialog: $('#training-dialog'),
   reveal: $('#reveal'),
   verdictMark: $('#verdict-mark'),
   revealTitle: $('#reveal-title'),
@@ -83,8 +86,6 @@ const state = {
   listened: false,
   retriedId: null,
   firstPlayAt: 0,
-  pendingGuess: null,
-  pendingTooFast: false,
   instrument: 'piano',
   rounds: [], // {id, correct, guessedHuman}
   preloaded: new Map(),
@@ -108,8 +109,7 @@ function toast(text) {
 }
 
 function setAnswersEnabled(on) {
-  els.answerHuman.disabled = !on;
-  els.answerMachine.disabled = !on;
+  for (const b of els.answerBtns) b.el.disabled = !on;
 }
 
 function renderReplays() {
@@ -214,8 +214,6 @@ function startRound() {
   state.answered = false;
   state.listened = false;
   state.firstPlayAt = 0;
-  state.pendingGuess = null;
-  els.confidence.hidden = true;
 
   els.roundInstrument.textContent = state.instrument === 'violin' ? 'Violin' : 'Piano';
   els.roundLabel.textContent = `Round ${state.index + 1} of ${session.length}`;
@@ -225,8 +223,7 @@ function startRound() {
   els.playBtn.disabled = false;
   els.playBtn.classList.add('is-idle');
   els.screens.round.classList.remove('is-listening', 'is-revealed', 'is-correct', 'is-wrong');
-  els.answerHuman.classList.remove('is-selected', 'is-truth', 'is-wrong');
-  els.answerMachine.classList.remove('is-selected', 'is-truth', 'is-wrong');
+  for (const b of els.answerBtns) b.el.classList.remove('is-selected', 'is-truth', 'is-wrong');
   setAnswersEnabled(false);
   els.reveal.classList.remove('is-shown');
   els.reveal.setAttribute('hidden', '');
@@ -255,15 +252,13 @@ function onPlayerState(ev) {
       if (!state.listened) state.firstPlayAt = performance.now();
       state.listened = true;
       setAnswersEnabled(true);
-      els.listenHint.textContent = 'Human or machine?';
+      els.listenHint.textContent = 'Human or machine — and how sure?';
     }
     renderReplays();
   } else if (ev === 'ended') {
     els.screens.round.classList.remove('is-listening');
     const replaysLeft = MAX_REPLAYS - state.replaysUsed;
-    if (state.pendingGuess !== null) {
-      els.playBtn.disabled = true; // committed to a side; confidence comes first
-    } else if (state.answered) {
+    if (state.answered) {
       els.playBtn.disabled = false;
     } else if (replaysLeft > 0) {
       els.playBtn.disabled = false;
@@ -296,31 +291,13 @@ function skipBrokenClip() {
   else { show('intro'); toast('No clips could be loaded. Check your connection and try again.'); }
 }
 
-function answer(guessedHuman) {
-  if (state.answered || !state.listened || state.pendingGuess !== null) return;
-  // stage one: commit to a side. The reveal waits until the player says how
-  // sure they were - confidence stated before the truth is honest; stated
-  // after, it would be hindsight.
-  state.pendingGuess = guessedHuman;
+function answer(guessedHuman, conf) {
+  // one tap carries both the side and the certainty (2 leaning, 3 definitely)
+  if (state.answered || !state.listened) return;
   // a pick under a second after first play means nobody was listening -
   // the round still plays out, but counts toward no rating or counter
-  state.pendingTooFast = performance.now() - state.firstPlayAt < 1000;
-  (guessedHuman ? els.answerHuman : els.answerMachine).classList.add('is-selected');
-  setAnswersEnabled(false);
-  els.playBtn.disabled = true;
-  els.listenHint.textContent = 'How sure are you?';
-  els.confidence.hidden = false;
-  announce(`You chose ${guessedHuman ? 'human' : 'machine'}. How sure are you? Just guessing, fairly sure, or certain.`);
-  els.confidenceButtons[0].focus({ preventScroll: true });
-}
-
-function confirmAnswer(conf) {
-  if (state.answered || state.pendingGuess === null) return;
-  const guessedHuman = state.pendingGuess;
-  const tooFast = state.pendingTooFast;
-  state.pendingGuess = null;
+  const tooFast = performance.now() - state.firstPlayAt < 1000;
   state.answered = true;
-  els.confidence.hidden = true;
 
   const clip = currentClip();
   const correct = guessedHuman === clip.isHuman;
@@ -331,16 +308,22 @@ function confirmAnswer(conf) {
 
   els.screens.round.classList.remove('is-listening');
   els.screens.round.classList.add('is-revealed', correct ? 'is-correct' : 'is-wrong');
-  const chosenButton = guessedHuman ? els.answerHuman : els.answerMachine;
-  const truthButton = clip.isHuman ? els.answerHuman : els.answerMachine;
-  truthButton.classList.add('is-truth');
-  if (!correct) chosenButton.classList.add('is-wrong');
+  const chosen = els.answerBtns.find(b => b.human === guessedHuman && b.conf === conf);
+  if (chosen) {
+    chosen.el.classList.add('is-selected');
+    if (!correct) chosen.el.classList.add('is-wrong');
+  }
+  for (const b of els.answerBtns) {
+    if (b.human === clip.isHuman) b.el.classList.add('is-truth');
+  }
 
   setAnswersEnabled(false);
   els.scoreLabel.textContent = `${state.score}/${state.rounds.length}`;
 
-  // the reveal
-  els.verdictMark.textContent = correct ? 'Correct' : 'Not this time';
+  // the reveal - a confident call earns confident copy either way
+  els.verdictMark.textContent = correct
+    ? (conf === 3 ? 'Correct — and you were certain' : 'Correct')
+    : (conf === 3 ? 'Not this time — and you were certain' : 'Not this time');
   els.verdictMark.classList.toggle('wrong', !correct);
   els.revealTitle.textContent = clip.title;
   els.revealTruth.innerHTML =
@@ -488,18 +471,6 @@ function getTrained() {
   return level === null ? null : level === 'none' ? 'no' : 'yes';
 }
 
-function reflectTrainingButtons() {
-  const v = getTraining();
-  for (const btn of els.trainingChoices) {
-    const on = btn.dataset.level === v;
-    btn.classList.toggle('is-selected', on);
-    btn.setAttribute('aria-pressed', String(on));
-  }
-  // Begin visibly waits until the question is answered
-  els.begin.classList.toggle('is-waiting', !v);
-  els.begin.textContent = v ? 'Begin listening' : 'Answer above to begin';
-}
-
 function submitAndRenderCrowd(score, total) {
   const trained = getTrained();
   const body = {
@@ -549,7 +520,7 @@ function renderCrowd(agg) {
   const n = (agg.trained.sessions || 0) + (agg.untrained.sessions || 0);
   els.crowdCaption.textContent =
     `Average accuracy across ${n} session${n === 1 ? '' : 's'} recorded on this site so far. ` +
-    (getTrained() ? 'Your sessions count toward your group.' : 'Answer the training question on the start screen to be counted.');
+    (getTrained() ? 'Your sessions count toward your group.' : 'Answer the training question when you begin to be counted.');
   els.crowdBlock.hidden = false;
 }
 
@@ -604,52 +575,49 @@ function wireIntro() {
   const violinArt = new Image();
   violinArt.src = '/assets/robot-human-violinists.jpg';
 
+  const launch = async (autoplay) => {
+    await startSession();
+    if (autoplay && session && session.length && els.screens.round.classList.contains('is-active')) player.play();
+  };
+  let pendingAutoplay = false;
   const startFromIntro = async (autoplay = false) => {
     if (!manifest) {
       toast('The music is still loading. Try again in a moment.');
       return;
     }
     if (!getTrained()) {
-      // the experiment needs every session in one of the two piles
-      toast('One thing first: the musical-training question, just below.');
-      announce('Please answer the musical training question before beginning.');
-      els.trainingQ.classList.add('is-nudged');
-      setTimeout(() => els.trainingQ.classList.remove('is-nudged'), 2000);
-      els.trainingChoices[0].focus({ preventScroll: true });
+      // the experiment needs every session in one of the training piles, so
+      // the question floats up over Begin; the answer sticks for good and
+      // the box never returns. Esc just goes back to the intro.
+      pendingAutoplay = autoplay;
+      if (typeof els.trainingDialog.showModal === 'function') els.trainingDialog.showModal();
+      else els.trainingDialog.setAttribute('open', ''); // ancient-browser fallback
+      announce('One question before you begin: how much musical training do you have?');
       return;
     }
-    await startSession();
-    if (autoplay && session && session.length && els.screens.round.classList.contains('is-active')) player.play();
+    await launch(autoplay);
   };
   els.begin.addEventListener('click', () => startFromIntro(false));
   els.previewPlay.addEventListener('click', () => startFromIntro(true));
 
-  reflectTrainingButtons();
-  const setTraining = (level) => {
-    try {
-      if (getTraining() === level) {
-        localStorage.removeItem(TRAINING_KEY);
-        localStorage.removeItem(TRAINED_KEY);
-      } else {
-        localStorage.setItem(TRAINING_KEY, level);
-        localStorage.setItem(TRAINED_KEY, level === 'none' ? 'no' : 'yes'); // keep legacy key coherent
-      }
-    } catch { /* private mode */ }
-    reflectTrainingButtons();
-  };
   for (const btn of els.trainingChoices) {
-    btn.addEventListener('click', () => setTraining(btn.dataset.level));
+    btn.addEventListener('click', async () => {
+      try {
+        localStorage.setItem(TRAINING_KEY, btn.dataset.level);
+        localStorage.setItem(TRAINED_KEY, btn.dataset.level === 'none' ? 'no' : 'yes'); // keep legacy key coherent
+      } catch { /* private mode */ }
+      if (typeof els.trainingDialog.close === 'function') els.trainingDialog.close();
+      else els.trainingDialog.removeAttribute('open');
+      await launch(pendingAutoplay);
+      pendingAutoplay = false;
+    });
   }
 }
 
 function wireRound() {
   player = new ArcPlayer({ button: els.playBtn, progress: els.progressArc, onState: onPlayerState });
   wave = new Waveform(document.querySelector('#waveform'));
-  els.answerHuman.addEventListener('click', () => answer(true));
-  els.answerMachine.addEventListener('click', () => answer(false));
-  for (const btn of els.confidenceButtons) {
-    btn.addEventListener('click', () => confirmAnswer(Number(btn.dataset.conf)));
-  }
+  for (const b of els.answerBtns) b.el.addEventListener('click', () => answer(b.human, b.conf));
   els.nextBtn.addEventListener('click', nextRound);
 }
 
@@ -681,15 +649,15 @@ function wireKeyboard() {
     if (tag === 'INPUT' || tag === 'TEXTAREA' || (active && active.isContentEditable)) return;
 
     if (els.screens.round.classList.contains('is-active')) {
+      // 1-4 run across the scale; lowercase h/m and arrows lean, Shift+H/M mean definitely
+      const scale = { 1: [true, 3], 2: [true, 2], 3: [false, 2], 4: [false, 3],
+        H: [true, 3], h: [true, 2], ArrowLeft: [true, 2],
+        M: [false, 3], m: [false, 2], ArrowRight: [false, 2] }[e.key];
       if (e.key === ' ' || e.key === 'p' || e.key === 'P') {
         e.preventDefault();
         if (!els.playBtn.disabled) player.play();
-      } else if (e.key === 'h' || e.key === 'H' || e.key === 'ArrowLeft') {
-        if (!els.answerHuman.disabled) { e.preventDefault(); answer(true); }
-      } else if (e.key === 'm' || e.key === 'M' || e.key === 'ArrowRight') {
-        if (!els.answerMachine.disabled) { e.preventDefault(); answer(false); }
-      } else if ((e.key === '1' || e.key === '2' || e.key === '3') && state.pendingGuess !== null) {
-        e.preventDefault(); confirmAnswer(Number(e.key));
+      } else if (scale) {
+        if (!els.answerBtns[0].el.disabled) { e.preventDefault(); answer(scale[0], scale[1]); }
       } else if ((e.key === 'n' || e.key === 'N') && state.answered) {
         e.preventDefault(); nextRound();
       } else if (e.key === 'Enter' && state.answered && document.activeElement !== els.nextBtn) {
