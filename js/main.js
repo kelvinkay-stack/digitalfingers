@@ -470,6 +470,9 @@ function reflectTrainingButtons() {
     btn.classList.toggle('is-selected', on);
     btn.setAttribute('aria-pressed', String(on));
   }
+  // Begin visibly waits until the question is answered
+  els.begin.classList.toggle('is-waiting', !v);
+  els.begin.textContent = v ? 'Begin listening' : 'Answer above to begin';
 }
 
 function submitAndRenderCrowd(score, total) {

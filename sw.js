@@ -10,7 +10,7 @@
  *   df-stats-v1   last good /api/stats aggregate, network-first fallback.
  */
 
-const VERSION = 'v4';
+const VERSION = 'v5';
 const SHELL_CACHE = `df-shell-${VERSION}`;
 const AUDIO_CACHE = 'df-audio-v1';
 const STATS_CACHE = 'df-stats-v1';
@@ -121,7 +121,12 @@ self.addEventListener('fetch', (e) => {
     e.respondWith(audioCacheFirst(e.request));
   } else if (url.pathname === '/api/stats' || url.pathname === '/api/results') {
     e.respondWith(statsNetworkFirst(e.request));
+  } else if (url.pathname.startsWith('/js/') || url.pathname.startsWith('/css/')
+      || url.pathname.startsWith('/data/') || url.pathname.endsWith('.webmanifest')) {
+    // code and data follow the page network-first, so a fresh page can never
+    // run a stale script (version skew broke the intro buttons once; never again)
+    e.respondWith(pageNetworkFirst(e.request));
   } else {
-    e.respondWith(staleWhileRevalidate(e.request));
+    e.respondWith(staleWhileRevalidate(e.request)); // fonts and artwork
   }
 });

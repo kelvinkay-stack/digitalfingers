@@ -648,6 +648,13 @@ main { flex: 1; width: 100%; max-width: 64rem; margin: 0 auto; padding: 0 var(--
 .confidence-buttons { display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap; }
 .confidence-btn small { display: block; font-size: 0.68rem; font-weight: 650; opacity: 0.75; margin-top: 0.1rem; }
 
+/* Begin holds back until the training question is answered */
+.btn-primary.is-waiting {
+  opacity: 0.55;
+  box-shadow: none;
+  transform: none;
+}
+
 /* gentle spotlight when the required training question is skipped */
 .training-q.is-nudged { outline: 3px solid var(--sun); outline-offset: 5px; border-radius: 10px; }
 
